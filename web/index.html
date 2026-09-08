@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="储售集合体中长期签约、日前申报和储能调度 Demo">
+  <title>储售集合体 Demo</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+      <div><h1>储售集合体 Demo</h1><p>中长期签约 · 日前申报 · 实时偏差 · 储能调度</p></div>
+    </div>
+    <div class="run-status"><span></span>MOCK / 2026-09-15 <b id="model-status">MILP</b></div>
+  </header>
+
+  <main>
+    <section class="configuration" aria-labelledby="configuration-title">
+      <div class="section-heading compact-heading">
+        <div><p class="kicker">MODEL CONFIG</p><h2 id="configuration-title">模型参数</h2></div>
+        <button id="reset-config" type="button" class="secondary-button">恢复默认</button>
+      </div>
+      <div class="control-grid">
+        <label>中长期年度电价（元/MWh）<input id="annual-price-input" type="number" min="-2000" max="5000" step="1" value="405"></label>
+        <label>中长期月度电价（元/MWh）<input id="monthly-price-input" type="number" min="-2000" max="5000" step="1" value="416"></label>
+        <label>中长期旬度电价（元/MWh）<input id="ten-day-price-input" type="number" min="-2000" max="5000" step="1" value="424"></label>
+        <label>年度交易员基线覆盖率 <output id="annual-coverage-output">80%</output><input id="annual-coverage" type="range" min="0.6" max="1" step="0.01" value="0.8"></label>
+        <label>月度交易员基线覆盖率 <output id="monthly-coverage-output">95%</output><input id="monthly-coverage" type="range" min="0.8" max="1.1" step="0.01" value="0.95"></label>
+        <label>旬度交易员基线覆盖率 <output id="ten-day-coverage-output">98%</output><input id="ten-day-coverage" type="range" min="0.85" max="1.1" step="0.01" value="0.98"></label>
+        <label>D-3 交易员基线覆盖率 <output id="d3-coverage-output">100%</output><input id="d3-coverage" type="range" min="0.85" max="1.1" step="0.01" value="1"></label>
+        <label>D-2 交易员基线覆盖率 <output id="d2-coverage-output">100%</output><input id="d2-coverage" type="range" min="0.85" max="1.1" step="0.01" value="1"></label>
+        <label class="switch-control"><input id="cvar-enabled-input" type="checkbox" checked><span>启用 CVaR 风险评估</span></label>
+        <label>λ 风险系数（0–1） <output id="risk-output">0.25</output><input id="risk-input" type="range" min="0" max="1" step="0.01" value="0.25"></label>
+        <label>目标分位数<select id="quantile-input"><option>P50</option><option>P75</option><option>P90</option></select></label>
+        <label>单节点最大调整（MWh）<input id="adjustment-input" type="number" min="100" max="10000" step="100" value="8000"></label>
+        <label>滚撮成交价差下限（元/MWh）<input id="rolling-price-edge-lower-input" type="number" min="0" max="500" step="10" value="100"></label>
+        <label>滚撮成交价差上限（元/MWh）<input id="rolling-price-edge-upper-input" type="number" min="0" max="1000" step="10" value="200"></label>
+        <label>捕捉订单最小成交比例 <output id="rolling-min-fill-output">10%</output><input id="rolling-min-fill-input" type="range" min="0.01" max="0.5" step="0.01" value="0.1"></label>
+        <label>捕捉订单最大成交比例 <output id="rolling-max-fill-output">20%</output><input id="rolling-max-fill-input" type="range" min="0.01" max="0.5" step="0.01" value="0.2"></label>
+        <label class="switch-control"><input id="allow-sell-input" type="checkbox" checked><span>允许 D-3/D-2 滚撮卖出</span></label>
+      </div>
+      <p class="config-note">年度、月度、旬度及 D-3/D-2 覆盖率配置的是交易员基线目标，不是交易下限；实际考核下限仍按市场规则约束。</p>
+    </section>
+
+    <nav id="timeline" class="timeline" aria-label="滚动决策事件"></nav>
+
+    <div id="solve-progress" class="solve-progress" role="status" aria-live="polite" hidden>
+      <div>
+        <span id="solve-progress-label">运算中</span>
+        <strong id="solve-progress-percent">0%</strong>
+      </div>
+      <div class="solve-progress-track" aria-hidden="true"><i id="solve-progress-fill"></i></div>
+    </div>
+
+    <section class="action-bar" aria-live="polite">
+      <div class="event-code" id="action-event">D-1</div>
+      <div class="action-main"><span>当前动作</span><strong id="action-label">加载中</strong><p id="action-reason"></p></div>
+      <div class="action-value"><span>动作电量</span><strong id="action-quantity">—</strong></div>
+    </section>
+
+    <section class="visual-section forecast-section" aria-labelledby="forecast-title">
+      <div class="section-heading">
+        <div><p class="kicker">FORECAST CONVERGENCE</p><h2 id="forecast-title">负荷预测随标的日临近逐步收敛</h2></div>
+        <button id="open-mock-data" type="button" class="secondary-button">查看 Mock 数据</button>
+      </div>
+      <div id="forecast-phase-buttons" class="forecast-phase-buttons" aria-label="负荷预测阶段"></div>
+      <div class="legend forecast-legend"><span><i class="swatch confidence-range"></i>P10-P90 预测区间</span><span><i class="swatch forecast-p10"></i>P10 下界</span><span><i class="swatch selected-forecast"></i>P50 预测</span><span><i class="swatch forecast-p90"></i>P90 上界</span><span><i class="swatch actual"></i>实际负荷</span></div>
+      <svg id="forecast-chart" viewBox="0 0 1100 390" role="img" aria-label="所选阶段的96点P10、P50、P90负荷预测和实际负荷"></svg>
+      <p class="chart-footer"><span id="forecast-published-at">发布时间 —</span><span>P50 <b id="forecast-total">—</b></span><span>预测准确度 <b id="forecast-accuracy">—</b></span><span>P10-P90 总宽度 <b id="forecast-width">—</b></span></p>
+    </section>
+
+    <section class="visual-section" aria-labelledby="decision-title">
+      <div class="section-heading">
+        <div><p class="kicker">DECISION QUANTITY</p><h2 id="decision-title">1. 各节点签约或申报量</h2></div>
+      </div>
+      <div class="assessment-strip">
+        <span id="annual-assessment">年度48点考核：—</span>
+        <span id="overall-assessment">总体中长期48点考核：—</span>
+        <span id="rolling-rule-summary">滚撮卖出：—</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>节点</th><th>决策类型</th><th>交易员基线</th><th>模型优化</th><th>优化后累计</th><th>状态或说明</th></tr></thead>
+          <tbody id="decision-table"></tbody>
+        </table>
+      </div>
+      <div id="rolling-orders-panel" class="rolling-orders-panel" hidden>
+        <div class="section-heading compact-heading"><div><p class="kicker">MOCK ORDER BOOK</p><h3 id="rolling-orders-title">D-3/D-2 滚撮对手方订单</h3></div><span id="rolling-orders-summary" class="status-label">—</span></div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>序号</th><th>订单号</th><th>时段</th><th>我方方向</th><th>订单量</th><th>订单价</th><th>现货P50</th><th>价差</th><th>实际成交</th><th>状态</th><th>原因</th></tr></thead>
+            <tbody id="rolling-orders-table"></tbody>
+          </table>
+        </div>
+      </div>
+      <p class="margin-comparison" aria-live="polite"><span>交易员基线毛利 <b id="baseline-margin">—</b></span><span>MILP 优化后毛利 <b id="optimized-margin">—</b></span><strong id="margin-improvement">相较交易员基线增加 —</strong></p>
+    </section>
+
+    <section class="visual-section" aria-labelledby="declaration-title">
+      <div class="section-heading"><div><p class="kicker" id="declaration-kicker">DAY-AHEAD ENERGY STACK</p><h2 id="declaration-title">2. D-1 96 点申报电量</h2></div><span class="status-label" id="declaration-status">—</span></div>
+      <div class="legend"><span><i class="swatch long-term"></i>中长期年/月/旬（同色，柱内虚线分层）</span><span><i class="swatch long-term"></i>D-3/D-2</span><span class="pre-spot-only" hidden><i class="swatch spot-exposure"></i>预测现货敞口（正买/负卖）</span><span class="spot-stage-only"><i class="swatch day-ahead-buy"></i>日前买入（正轴）</span><span class="spot-stage-only"><i class="swatch day-ahead-sell"></i>日前卖出（负轴）</span><span class="spot-stage-only"><i class="swatch realtime-buy"></i>实时买入（正轴）</span><span class="spot-stage-only"><i class="swatch realtime-sell"></i>实时卖出（负轴）</span><span><i class="swatch forecast-line"></i>P50 预测负荷</span><span class="spot-stage-only"><i class="swatch actual"></i>实际负荷</span></div>
+      <svg id="declaration-chart" viewBox="0 0 1100 420" role="img" aria-label="96 个15分钟中长期、日前申报、实时偏差、预测负荷和实际负荷"></svg>
+      <p class="chart-footer"><span>中长期 <b id="declaration-longterm-total">—</b></span><span class="pre-spot-only" hidden>预测现货敞口 买/卖 <b id="declaration-exposure-total">—</b></span><span class="pre-spot-only" hidden>预测负荷 <b id="declaration-forecast-total">—</b></span><span class="spot-stage-only">日前申报 <b id="declaration-total">—</b></span><span class="spot-stage-only">日前买/卖 <b id="declaration-dayahead-total">—</b></span><span class="spot-stage-only">实时买/卖 <b id="declaration-realtime-total">—</b></span><span class="spot-stage-only">储能后电网负荷 <b id="declaration-grid-total">—</b></span><span class="spot-stage-only">实际负荷 <b id="declaration-actual-total">—</b></span><span id="declaration-assessment-guard">考核前提 —</span><span id="l3-objective-container"><b id="l3-objective-summary">L3目标 —</b></span><span id="declaration-deadline-container">截止 <b id="declaration-deadline">—</b></span></p>
+    </section>
+
+    <section class="visual-section storage-section" aria-labelledby="storage-title" hidden>
+      <div class="section-heading"><div><p class="kicker" id="storage-kicker">DAY-AHEAD STORAGE PLAN</p><h2 id="storage-title">3. D-1 储能充放电条件计划</h2></div><label class="rt-selector" id="storage-rt-selector" hidden>当前时段 <output id="rt-period-output">76 / 96</output><input id="rt-period-input" type="range" min="1" max="96" step="1" value="76"></label></div>
+      <div class="legend storage-legend"><span><i class="swatch soc"></i>储能总电量 SOC</span><span><i class="swatch charge"></i>电网充电量</span><span><i class="swatch discharge"></i>负荷侧放电量</span><span><i class="swatch price"></i>实时电价</span></div>
+      <svg id="storage-chart" viewBox="0 0 1100 500" role="img" aria-label="上部左轴为储能总电量、右轴为实时电价，底部为各时段充放电量"></svg>
+      <p class="chart-footer storage-footer"><span id="storage-current-action">—</span><span id="storage-current-soc">—</span><span id="storage-day-summary">—</span></p>
+    </section>
+  </main>
+
+  <footer><span>MOCK 数据，仅用于算法与业务逻辑评审</span><span id="engine-label"></span></footer>
+  <dialog id="mock-data-dialog" class="mock-data-dialog" aria-labelledby="mock-data-title">
+    <div class="dialog-heading">
+      <div><p class="kicker">MOCK DATA</p><h2 id="mock-data-title">Mock 数据明细</h2></div>
+      <button id="close-mock-data" type="button" class="dialog-close" aria-label="关闭 Mock 数据弹窗">×</button>
+    </div>
+    <div class="mock-tabs" role="tablist" aria-label="Mock 数据类型">
+      <button id="mock-load-tab" type="button" role="tab" aria-selected="true" aria-controls="mock-load-panel">负荷预测</button>
+      <button id="mock-price-tab" type="button" role="tab" aria-selected="false" aria-controls="mock-price-panel">电价预测</button>
+    </div>
+    <section id="mock-load-panel" class="mock-panel" role="tabpanel" aria-labelledby="mock-load-tab">
+      <div class="mock-toolbar">
+        <label for="mock-phase-select">预测阶段</label>
+        <select id="mock-phase-select"></select>
+        <span id="mock-phase-summary">—</span>
+      </div>
+      <div class="scenario-editor-toolbar">
+        <label for="load-scenario-seed">随机种子 <input id="load-scenario-seed" type="number" step="1" inputmode="numeric"></label>
+        <button id="randomize-load-scenario" type="button" class="secondary-button">重新随机负荷</button>
+        <button id="confirm-scenario-edits" type="button" class="primary-button">确认并重新计算</button>
+        <button id="discard-scenario-edits" type="button" class="secondary-button">撤销未确认修改</button>
+      </div>
+      <p id="load-editor-status" class="mock-note">默认按 D-1 P10-P90 带内随机生成；人工修改后点击确认才会重算。</p>
+      <svg id="mock-load-chart" class="scenario-editor-chart" viewBox="0 0 1100 300" role="img" aria-label="可编辑的96点负荷预测区间和实际负荷曲线"></svg>
+      <div class="dialog-table-wrap">
+        <table class="mock-table">
+          <thead><tr><th>点</th><th>时刻</th><th>P10</th><th>P50</th><th>P90</th><th>实际负荷（可编辑）</th><th>状态</th></tr></thead>
+          <tbody id="mock-load-table"></tbody>
+        </table>
+      </div>
+    </section>
+    <section id="mock-price-panel" class="mock-panel" role="tabpanel" aria-labelledby="mock-price-tab" hidden>
+      <p id="mock-price-note" class="mock-note">—</p>
+      <div class="scenario-editor-toolbar">
+        <label for="price-scenario-seed">实时价格随机种子 <input id="price-scenario-seed" type="number" step="1" inputmode="numeric"></label>
+        <button id="randomize-price-scenario" type="button" class="secondary-button">重新随机实时价格</button>
+        <button id="confirm-scenario-edits-price" type="button" class="primary-button">确认并重新计算</button>
+        <button id="discard-scenario-edits-price" type="button" class="secondary-button">撤销未确认修改</button>
+      </div>
+      <p id="price-editor-status" class="mock-note">默认使用独立价格真值路径并保留少量区间外点；人工修改后点击确认才会重算。</p>
+      <svg id="mock-price-chart" class="scenario-editor-chart" viewBox="0 0 1100 300" role="img" aria-label="可编辑的96点实时价格预测区间和实际价格曲线"></svg>
+      <div class="dialog-table-wrap">
+        <table class="mock-table">
+          <thead><tr><th>点</th><th>时刻</th><th>日前P10/P50/P90</th><th>实时P10/P50/P90</th><th>真实日前</th><th>实际实时价格（可编辑）</th><th>状态</th></tr></thead>
+          <tbody id="mock-price-table"></tbody>
+        </table>
+      </div>
+    </section>
+  </dialog>
+  <div id="tooltip" class="tooltip" role="status" aria-live="polite"></div>
+  <script src="/app.js" defer></script>
+</body>
+</html>
