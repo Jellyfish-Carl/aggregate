@@ -447,7 +447,7 @@ function renderDeclaration(data) {
   document.getElementById("declaration-actual-total").textContent = mwh(data.declaration_breakdown.totals.actual_load_mwh, 1);
   const guard = data.declaration_breakdown.assessment_guard;
   document.getElementById("declaration-assessment-guard").textContent = `中长期48点考核 ${guard.status === "PASS" ? "全部通过" : guard.status === "PENDING" ? "待滚撮完成" : "存在不合规点"}`;
-  const l3Objective = data.l3_objective || data.l2_objective;
+  const l3Objective = data.l3_objective;
   document.getElementById("l3-objective-summary").textContent = l3Objective.milp_executed
     ? `L3 MILP目标 ${money(l3Objective.objective_yuan)} · gap ${((l3Objective.mip_gap || 0) * 100).toFixed(3)}%`
     : `诊断参考策略 ${money(l3Objective.objective_yuan)}`;

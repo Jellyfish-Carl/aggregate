@@ -16,7 +16,7 @@ from .load_forecast import (
     select_snapshot,
     snapshot_index,
 )
-from .l3_milp import solve_l3_milp
+from .l3_spot_storage_milp import solve_l3_milp
 from .milp import MilpBackendUnavailable, MilpSolveError
 from .mockdata import (
     HIGH_PRICE_WINDOWS,
@@ -2147,8 +2147,6 @@ def simulate(
                 "executed": full_milp_executed,
                 "l1_executed": l1_milp_executed,
                 "l3_executed": l3_milp_executed,
-                # Compatibility aliases; new integrations should use l3_*.
-                "l2_executed": l3_milp_executed,
                 "l1_backend": optimized_all["optimization"]["backend"],
                 "l1_statuses": optimized_all["optimization"]["statuses"],
                 "l1_max_mip_gap": optimized_all["optimization"]["max_mip_gap"],
@@ -2157,11 +2155,8 @@ def simulate(
                 "l3_mip_gap": l3_objective.get("mip_gap"),
                 "l3_solve_seconds": l3_objective.get("solve_seconds"),
                 "l3_end_to_end_seconds": l3_objective.get("end_to_end_seconds"),
-                "l2_backend": l3_objective["backend"],
-                "l2_status": l3_objective.get("status"),
-                "l2_mip_gap": l3_objective.get("mip_gap"),
-                "l2_solve_seconds": l3_objective.get("solve_seconds"),
-                "l2_end_to_end_seconds": l3_objective.get("end_to_end_seconds"),
+                "l2_rule_executed": bool(optimized_all["optimization"].get("l2_near_term_events")),
+                "l2_solver": "RULE_ENGINE",
                 "service_budget_seconds": 10.0,
                 "diagnostic_mode": diagnostic_mode,
                 "diagnostic_reason": None if full_milp_executed else l3_milp_error,
@@ -2272,8 +2267,6 @@ def simulate(
         "execution_ledger": l3_path["execution_ledger"],
         "mpc_state": asdict(replayed_state),
         "l3_objective": l3_objective,
-        # Compatibility alias for clients built before the layer split.
-        "l2_objective": l3_objective,
         "storage": storage,
         "retail": retail,
         "settlement": {
@@ -2307,7 +2300,7 @@ def simulate(
         "diagnostics": [
             "负荷预测为年度至 RT-96 的可追溯 Mock 快照；实时未来负荷只用已实现前缀误差更新。",
             (
-                "L1合同由MILP求解；L2滚撮按价格阈值和L3边际价值顺序触发；L3日前/实时/储能由SciPy HiGHS MILP求解。"
+                "L1合同由MILP求解；L2滚撮由价格阈值和L3边际价值门控规则顺序触发；L3日前/实时/储能由SciPy HiGHS MILP求解。"
                 if full_milp_executed
                 else "已显式启用diagnostic_mode；当前规则策略不能证明最优，也不计为MILP结果。"
             ),

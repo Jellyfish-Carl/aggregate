@@ -13,8 +13,8 @@ from mpc_demo.domain import ContractFill
 from mpc_demo.simulator import simulate as strict_simulate
 from mpc_demo.trading import (
     TraderConfig,
-    _milp_rolling_order_action,
-    _rolling_order_fill_ratio,
+    apply_l2_rolling_threshold,
+    rolling_partial_fill_ratio,
     _rolling_sell_cap,
     default_quotes,
 )
@@ -88,10 +88,10 @@ class ForecastTests(unittest.TestCase):
 class RollingOrderRuleTests(unittest.TestCase):
     def test_fill_ratio_scales_from_ten_to_twenty_percent(self):
         config = TraderConfig()
-        self.assertAlmostEqual(_rolling_order_fill_ratio(100.0, config), 0.10)
-        self.assertAlmostEqual(_rolling_order_fill_ratio(112.5, config), 0.15)
-        self.assertAlmostEqual(_rolling_order_fill_ratio(125.0, config), 0.20)
-        self.assertAlmostEqual(_rolling_order_fill_ratio(180.0, config), 0.20)
+        self.assertAlmostEqual(rolling_partial_fill_ratio(100.0, config), 0.10)
+        self.assertAlmostEqual(rolling_partial_fill_ratio(112.5, config), 0.15)
+        self.assertAlmostEqual(rolling_partial_fill_ratio(125.0, config), 0.20)
+        self.assertAlmostEqual(rolling_partial_fill_ratio(180.0, config), 0.20)
 
     def test_spot_edge_rule_partially_fills_captured_orders(self):
         park = IndustrialParkConfig()
@@ -141,7 +141,7 @@ class RollingOrderRuleTests(unittest.TestCase):
                 "real_time_reference_yuan_per_mwh": 500.0,
             },
         ]
-        action = _milp_rolling_order_action(
+        action = apply_l2_rolling_threshold(
             event="D-3",
             snapshot={"rows": [{"p50_mwh": 10.0} for _ in range(48)]},
             previous_position=sum(delivery_curve.values()),
@@ -194,7 +194,7 @@ class RollingOrderRuleTests(unittest.TestCase):
             "price_yuan_per_mwh": 400.0,
             "real_time_reference_yuan_per_mwh": 500.0,
         }
-        action = _milp_rolling_order_action(
+        action = apply_l2_rolling_threshold(
             event="D-3",
             snapshot={"rows": [{"p50_mwh": 10.0} for _ in range(48)]},
             previous_position=500.0,
@@ -255,7 +255,7 @@ class DemoSimulatorTests(unittest.TestCase):
         payload = simulate(event="D-1")
         self.assertEqual(
             payload["headline"]["cvar95_cost_yuan"],
-            payload["l2_objective"]["cvar95_yuan"],
+            payload["l3_objective"]["cvar95_yuan"],
         )
 
     def test_declaration_band_reports_slack_without_hiding_fallback(self):
@@ -753,7 +753,7 @@ class DemoSimulatorTests(unittest.TestCase):
     def test_real_time_prefix_remains_feasible_after_soc_locking(self):
         for period in (25, 48, 96):
             payload = strict_simulate(event="REAL_TIME", rt_period=period)
-            self.assertEqual(payload["l2_objective"]["status"], "OPTIMAL")
+            self.assertEqual(payload["l3_objective"]["status"], "OPTIMAL")
             self.assertEqual(
                 payload["declaration_breakdown"]["totals"]["spot_deviation_breach_periods"],
                 0,
@@ -833,9 +833,9 @@ class DemoSimulatorTests(unittest.TestCase):
             )
         )
 
-    def test_l2_objective_includes_locked_contract_cost_and_storage(self):
+    def test_l3_objective_includes_locked_contract_cost_and_storage(self):
         payload = simulate(event="D-1")
-        objective = payload["l2_objective"]
+        objective = payload["l3_objective"]
         self.assertIn("锁定合同成本", objective["objective_definition"])
         self.assertNotEqual(objective["rolling_cfd_yuan"], 0.0)
         self.assertNotEqual(

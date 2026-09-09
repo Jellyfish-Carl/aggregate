@@ -39,7 +39,7 @@ class WebContractTests(unittest.TestCase):
         self.assertEqual(len(payload["declaration"]["rows"]), 96)
         self.assertEqual(len(payload["declaration_breakdown"]["rows"]), 96)
         self.assertEqual(len(payload["storage"]["rows"]), 96)
-        self.assertIn("l2_objective", payload)
+        self.assertIn("l3_objective", payload)
         self.assertEqual(len(payload["load_forecast"]["history"]), 102)
         self.assertEqual(len(payload["load_forecast"]["phases"]), 102)
         self.assertEqual(len(payload["price_forecast"]["rows"]), 96)

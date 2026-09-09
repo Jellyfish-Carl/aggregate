@@ -17,17 +17,17 @@ class MilpIntegrationTests(unittest.TestCase):
         self.assertAlmostEqual(result.values["y"], 0.0)
         self.assertEqual(result.binary_count, 2)
 
-    def test_full_demo_executes_l1_and_l2_milps(self):
+    def test_full_demo_executes_l1_and_l3_milps_with_l2_rule_engine(self):
         payload = simulate(event="D-1")
         status = payload["meta"]["milp"]
         self.assertTrue(status["executed"])
         self.assertTrue(status["l1_executed"])
-        self.assertTrue(status["l2_executed"])
-        self.assertEqual(status["l2_status"], "OPTIMAL")
-        self.assertLessEqual(status["l2_mip_gap"], 0.001)
-        self.assertLessEqual(status["l2_end_to_end_seconds"], 10.0)
-        self.assertGreater(payload["l2_objective"]["binary_count"], 0)
-        self.assertGreater(payload["l2_objective"]["constraint_count"], 0)
+        self.assertTrue(status["l2_rule_executed"])
+        self.assertEqual(status["l2_solver"], "RULE_ENGINE")
+        self.assertLessEqual(status["l3_mip_gap"], 0.001)
+        self.assertLessEqual(status["l3_end_to_end_seconds"], 10.0)
+        self.assertGreater(payload["l3_objective"]["binary_count"], 0)
+        self.assertGreater(payload["l3_objective"]["constraint_count"], 0)
 
     def test_d2_order_book_keeps_d3_fills_and_reports_order_acceptance(self):
         payload = simulate(event="D-2")
@@ -68,10 +68,10 @@ class MilpIntegrationTests(unittest.TestCase):
                 row["declared_mwh"],
                 delta=1e-4,
             )
-        pricing = payload["l2_objective"]["pricing_lp"]
+        pricing = payload["l3_objective"]["pricing_lp"]
         self.assertEqual(pricing["status"], "OPTIMAL")
         self.assertEqual(
-            len(payload["l2_objective"]["rolling_half_hour_marginal_value_yuan_per_mwh"]),
+            len(payload["l3_objective"]["rolling_half_hour_marginal_value_yuan_per_mwh"]),
             48,
         )
 

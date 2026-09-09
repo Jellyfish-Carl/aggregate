@@ -707,7 +707,7 @@ def _reference_optimized_action(
     )
 
 
-def _milp_l1_period_action(
+def solve_l1_contract_milp(
     event: str,
     snapshot: Mapping[str, object],
     previous_position: float,
@@ -721,7 +721,7 @@ def _milp_l1_period_action(
     risk_lambda: float,
     prior_fills: Sequence[ContractFill],
 ) -> TradeAction:
-    """Optimize annual/monthly/ten-day purchases on the 48-product grid."""
+    """Layer 1 MILP for annual/monthly/ten-day purchases on the 48-point grid."""
 
     scenarios = tuple(discrete_load_scenarios())
     scope_days = product_equivalent_days(event, park_config)
@@ -1008,7 +1008,7 @@ def _milp_optimized_action(
     near_term_valuation: Mapping[str, object] = (),
 ) -> TradeAction:
     if event in L1_EVENTS:
-        return _milp_l1_period_action(
+        return solve_l1_contract_milp(
             event,
             snapshot,
             previous_position,
@@ -1023,7 +1023,7 @@ def _milp_optimized_action(
             prior_fills,
         )
     if order_book:
-        return _milp_rolling_order_action(
+        return apply_l2_rolling_threshold(
             event,
             snapshot,
             previous_position,
@@ -1253,10 +1253,10 @@ def _milp_optimized_action(
     )
 
 
-def _rolling_order_fill_ratio(
+def rolling_partial_fill_ratio(
     price_edge: float, config: TraderConfig, threshold: Optional[float] = None
 ) -> float:
-    """Scale a captured order from the minimum to maximum configured fill ratio."""
+    """Layer 2 partial-fill ratio between the configured 10%-20% bounds."""
 
     threshold = config.price_edge_lower_yuan_per_mwh if threshold is None else threshold
     excess = max(0.0, price_edge - threshold)
@@ -1266,7 +1266,7 @@ def _rolling_order_fill_ratio(
     )
 
 
-def _milp_rolling_order_action(
+def apply_l2_rolling_threshold(
     event: str,
     snapshot: Mapping[str, object],
     previous_position: float,
@@ -1285,7 +1285,7 @@ def _milp_rolling_order_action(
     order_book: Mapping[str, object],
     valuation: Mapping[str, object],
 ) -> TradeAction:
-    """Apply spot-price edge triggers and partial fills to rolling orders."""
+    """Layer 2 rule engine: trigger rolling orders and apply partial fills."""
 
     scope_days = product_equivalent_days(event, park_config)
     orders = sorted(
@@ -1369,7 +1369,7 @@ def _milp_rolling_order_action(
             else price - spot_forecast
         )
         price_triggered = price_edge + 1e-9 >= threshold
-        target_fill_ratio = _rolling_order_fill_ratio(price_edge, config, threshold)
+        target_fill_ratio = rolling_partial_fill_ratio(price_edge, config, threshold)
         target_quantity = quantity * target_fill_ratio
         minimum_fill_quantity = quantity * config.rolling_min_fill_ratio
         current_period_position = (
