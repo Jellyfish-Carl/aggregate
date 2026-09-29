@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>批零购电与结算工作台</title>
+  <link rel="stylesheet" href="/case.css">
+</head>
+<body>
+<header class="topbar">
+  <div><strong>批零购电与结算</strong><span>客户套餐 · 分阶段采购 · 目标日复盘</span></div>
+  <div class="server-state"><i></i><span id="connection">正在连接本地计算服务</span></div>
+</header>
+<main>
+  <section class="setup" aria-labelledby="setup-title">
+    <div class="section-title"><div><p class="eyebrow">测试案例</p><h1 id="setup-title">建立一组可复算的输入</h1></div><div class="actions"><label>历史案例<select id="case-select"><option value="">新建 / 选择已有案例</option></select></label><button id="create-case" class="primary">＋ 新建案例</button></div></div>
+    <div class="setup-grid">
+      <label>案例名称<input id="case-name" value="批零测试"></label>
+      <label>客户数量<input id="customer-count" type="number" min="1" max="20" value="3"></label>
+      <label>标的日<input id="target-date" type="date"></label>
+      <label>套餐推荐预测天数<input id="recommendation-days" type="number" min="7" max="366" value="30"></label>
+      <label>风险权重 λ<input id="risk-lambda" type="number" min="0" max="1" step="0.05" value="0.25"></label>
+      <label>风险情景数<input id="scenario-count" type="number" min="1" max="100" value="16"></label>
+      <label>Mock 随机种子<input id="seed" type="number" step="1" value="20260928"></label>
+    </div>
+    <div class="market-grid">
+      <label>年度采购基准 · 元/MWh<input data-market="annual_price" type="number" step="0.1" value="405"></label>
+      <label>月度采购基准 · 元/MWh<input data-market="monthly_price" type="number" step="0.1" value="416"></label>
+      <label>旬内采购基准 · 元/MWh<input data-market="ten_day_price" type="number" step="0.1" value="424"></label>
+      <label>年度零售参考价 · 元/MWh<input data-market="annual_reference_price" type="number" step="0.1" value="405"></label>
+      <label>月度零售参考价 · 元/MWh<input data-market="monthly_reference_price" type="number" step="0.1" value="416"></label>
+      <label>运营成本 · 元/MWh<input data-market="operating_cost_yuan_per_mwh" type="number" step="0.1" value="2"></label>
+      <label>参考价组成 · 年/月/现货<input data-market-array="reference_weights" value="0.7, 0.2, 0.1"></label>
+      <label>采购成本组成 · 年/月/现货<input data-market-array="procurement_weights" value="0.7, 0.2, 0.1"></label>
+      <label title="以预测价格为中心生成上下波动范围。例如 0.15 表示价格约按 ±15% 生成情景。">价格预测相对区间<input data-market="price_uncertainty_ratio" type="number" min="0" max="0.99" step="0.01" value="0.15"></label>
+      <label title="不稳定度不超过此值时，程序优先推荐固定价 F。">低不稳定阈值<input id="stable-threshold" type="number" min="0" max="0.99" step="0.01" value="0.12"></label>
+      <label title="不稳定度高于此值时，程序优先推荐市场联动 L；两者之间优先推荐比例分成 S。">高不稳定阈值<input id="variable-threshold" type="number" min="0" max="0.99" step="0.01" value="0.25"></label>
+      <label>公司最低期望利润 · 元<input id="minimum-profit" type="number" min="0" step="10" value="0"></label>
+      <label>客户最低节省 · 元<input id="minimum-saving" type="number" min="0" step="10" value="0"></label>
+    </div>
+    <p class="parameter-help"><strong>参数口径：</strong>价格预测相对区间只控制价格情景的上下波动；套餐推荐另算“不稳定度” = 50% × 逐日电量变异系数 + 50% × 客户预测不确定性。低于低阈值优先推荐固定价 F，介于两个阈值之间优先推荐比例分成 S，高于高阈值优先推荐市场联动 L。程序建议仍需你人工确认。</p>
+    <div class="actions"><button id="edit-inputs">编辑客户和96点预测数据</button><button id="save-inputs" class="primary" disabled>保存并验证输入</button><span id="case-meta">尚未创建案例</span></div>
+  </section>
+
+  <nav class="tabs" aria-label="案例阶段">
+    <button data-tab="inputs" aria-selected="true">1　输入与校验</button>
+    <button data-tab="recommendation" aria-selected="false">2　套餐推荐</button>
+    <button data-tab="procurement" aria-selected="false">3　逐阶段购电</button>
+    <button data-tab="settlement" aria-selected="false">4　目标日结算</button>
+  </nav>
+  <div id="workflow-help" class="workflow-help" role="status">使用顺序：新建案例 → 编辑并保存输入 → 计算套餐推荐 → 人工确认套餐 → 按“下一节点”逐阶段运行。按钮变灰表示当前状态还缺少前置步骤。</div>
+
+  <section class="tab-panel" id="tab-inputs">
+    <div class="panel-heading"><div><h2>客户与市场预测</h2><p>本页标准负荷与市场价格用于签约前套餐评估；各采购阶段的负荷、价格和报价在第3页分别确认与更新。套餐条款、市场参考价及分时基准在签约后锁定。</p></div><span class="tag" id="input-status">未创建</span></div>
+    <div class="editor-layout">
+      <div><div class="toolbar"><label>客户<select id="customer-select"></select></label><button id="apply-customer">保存当前客户编辑</button></div><div id="customer-editor" class="customer-editor empty">新建案例后可编辑客户条款、96点负荷与分时电价。</div></div>
+      <aside class="scope-note"><h3>预测区间</h3><div id="forecast-summary">每个采购节点都有独立发布日期、交割范围、客户负荷P10/P50/P90，以及日前和实时价格曲线。</div><button id="show-json">查看完整案例输入 JSON</button></aside>
+    </div>
+    <details class="json-panel" id="input-json-panel"><summary>完整输入数据（含储能、预测阈值与价格上下限）</summary><p>修改 JSON 后先点击“载入 JSON 到表单”，再保存并验证。已签约案例只能更新未来节点预测。</p><textarea id="input-json" rows="18" spellcheck="false"></textarea><div class="actions"><button id="apply-json">载入 JSON 到表单</button></div></details>
+    <div class="chart-section"><h3>可编辑96点市场价格</h3><p>签约前成本估计使用本表；各采购节点的更新预测在第3页独立确认。</p><div id="market-curves" class="table-wrap"></div></div>
+    <div class="chart-section"><h3>整段签约预测 · 逐日负荷系数与价格系数</h3><p>当日客户电量 = 标准日96点负荷 × 当日负荷系数。推荐使用本表的全部日期。</p><div id="signing-days" class="table-wrap"></div></div>
+    <div class="chart-section"><div class="panel-heading"><div><h3>客户96点负荷与零售基准</h3><p>所选客户的标准日曲线。横轴为一天内96个15分钟点。</p></div></div><div id="load-chart" class="chart"></div></div>
+  </section>
+
+  <section class="tab-panel" id="tab-recommendation" hidden>
+    <div class="panel-heading"><div><h2>先看程序推荐，再人工确认套餐</h2><p>程序先按整段预测稳定性、客户节省和公司期望利润底线给出建议，并展示 F/L/S 的收益对比。你可以逐客户修改最终选择；点击确认后才会签约并进入购电阶段。</p></div><button id="calculate-recommendation" class="primary">计算套餐收益与推荐</button></div>
+    <div id="recommendation-results" class="empty-state">先保存并确认输入，再计算推荐。推荐不会自动签约。</div>
+    <div id="confirm-packages" hidden><div class="panel-heading"><div><h3>人工确认客户套餐</h3><p>逐客户选择F固定价、L市场联动或S比例分成，再确认签约。</p></div><button id="sign-packages" class="primary">确认套餐并进入购电阶段</button></div><div id="package-choices" class="table-wrap"></div></div>
+  </section>
+
+  <section class="tab-panel" id="tab-procurement" hidden>
+    <div class="panel-heading"><div><h2>已签套餐下的分阶段采购策略</h2><p>阶段预测依据各自发布日期更新；每次仅运行下一节点，已成交合同和已执行实绩会锁定。</p></div><span class="tag" id="clock-tag">尚未签约</span></div>
+    <div class="stage-layout"><aside><h3>策略阶段</h3><ol id="stage-list" class="stage-list"></ol></aside><div class="stage-detail"><div id="stage-editor" class="empty-state">确认套餐后展示预测数据和阶段计算入口。</div></div></div>
+    <div class="stage-controls"><button id="compare-risk" disabled>复算 λ–期望价差与P10–P90区间</button><a id="risk-report" hidden target="_blank">打开客户风险曲线</a><a href="/workbench" target="_blank">打开各层独立运行工作台</a></div><p class="eyebrow">完成日前策略后可对已保存的预测逐λ复算，不改变本案例成交。各节点分别使用各自当时的预测版本。</p>
+    <div id="stage-results"></div>
+  </section>
+
+  <section class="tab-panel" id="tab-settlement" hidden>
+    <div class="panel-heading"><div><h2>目标日实际结算与复盘</h2><p>对比客户分时电价账单；复核售电公司九项成本、收入、利润与每MWh价差。</p></div><button id="prepare-actuals" class="primary" disabled>生成可编辑模拟实绩</button></div>
+    <div id="actual-editor" class="empty-state">完成日前储能计划后，可导入计量实绩，或生成模拟回放作为测试输入。</div>
+    <button id="settle-case" class="primary" disabled>结算并保存复盘结果</button>
+    <div id="settlement-results"></div>
+  </section>
+  <div id="job-box" class="job-box" hidden><div class="job-title"><strong id="job-status">等待计算</strong><span id="job-time">0 秒</span></div><progress id="job-progress" max="100" value="0"></progress><p id="job-message"></p><p class="eyebrow">进度按已完成的建模与求解步骤显示；求解过程中不会虚构百分比。</p><pre id="job-log"></pre></div>
+</main>
+<div id="toast" role="status" aria-live="polite"></div>
+<script src="/case.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,842 @@
+[
+  {
+    "id": "layers/F_0/ANNUAL.json",
+    "path": "layers/F_0/ANNUAL.json",
+    "node": "ANNUAL",
+    "package": "F",
+    "risk_lambda": 0.0,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/F_0/MONTHLY.json",
+    "path": "layers/F_0/MONTHLY.json",
+    "node": "MONTHLY",
+    "package": "F",
+    "risk_lambda": 0.0,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/F_0/TEN_DAY.json",
+    "path": "layers/F_0/TEN_DAY.json",
+    "node": "TEN_DAY",
+    "package": "F",
+    "risk_lambda": 0.0,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/F_0/D-3.json",
+    "path": "layers/F_0/D-3.json",
+    "node": "D-3",
+    "package": "F",
+    "risk_lambda": 0.0,
+    "status": "EXECUTED"
+  },
+  {
+    "id": "layers/F_0/D-2.json",
+    "path": "layers/F_0/D-2.json",
+    "node": "D-2",
+    "package": "F",
+    "risk_lambda": 0.0,
+    "status": "EXECUTED"
+  },
+  {
+    "id": "layers/F_0/L3-A.json",
+    "path": "layers/F_0/L3-A.json",
+    "node": "L3-A",
+    "package": "F",
+    "risk_lambda": 0.0,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/F_0/STORAGE-DA.json",
+    "path": "layers/F_0/STORAGE-DA.json",
+    "node": "STORAGE-DA",
+    "package": "F",
+    "risk_lambda": 0.0,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/F_0.25/ANNUAL.json",
+    "path": "layers/F_0.25/ANNUAL.json",
+    "node": "ANNUAL",
+    "package": "F",
+    "risk_lambda": 0.25,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/F_0.25/MONTHLY.json",
+    "path": "layers/F_0.25/MONTHLY.json",
+    "node": "MONTHLY",
+    "package": "F",
+    "risk_lambda": 0.25,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/F_0.25/TEN_DAY.json",
+    "path": "layers/F_0.25/TEN_DAY.json",
+    "node": "TEN_DAY",
+    "package": "F",
+    "risk_lambda": 0.25,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/F_0.25/D-3.json",
+    "path": "layers/F_0.25/D-3.json",
+    "node": "D-3",
+    "package": "F",
+    "risk_lambda": 0.25,
+    "status": "EXECUTED"
+  },
+  {
+    "id": "layers/F_0.25/D-2.json",
+    "path": "layers/F_0.25/D-2.json",
+    "node": "D-2",
+    "package": "F",
+    "risk_lambda": 0.25,
+    "status": "EXECUTED"
+  },
+  {
+    "id": "layers/F_0.25/L3-A.json",
+    "path": "layers/F_0.25/L3-A.json",
+    "node": "L3-A",
+    "package": "F",
+    "risk_lambda": 0.25,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/F_0.25/STORAGE-DA.json",
+    "path": "layers/F_0.25/STORAGE-DA.json",
+    "node": "STORAGE-DA",
+    "package": "F",
+    "risk_lambda": 0.25,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/F_0.5/ANNUAL.json",
+    "path": "layers/F_0.5/ANNUAL.json",
+    "node": "ANNUAL",
+    "package": "F",
+    "risk_lambda": 0.5,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/F_0.5/MONTHLY.json",
+    "path": "layers/F_0.5/MONTHLY.json",
+    "node": "MONTHLY",
+    "package": "F",
+    "risk_lambda": 0.5,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/F_0.5/TEN_DAY.json",
+    "path": "layers/F_0.5/TEN_DAY.json",
+    "node": "TEN_DAY",
+    "package": "F",
+    "risk_lambda": 0.5,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/F_0.5/D-3.json",
+    "path": "layers/F_0.5/D-3.json",
+    "node": "D-3",
+    "package": "F",
+    "risk_lambda": 0.5,
+    "status": "EXECUTED"
+  },
+  {
+    "id": "layers/F_0.5/D-2.json",
+    "path": "layers/F_0.5/D-2.json",
+    "node": "D-2",
+    "package": "F",
+    "risk_lambda": 0.5,
+    "status": "EXECUTED"
+  },
+  {
+    "id": "layers/F_0.5/L3-A.json",
+    "path": "layers/F_0.5/L3-A.json",
+    "node": "L3-A",
+    "package": "F",
+    "risk_lambda": 0.5,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/F_0.5/STORAGE-DA.json",
+    "path": "layers/F_0.5/STORAGE-DA.json",
+    "node": "STORAGE-DA",
+    "package": "F",
+    "risk_lambda": 0.5,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/F_0.75/ANNUAL.json",
+    "path": "layers/F_0.75/ANNUAL.json",
+    "node": "ANNUAL",
+    "package": "F",
+    "risk_lambda": 0.75,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/F_0.75/MONTHLY.json",
+    "path": "layers/F_0.75/MONTHLY.json",
+    "node": "MONTHLY",
+    "package": "F",
+    "risk_lambda": 0.75,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/F_0.75/TEN_DAY.json",
+    "path": "layers/F_0.75/TEN_DAY.json",
+    "node": "TEN_DAY",
+    "package": "F",
+    "risk_lambda": 0.75,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/F_0.75/D-3.json",
+    "path": "layers/F_0.75/D-3.json",
+    "node": "D-3",
+    "package": "F",
+    "risk_lambda": 0.75,
+    "status": "EXECUTED"
+  },
+  {
+    "id": "layers/F_0.75/D-2.json",
+    "path": "layers/F_0.75/D-2.json",
+    "node": "D-2",
+    "package": "F",
+    "risk_lambda": 0.75,
+    "status": "EXECUTED"
+  },
+  {
+    "id": "layers/F_0.75/L3-A.json",
+    "path": "layers/F_0.75/L3-A.json",
+    "node": "L3-A",
+    "package": "F",
+    "risk_lambda": 0.75,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/F_0.75/STORAGE-DA.json",
+    "path": "layers/F_0.75/STORAGE-DA.json",
+    "node": "STORAGE-DA",
+    "package": "F",
+    "risk_lambda": 0.75,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/F_1/ANNUAL.json",
+    "path": "layers/F_1/ANNUAL.json",
+    "node": "ANNUAL",
+    "package": "F",
+    "risk_lambda": 1.0,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/F_1/MONTHLY.json",
+    "path": "layers/F_1/MONTHLY.json",
+    "node": "MONTHLY",
+    "package": "F",
+    "risk_lambda": 1.0,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/F_1/TEN_DAY.json",
+    "path": "layers/F_1/TEN_DAY.json",
+    "node": "TEN_DAY",
+    "package": "F",
+    "risk_lambda": 1.0,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/F_1/D-3.json",
+    "path": "layers/F_1/D-3.json",
+    "node": "D-3",
+    "package": "F",
+    "risk_lambda": 1.0,
+    "status": "EXECUTED"
+  },
+  {
+    "id": "layers/F_1/D-2.json",
+    "path": "layers/F_1/D-2.json",
+    "node": "D-2",
+    "package": "F",
+    "risk_lambda": 1.0,
+    "status": "EXECUTED"
+  },
+  {
+    "id": "layers/F_1/L3-A.json",
+    "path": "layers/F_1/L3-A.json",
+    "node": "L3-A",
+    "package": "F",
+    "risk_lambda": 1.0,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/F_1/STORAGE-DA.json",
+    "path": "layers/F_1/STORAGE-DA.json",
+    "node": "STORAGE-DA",
+    "package": "F",
+    "risk_lambda": 1.0,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/L_0/ANNUAL.json",
+    "path": "layers/L_0/ANNUAL.json",
+    "node": "ANNUAL",
+    "package": "L",
+    "risk_lambda": 0.0,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/L_0/MONTHLY.json",
+    "path": "layers/L_0/MONTHLY.json",
+    "node": "MONTHLY",
+    "package": "L",
+    "risk_lambda": 0.0,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/L_0/TEN_DAY.json",
+    "path": "layers/L_0/TEN_DAY.json",
+    "node": "TEN_DAY",
+    "package": "L",
+    "risk_lambda": 0.0,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/L_0/D-3.json",
+    "path": "layers/L_0/D-3.json",
+    "node": "D-3",
+    "package": "L",
+    "risk_lambda": 0.0,
+    "status": "EXECUTED"
+  },
+  {
+    "id": "layers/L_0/D-2.json",
+    "path": "layers/L_0/D-2.json",
+    "node": "D-2",
+    "package": "L",
+    "risk_lambda": 0.0,
+    "status": "EXECUTED"
+  },
+  {
+    "id": "layers/L_0/L3-A.json",
+    "path": "layers/L_0/L3-A.json",
+    "node": "L3-A",
+    "package": "L",
+    "risk_lambda": 0.0,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/L_0/STORAGE-DA.json",
+    "path": "layers/L_0/STORAGE-DA.json",
+    "node": "STORAGE-DA",
+    "package": "L",
+    "risk_lambda": 0.0,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/L_0.25/ANNUAL.json",
+    "path": "layers/L_0.25/ANNUAL.json",
+    "node": "ANNUAL",
+    "package": "L",
+    "risk_lambda": 0.25,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/L_0.25/MONTHLY.json",
+    "path": "layers/L_0.25/MONTHLY.json",
+    "node": "MONTHLY",
+    "package": "L",
+    "risk_lambda": 0.25,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/L_0.25/TEN_DAY.json",
+    "path": "layers/L_0.25/TEN_DAY.json",
+    "node": "TEN_DAY",
+    "package": "L",
+    "risk_lambda": 0.25,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/L_0.25/D-3.json",
+    "path": "layers/L_0.25/D-3.json",
+    "node": "D-3",
+    "package": "L",
+    "risk_lambda": 0.25,
+    "status": "EXECUTED"
+  },
+  {
+    "id": "layers/L_0.25/D-2.json",
+    "path": "layers/L_0.25/D-2.json",
+    "node": "D-2",
+    "package": "L",
+    "risk_lambda": 0.25,
+    "status": "EXECUTED"
+  },
+  {
+    "id": "layers/L_0.25/L3-A.json",
+    "path": "layers/L_0.25/L3-A.json",
+    "node": "L3-A",
+    "package": "L",
+    "risk_lambda": 0.25,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/L_0.25/STORAGE-DA.json",
+    "path": "layers/L_0.25/STORAGE-DA.json",
+    "node": "STORAGE-DA",
+    "package": "L",
+    "risk_lambda": 0.25,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/L_0.5/ANNUAL.json",
+    "path": "layers/L_0.5/ANNUAL.json",
+    "node": "ANNUAL",
+    "package": "L",
+    "risk_lambda": 0.5,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/L_0.5/MONTHLY.json",
+    "path": "layers/L_0.5/MONTHLY.json",
+    "node": "MONTHLY",
+    "package": "L",
+    "risk_lambda": 0.5,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/L_0.5/TEN_DAY.json",
+    "path": "layers/L_0.5/TEN_DAY.json",
+    "node": "TEN_DAY",
+    "package": "L",
+    "risk_lambda": 0.5,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/L_0.5/D-3.json",
+    "path": "layers/L_0.5/D-3.json",
+    "node": "D-3",
+    "package": "L",
+    "risk_lambda": 0.5,
+    "status": "EXECUTED"
+  },
+  {
+    "id": "layers/L_0.5/D-2.json",
+    "path": "layers/L_0.5/D-2.json",
+    "node": "D-2",
+    "package": "L",
+    "risk_lambda": 0.5,
+    "status": "EXECUTED"
+  },
+  {
+    "id": "layers/L_0.5/L3-A.json",
+    "path": "layers/L_0.5/L3-A.json",
+    "node": "L3-A",
+    "package": "L",
+    "risk_lambda": 0.5,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/L_0.5/STORAGE-DA.json",
+    "path": "layers/L_0.5/STORAGE-DA.json",
+    "node": "STORAGE-DA",
+    "package": "L",
+    "risk_lambda": 0.5,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/L_0.75/ANNUAL.json",
+    "path": "layers/L_0.75/ANNUAL.json",
+    "node": "ANNUAL",
+    "package": "L",
+    "risk_lambda": 0.75,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/L_0.75/MONTHLY.json",
+    "path": "layers/L_0.75/MONTHLY.json",
+    "node": "MONTHLY",
+    "package": "L",
+    "risk_lambda": 0.75,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/L_0.75/TEN_DAY.json",
+    "path": "layers/L_0.75/TEN_DAY.json",
+    "node": "TEN_DAY",
+    "package": "L",
+    "risk_lambda": 0.75,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/L_0.75/D-3.json",
+    "path": "layers/L_0.75/D-3.json",
+    "node": "D-3",
+    "package": "L",
+    "risk_lambda": 0.75,
+    "status": "EXECUTED"
+  },
+  {
+    "id": "layers/L_0.75/D-2.json",
+    "path": "layers/L_0.75/D-2.json",
+    "node": "D-2",
+    "package": "L",
+    "risk_lambda": 0.75,
+    "status": "EXECUTED"
+  },
+  {
+    "id": "layers/L_0.75/L3-A.json",
+    "path": "layers/L_0.75/L3-A.json",
+    "node": "L3-A",
+    "package": "L",
+    "risk_lambda": 0.75,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/L_0.75/STORAGE-DA.json",
+    "path": "layers/L_0.75/STORAGE-DA.json",
+    "node": "STORAGE-DA",
+    "package": "L",
+    "risk_lambda": 0.75,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/L_1/ANNUAL.json",
+    "path": "layers/L_1/ANNUAL.json",
+    "node": "ANNUAL",
+    "package": "L",
+    "risk_lambda": 1.0,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/L_1/MONTHLY.json",
+    "path": "layers/L_1/MONTHLY.json",
+    "node": "MONTHLY",
+    "package": "L",
+    "risk_lambda": 1.0,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/L_1/TEN_DAY.json",
+    "path": "layers/L_1/TEN_DAY.json",
+    "node": "TEN_DAY",
+    "package": "L",
+    "risk_lambda": 1.0,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/L_1/D-3.json",
+    "path": "layers/L_1/D-3.json",
+    "node": "D-3",
+    "package": "L",
+    "risk_lambda": 1.0,
+    "status": "EXECUTED"
+  },
+  {
+    "id": "layers/L_1/D-2.json",
+    "path": "layers/L_1/D-2.json",
+    "node": "D-2",
+    "package": "L",
+    "risk_lambda": 1.0,
+    "status": "EXECUTED"
+  },
+  {
+    "id": "layers/L_1/L3-A.json",
+    "path": "layers/L_1/L3-A.json",
+    "node": "L3-A",
+    "package": "L",
+    "risk_lambda": 1.0,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/L_1/STORAGE-DA.json",
+    "path": "layers/L_1/STORAGE-DA.json",
+    "node": "STORAGE-DA",
+    "package": "L",
+    "risk_lambda": 1.0,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/S_0/ANNUAL.json",
+    "path": "layers/S_0/ANNUAL.json",
+    "node": "ANNUAL",
+    "package": "S",
+    "risk_lambda": 0.0,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/S_0/MONTHLY.json",
+    "path": "layers/S_0/MONTHLY.json",
+    "node": "MONTHLY",
+    "package": "S",
+    "risk_lambda": 0.0,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/S_0/TEN_DAY.json",
+    "path": "layers/S_0/TEN_DAY.json",
+    "node": "TEN_DAY",
+    "package": "S",
+    "risk_lambda": 0.0,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/S_0/D-3.json",
+    "path": "layers/S_0/D-3.json",
+    "node": "D-3",
+    "package": "S",
+    "risk_lambda": 0.0,
+    "status": "EXECUTED"
+  },
+  {
+    "id": "layers/S_0/D-2.json",
+    "path": "layers/S_0/D-2.json",
+    "node": "D-2",
+    "package": "S",
+    "risk_lambda": 0.0,
+    "status": "EXECUTED"
+  },
+  {
+    "id": "layers/S_0/L3-A.json",
+    "path": "layers/S_0/L3-A.json",
+    "node": "L3-A",
+    "package": "S",
+    "risk_lambda": 0.0,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/S_0/STORAGE-DA.json",
+    "path": "layers/S_0/STORAGE-DA.json",
+    "node": "STORAGE-DA",
+    "package": "S",
+    "risk_lambda": 0.0,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/S_0.25/ANNUAL.json",
+    "path": "layers/S_0.25/ANNUAL.json",
+    "node": "ANNUAL",
+    "package": "S",
+    "risk_lambda": 0.25,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/S_0.25/MONTHLY.json",
+    "path": "layers/S_0.25/MONTHLY.json",
+    "node": "MONTHLY",
+    "package": "S",
+    "risk_lambda": 0.25,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/S_0.25/TEN_DAY.json",
+    "path": "layers/S_0.25/TEN_DAY.json",
+    "node": "TEN_DAY",
+    "package": "S",
+    "risk_lambda": 0.25,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/S_0.25/D-3.json",
+    "path": "layers/S_0.25/D-3.json",
+    "node": "D-3",
+    "package": "S",
+    "risk_lambda": 0.25,
+    "status": "EXECUTED"
+  },
+  {
+    "id": "layers/S_0.25/D-2.json",
+    "path": "layers/S_0.25/D-2.json",
+    "node": "D-2",
+    "package": "S",
+    "risk_lambda": 0.25,
+    "status": "EXECUTED"
+  },
+  {
+    "id": "layers/S_0.25/L3-A.json",
+    "path": "layers/S_0.25/L3-A.json",
+    "node": "L3-A",
+    "package": "S",
+    "risk_lambda": 0.25,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/S_0.25/STORAGE-DA.json",
+    "path": "layers/S_0.25/STORAGE-DA.json",
+    "node": "STORAGE-DA",
+    "package": "S",
+    "risk_lambda": 0.25,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/S_0.5/ANNUAL.json",
+    "path": "layers/S_0.5/ANNUAL.json",
+    "node": "ANNUAL",
+    "package": "S",
+    "risk_lambda": 0.5,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/S_0.5/MONTHLY.json",
+    "path": "layers/S_0.5/MONTHLY.json",
+    "node": "MONTHLY",
+    "package": "S",
+    "risk_lambda": 0.5,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/S_0.5/TEN_DAY.json",
+    "path": "layers/S_0.5/TEN_DAY.json",
+    "node": "TEN_DAY",
+    "package": "S",
+    "risk_lambda": 0.5,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/S_0.5/D-3.json",
+    "path": "layers/S_0.5/D-3.json",
+    "node": "D-3",
+    "package": "S",
+    "risk_lambda": 0.5,
+    "status": "EXECUTED"
+  },
+  {
+    "id": "layers/S_0.5/D-2.json",
+    "path": "layers/S_0.5/D-2.json",
+    "node": "D-2",
+    "package": "S",
+    "risk_lambda": 0.5,
+    "status": "EXECUTED"
+  },
+  {
+    "id": "layers/S_0.5/L3-A.json",
+    "path": "layers/S_0.5/L3-A.json",
+    "node": "L3-A",
+    "package": "S",
+    "risk_lambda": 0.5,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/S_0.5/STORAGE-DA.json",
+    "path": "layers/S_0.5/STORAGE-DA.json",
+    "node": "STORAGE-DA",
+    "package": "S",
+    "risk_lambda": 0.5,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/S_0.75/ANNUAL.json",
+    "path": "layers/S_0.75/ANNUAL.json",
+    "node": "ANNUAL",
+    "package": "S",
+    "risk_lambda": 0.75,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/S_0.75/MONTHLY.json",
+    "path": "layers/S_0.75/MONTHLY.json",
+    "node": "MONTHLY",
+    "package": "S",
+    "risk_lambda": 0.75,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/S_0.75/TEN_DAY.json",
+    "path": "layers/S_0.75/TEN_DAY.json",
+    "node": "TEN_DAY",
+    "package": "S",
+    "risk_lambda": 0.75,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/S_0.75/D-3.json",
+    "path": "layers/S_0.75/D-3.json",
+    "node": "D-3",
+    "package": "S",
+    "risk_lambda": 0.75,
+    "status": "EXECUTED"
+  },
+  {
+    "id": "layers/S_0.75/D-2.json",
+    "path": "layers/S_0.75/D-2.json",
+    "node": "D-2",
+    "package": "S",
+    "risk_lambda": 0.75,
+    "status": "EXECUTED"
+  },
+  {
+    "id": "layers/S_0.75/L3-A.json",
+    "path": "layers/S_0.75/L3-A.json",
+    "node": "L3-A",
+    "package": "S",
+    "risk_lambda": 0.75,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/S_0.75/STORAGE-DA.json",
+    "path": "layers/S_0.75/STORAGE-DA.json",
+    "node": "STORAGE-DA",
+    "package": "S",
+    "risk_lambda": 0.75,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/S_1/ANNUAL.json",
+    "path": "layers/S_1/ANNUAL.json",
+    "node": "ANNUAL",
+    "package": "S",
+    "risk_lambda": 1.0,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/S_1/MONTHLY.json",
+    "path": "layers/S_1/MONTHLY.json",
+    "node": "MONTHLY",
+    "package": "S",
+    "risk_lambda": 1.0,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/S_1/TEN_DAY.json",
+    "path": "layers/S_1/TEN_DAY.json",
+    "node": "TEN_DAY",
+    "package": "S",
+    "risk_lambda": 1.0,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/S_1/D-3.json",
+    "path": "layers/S_1/D-3.json",
+    "node": "D-3",
+    "package": "S",
+    "risk_lambda": 1.0,
+    "status": "EXECUTED"
+  },
+  {
+    "id": "layers/S_1/D-2.json",
+    "path": "layers/S_1/D-2.json",
+    "node": "D-2",
+    "package": "S",
+    "risk_lambda": 1.0,
+    "status": "EXECUTED"
+  },
+  {
+    "id": "layers/S_1/L3-A.json",
+    "path": "layers/S_1/L3-A.json",
+    "node": "L3-A",
+    "package": "S",
+    "risk_lambda": 1.0,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/S_1/STORAGE-DA.json",
+    "path": "layers/S_1/STORAGE-DA.json",
+    "node": "STORAGE-DA",
+    "package": "S",
+    "risk_lambda": 1.0,
+    "status": "OPTIMAL"
+  }
+]

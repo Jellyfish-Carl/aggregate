@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="主体、资产、交易渠道与进出方向的集合体配置器">
+  <title>集合体定义配置器</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .channel-name-editor{display:flex;align-items:center;gap:4px}
+    .channel-name-input{min-width:145px;margin:0}
+    .channel-open-button{border:0;padding:5px;background:transparent;color:var(--muted);cursor:pointer}
+    .channel-open-button:hover{color:var(--teal);background:var(--teal-soft)}
+    .drawer-edit-label{display:flex;flex-direction:column;gap:7px;color:var(--muted);font-size:11px}
+    .drawer-edit-label textarea{width:100%;padding:9px;border:1px solid var(--line-strong);background:#fff;color:var(--ink);font:inherit;font-size:13px;line-height:1.7;resize:vertical}
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand-lockup">
+      <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+      <div><p class="eyebrow">AGGREGATE CONFIGURATOR</p><h1>集合体定义</h1><p class="brand-subtitle">主体 × 资产 × 交易渠道 × 方向</p></div>
+    </div>
+    <div class="topbar-actions"><span class="save-state" id="save-state">本地编辑</span><button class="button button-quiet" id="set-default" type="button">设为默认值</button><button class="button button-quiet" id="reset-all" type="button">恢复默认</button></div>
+  </header>
+  <main class="page-shell">
+    <section class="intro-grid" aria-labelledby="intro-title"><div><p class="eyebrow">DEFINITION MODEL</p><h2 id="intro-title">把每一笔成本和收益落到可解释的组合</h2><p class="intro-copy">进 = 成本 / 支出，出 = 收益 / 收入。先维护渠道、资产和主体的基础边界，再从右下方生成可用的最细粒度集合体。</p></div><div class="formula-card"><span>当前定义</span><strong>{ 主体，资产，交易渠道，方向 }</strong><small>方向仅在渠道支持时展开为进、出两种选择</small></div></section>
+
+    <section class="workspace-section" aria-labelledby="channel-title"><div class="section-header"><div><p class="eyebrow">TABLE 1 · FLOW MAP</p><h2 id="channel-title">交易渠道及进 / 出属性</h2><p>交易渠道位于中间，左侧表示成本进入集合体，右侧表示收益流出集合体。点击任一渠道查看文档中的业务说明。</p></div><div class="section-actions"><button class="button button-primary" id="add-channel" type="button">＋ 新增渠道</button></div></div><div class="flow-layout"><div class="flow-side flow-in"><div class="flow-side-heading"><span class="flow-arrow">←</span><div><strong>进</strong><small>成本 / 支出</small></div></div><div id="in-flow-list" class="flow-list"></div></div><div class="channel-table-wrap"><table class="data-table channel-table"><thead><tr><th>交易渠道</th><th class="direction-head">进<br><small>成本</small></th><th class="direction-head">出<br><small>收益</small></th><th class="table-action-head">操作</th></tr></thead><tbody id="channel-table-body"></tbody></table></div><div class="flow-side flow-out"><div class="flow-side-heading"><div><strong>出</strong><small>收益 / 收入</small></div><span class="flow-arrow">→</span></div><div id="out-flow-list" class="flow-list"></div></div></div><div class="table-footer"><span id="channel-count"></span><span>点击渠道名称打开说明</span></div></section>
+
+    <section class="workspace-section" aria-labelledby="mapping-title"><div class="section-header"><div><p class="eyebrow">TABLE 2 · ASSET CHANNELS</p><h2 id="mapping-title">资产—交易渠道映射</h2><p>每一项映射直接影响“集合体定义”中的可选交易渠道。</p></div><div class="section-actions"><button class="button button-secondary" id="add-mapping-channel" type="button">＋ 新增交易渠道</button><button class="button button-secondary" id="add-asset" type="button">＋ 新增资产</button></div></div><div class="table-scroll"><table class="data-table mapping-table"><thead id="mapping-head"></thead><tbody id="mapping-body"></tbody></table></div></section>
+
+    <section class="workspace-section" aria-labelledby="subject-title"><div class="section-header"><div><p class="eyebrow">TABLE 3 · SUBJECT ASSET</p><h2 id="subject-title">大组合：主体 × 资产</h2><p>取消某个有效组合后，该主体与资产不会出现在下方的集合体定义选择器中。</p></div><div class="section-actions"><button class="button button-secondary" id="add-subject" type="button">＋ 新增主体</button><button class="button button-secondary" id="add-subject-column" type="button">＋ 新增资产列</button></div></div><div class="table-scroll"><table class="data-table subject-table"><thead id="subject-head"></thead><tbody id="subject-body"></tbody></table></div><div class="table-footer"><span class="legend-inline"><i class="dot dot-valid"></i>有效 <i class="dot dot-off"></i>不适用</span><span>点击状态可切换</span></div></section>
+
+    <section class="definition-section" aria-labelledby="definition-title"><div class="section-header definition-heading"><div><p class="eyebrow">TABLE 4 · GENERATED DEFINITIONS</p><h2 id="definition-title">集合体定义</h2><p>主体与资产按行一一对应，先建立明确的归属关系，再为这些关系选择交易渠道和进出方向。</p></div><div class="count-card"><span>当前选择可形成</span><strong id="combination-count">0</strong><small>个方向组合</small></div></div><div class="pair-editor selector-card"><div class="pair-editor-heading"><span>① 归属主体 × 资产（逐行配对）</span><button class="button button-secondary" id="add-pair" type="button">＋ 新增配对</button></div><div id="pair-list" class="pair-list"></div><small id="pair-hint">每一行只代表一个归属关系；例如：用电客户 × 工业负荷、售电公司 × 储能。</small></div><div class="selector-card multi-card channel-multi-card"><span>② 交易渠道及方向（多选）</span><div id="channel-options" class="channel-options"></div><small id="channel-hint">每个渠道独立勾选进、出；未勾选方向也纳入理论状态计数。</small></div><div class="formula-panel"><div class="formula-title">组合数计算公式</div><div class="formula-main">N = Σ<sub>已建立主体-资产配对</sub> 2<sup>Σ<sub>所选渠道</sub> d<sub>渠道</sub></sup></div><div class="formula-detail"><span><b>d<sub>渠道</sub></b> = 该渠道支持的方向数量：仅进/仅出为 1，进出双向为 2</span><span>若要求至少选择一个方向，则 <b>N<sub>有效</sub> = N − 配对数</b></span><span>主体和资产不再做隐式笛卡尔积；只有在配对编辑器中明确建立的关系才参与计算。</span></div></div><div class="definition-result" id="definition-result"></div><div class="definition-summary"><div><span>已建立主体 × 资产配对</span><strong id="large-combination-count">0 / 0</strong></div><div><span>当前配对数</span><strong id="selected-pair-count">0</strong></div><div><span>当前选中渠道</span><strong id="selected-channel-count">0</strong></div><div><span>方向位数量</span><strong id="selected-direction-count">0</strong></div></div></section>
+    <section class="theoretical-footer" aria-labelledby="theoretical-title"><div><p class="eyebrow">THEORETICAL STATE SPACE</p><h2 id="theoretical-title">全量有效状态数量</h2><p>按表2渠道映射和表3有效主体 × 资产配对展开，排除所有配对的进、出方向均未选择的全局空状态。</p></div><div class="theoretical-total"><span>计算结果</span><strong id="theoretical-count-footer">0</strong></div><div class="theoretical-formula"><b>数字计算</b><div class="theoretical-equation" id="theoretical-calculation"></div><div class="theoretical-explanation" id="theoretical-explanation"></div></div></section>
+  </main>
+  <aside class="channel-drawer" id="channel-drawer" aria-hidden="true"><div class="drawer-header"><div><p class="eyebrow">CHANNEL NOTE</p><h2 id="drawer-title">交易渠道说明</h2></div><button class="icon-button" id="close-drawer" type="button" aria-label="关闭说明">×</button></div><div class="drawer-flow"><span id="drawer-direction-badge" class="direction-badge">进 / 出</span><span id="drawer-direction-text">支持成本与收益</span></div><div class="drawer-content"><label class="drawer-edit-label">业务说明<textarea id="drawer-description-input" rows="6"></textarea></label><div class="drawer-meta"><div><span>文档中的主体</span><strong id="drawer-subjects"></strong></div><div><span>常见资产</span><strong id="drawer-assets"></strong></div></div></div></aside><div class="drawer-backdrop" id="drawer-backdrop"></div><div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js" defer></script>
+</body>
+</html>

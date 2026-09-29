@@ -1,0 +1,29 @@
+<section class="runner" aria-label="独立分层计算">
+ <div class="runner-heading"><div><span class="eyebrow">计算工作台 · 目标交割日事前方案</span><h2>先确定套餐，再逐层采购与调度</h2></div><span id="runner-connection" class="runner-badge">正在连接计算服务</span></div>
+ <div class="runner-inputs">
+  <label>已确定套餐<select id="runner-package"><option value="F">固定价 F</option><option value="L">市场联动 L</option><option value="S">比例分成 S</option></select></label>
+  <label>风险权重 λ<input id="runner-risk" type="number" min="0" max="1" step=".05" value="0.25"></label>
+  <label>年度价 · 元/MWh<input id="runner-annual" type="number" value="405"></label>
+  <label>月度价 · 元/MWh<input id="runner-monthly" type="number" value="416"></label>
+  <label>旬内价 · 元/MWh<input id="runner-tenday" type="number" value="424"></label>
+ </div>
+ <div class="runner-inputs runner-source">
+  <label>前置数据来源<select id="runner-source"><option value="default">默认预置 · 单独计算本节点</option><option value="upstream">读取已完成的上游结果</option><option value="manual">手动输入 JSON</option></select></label>
+  <label>上游结果<select id="runner-upstream"><option value="">尚未选择</option></select></label>
+  <label>合同考核计量口径<select id="runner-basis"><option value="grid_net_load">储能后的并网净负荷（演示假设）</option><option value="customer_load">客户用电量（合同量不随储能变）</option></select></label>
+ </div>
+ <div class="runner-steps">
+  <div><b>L1 · 中长期合同</b><p>年 → 月 → 旬，锁定已成交仓位</p><button data-node="ANNUAL">年度</button><button data-node="MONTHLY">月度</button><button data-node="TEN_DAY">旬内</button><button data-node="L1">整层计算</button></div>
+  <div><b>L2 · 滚动撮合</b><p>价格阈值与现货边际价值筛选订单</p><button data-node="D-3">D-3</button><button data-node="D-2">D-2</button><button data-node="L2">整层计算</button></div>
+  <div><b>L3-A · 日前现货</b><p>96点申报；完成后固定申报曲线</p><button data-node="L3-A">计算日前申报</button></div>
+  <div><b>L3-B · 储能调度</b><p>套利、偏差考核与退化费用一起优化</p><button data-node="STORAGE-DA">日前储能计划</button><button data-node="STORAGE-RT">日内滚动</button></div>
+ </div>
+ <div class="runner-bottom"><button class="runner-primary" data-node="CHAIN">运行完整事前链路</button><span>储能按8条代表场景快速求解，所有原场景回算风险；可在高级输入中调至64。</span></div>
+ <details class="runner-advanced"><summary>手动参数、96点预测与日内实绩</summary>
+  <p>下方 JSON 可覆盖参数。前置来源选择“手动”时，可同时粘贴完整上游 JSON；留空使用预置值。日内 fixed_until 表示已经执行的点数，需提供等长负荷、电价及充放电/SOC实绩。未来只输入预测。</p>
+  <label>本节点输入<textarea id="runner-input" rows="6" spellcheck="false" placeholder='{"scenario_count":64,"storage":{"optimization_scenario_count":8,"hard_deviation":false}}'></textarea></label>
+  <label>手动上游结果<textarea id="runner-manual" rows="4" spellcheck="false" placeholder="粘贴前一节点输出 JSON，或在参数中输入 fills / declaration_mwh"></textarea></label>
+  <button id="runner-example">填入日内输入示例</button><span>示例使用静置储能实绩演示，需按实际已执行动作修改。</span>
+ </details>
+ <div id="runner-progress-box" class="runner-progress-box" hidden><div class="runner-progress-title"><b id="runner-status">等待开始</b><span id="runner-elapsed">0.0 秒</span></div><progress id="runner-progress" max="100" value="0"></progress><p id="runner-message"></p><p class="runner-note">进度按已完成的建模/求解阶段计算；MILP求解期间保持当前阶段，耗时持续更新。</p><details><summary>运算记录与结果文件</summary><pre id="runner-log"></pre><a id="runner-download" hidden>下载本次完整JSON</a></details><a id="runner-view" hidden>查看本次结果</a></div>
+</section>

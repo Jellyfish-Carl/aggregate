@@ -1,0 +1,70 @@
+{
+  "case_id": "20260928-154230-5b5abcd7",
+  "source": "MOCK_REPLAY",
+  "stages": [
+    {
+      "node": "ANNUAL",
+      "status": "OPTIMAL",
+      "elapsed_seconds": 0.035945333000000024,
+      "milp_executed": true
+    },
+    {
+      "node": "MONTHLY",
+      "status": "OPTIMAL",
+      "elapsed_seconds": 0.031583125000000045,
+      "milp_executed": true
+    },
+    {
+      "node": "TEN_DAY",
+      "status": "OPTIMAL",
+      "elapsed_seconds": 0.029340833999999982,
+      "milp_executed": true
+    },
+    {
+      "node": "D-3",
+      "status": "EXECUTED",
+      "elapsed_seconds": 0.851694292,
+      "milp_executed": false
+    },
+    {
+      "node": "D-2",
+      "status": "EXECUTED",
+      "elapsed_seconds": 1.4836861250000002,
+      "milp_executed": false
+    },
+    {
+      "node": "L3-A",
+      "status": "OPTIMAL",
+      "elapsed_seconds": 2.0388526670000005,
+      "milp_executed": true,
+      "charge_mwh": 0.0,
+      "discharge_mwh": 0.0,
+      "rt_simultaneous": 0,
+      "storage_simultaneous": 0
+    },
+    {
+      "node": "STORAGE-DA",
+      "status": "OPTIMAL",
+      "elapsed_seconds": 0.49626929099999995,
+      "milp_executed": true,
+      "charge_mwh": 8.9302174885884,
+      "discharge_mwh": 7.558536082341221,
+      "rt_simultaneous": 0,
+      "storage_simultaneous": 0
+    }
+  ],
+  "settlement_checks": {
+    "max_energy_balance_residual_mwh": 8.881784197001252e-16,
+    "max_soc_recursion_residual_mwh": 6.661338147750939e-16,
+    "terminal_soc_residual_mwh": 0.0,
+    "max_wholesale_ledger_residual_yuan": 8.731149137020111e-11,
+    "customer_cost_reconciliation_yuan": 0.0,
+    "customer_revenue_reconciliation_yuan": -5.820766091346741e-11,
+    "expected_profit_reconciliation_yuan": 0.0
+  },
+  "python_regression_cases": 33,
+  "dom_checks": "simulated DOM/API: case workflow, independent workbench, report",
+  "standalone_build": "45 imported modules from standalone build, real HiGHS MILP OPTIMAL, no sibling pifa",
+  "http_browser_verified": false,
+  "http_blocker": "Sandbox blocks listener; automatic approval review failed: gpt-5.6-luna is not supported"
+}

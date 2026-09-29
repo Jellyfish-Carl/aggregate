@@ -1,0 +1,2715 @@
+{
+  "case_id": "20260928-154230-5b5abcd7",
+  "target_date": "2026-10-28",
+  "source": "MOCK_REPLAY",
+  "settlement_scope": "目标日实际现金流；合同覆盖考核按目标日48点等效口径，非正式月结",
+  "procurement_cost_yuan": 150550.88426998453,
+  "retail_revenue_yuan": 163032.98750026975,
+  "profit_yuan": 12482.103230285225,
+  "spread_yuan_per_mwh": 33.28792190274669,
+  "tou_baseline_bill_yuan": 203808.43693999993,
+  "customer_saving_yuan": 40775.449439730175,
+  "customers": [
+    {
+      "customer_id": "C1",
+      "package": "F",
+      "energy_mwh": 114.51915499999998,
+      "tou_bill_yuan": 62232.72827,
+      "actual_bill_yuan": 52106.215525,
+      "saving_yuan": 10126.512745,
+      "saving_ratio": 0.16272005143444115,
+      "allocated_cost_yuan": 45981.25334327889,
+      "allocated_revenue_yuan": 49791.1722700069,
+      "company_profit_on_customer_yuan": 6124.962181721108,
+      "spread_yuan_per_mwh": 53.48417198608485,
+      "cost_breakdown": {
+        "annual_energy_cost_yuan": 37063.98735588372,
+        "monthly_energy_cost_yuan": 7141.250741836759,
+        "ten_day_energy_cost_yuan": 2159.796176042016,
+        "d3_energy_cost_yuan": -18.727840917889303,
+        "d2_energy_cost_yuan": -11.978508035511519,
+        "day_ahead_cost_yuan": -1231.2342167016113,
+        "real_time_cost_yuan": 665.7691481257098,
+        "deviation_penalty_yuan": 202.3120122898725,
+        "storage_degradation_yuan": 10.078474755831216
+      },
+      "periods": [
+        {
+          "period": 1,
+          "load_mwh": 0.591998,
+          "tou_price": 310.0,
+          "retail_price": 455.0,
+          "bill_yuan": 269.35909000000004,
+          "tou_bill_yuan": 183.51938,
+          "allocated_cost_yuan": 215.3926173902968
+        },
+        {
+          "period": 2,
+          "load_mwh": 0.621237,
+          "tou_price": 310.0,
+          "retail_price": 455.0,
+          "bill_yuan": 282.66283500000003,
+          "tou_bill_yuan": 192.58347,
+          "allocated_cost_yuan": 228.80679124084662
+        },
+        {
+          "period": 3,
+          "load_mwh": 0.592156,
+          "tou_price": 310.0,
+          "retail_price": 455.0,
+          "bill_yuan": 269.43098000000003,
+          "tou_bill_yuan": 183.56836,
+          "allocated_cost_yuan": 214.9357907055641
+        },
+        {
+          "period": 4,
+          "load_mwh": 0.618288,
+          "tou_price": 310.0,
+          "retail_price": 455.0,
+          "bill_yuan": 281.32104,
+          "tou_bill_yuan": 191.66928,
+          "allocated_cost_yuan": 230.83803830074731
+        },
+        {
+          "period": 5,
+          "load_mwh": 0.61303,
+          "tou_price": 310.0,
+          "retail_price": 455.0,
+          "bill_yuan": 278.92865,
+          "tou_bill_yuan": 190.0393,
+          "allocated_cost_yuan": 232.94944476000597
+        },
+        {
+          "period": 6,
+          "load_mwh": 0.609944,
+          "tou_price": 310.0,
+          "retail_price": 455.0,
+          "bill_yuan": 277.52452,
+          "tou_bill_yuan": 189.08264000000003,
+          "allocated_cost_yuan": 227.95594590756124
+        },
+        {
+          "period": 7,
+          "load_mwh": 0.600908,
+          "tou_price": 310.0,
+          "retail_price": 455.0,
+          "bill_yuan": 273.41314,
+          "tou_bill_yuan": 186.28148,
+          "allocated_cost_yuan": 226.54638555274624
+        },
+        {
+          "period": 8,
+          "load_mwh": 0.603475,
+          "tou_price": 310.0,
+          "retail_price": 455.0,
+          "bill_yuan": 274.581125,
+          "tou_bill_yuan": 187.07725,
+          "allocated_cost_yuan": 232.07703279490053
+        },
+        {
+          "period": 9,
+          "load_mwh": 0.614007,
+          "tou_price": 310.0,
+          "retail_price": 455.0,
+          "bill_yuan": 279.373185,
+          "tou_bill_yuan": 190.34216999999998,
+          "allocated_cost_yuan": 233.82443007110282
+        },
+        {
+          "period": 10,
+          "load_mwh": 0.611094,
+          "tou_price": 310.0,
+          "retail_price": 455.0,
+          "bill_yuan": 278.04777,
+          "tou_bill_yuan": 189.43914,
+          "allocated_cost_yuan": 236.76389392810842
+        },
+        {
+          "period": 11,
+          "load_mwh": 0.622519,
+          "tou_price": 310.0,
+          "retail_price": 455.0,
+          "bill_yuan": 283.246145,
+          "tou_bill_yuan": 192.98089000000002,
+          "allocated_cost_yuan": 235.6123306227543
+        },
+        {
+          "period": 12,
+          "load_mwh": 0.623508,
+          "tou_price": 310.0,
+          "retail_price": 455.0,
+          "bill_yuan": 283.69613999999996,
+          "tou_bill_yuan": 193.28748,
+          "allocated_cost_yuan": 233.53722663962807
+        },
+        {
+          "period": 13,
+          "load_mwh": 0.602601,
+          "tou_price": 310.0,
+          "retail_price": 455.0,
+          "bill_yuan": 274.18345500000004,
+          "tou_bill_yuan": 186.80631000000002,
+          "allocated_cost_yuan": 226.65927415252
+        },
+        {
+          "period": 14,
+          "load_mwh": 0.620252,
+          "tou_price": 310.0,
+          "retail_price": 455.0,
+          "bill_yuan": 282.21466000000004,
+          "tou_bill_yuan": 192.27812,
+          "allocated_cost_yuan": 231.68176093256272
+        },
+        {
+          "period": 15,
+          "load_mwh": 0.610396,
+          "tou_price": 310.0,
+          "retail_price": 455.0,
+          "bill_yuan": 277.73018,
+          "tou_bill_yuan": 189.22276000000002,
+          "allocated_cost_yuan": 229.0941105959671
+        },
+        {
+          "period": 16,
+          "load_mwh": 0.609485,
+          "tou_price": 310.0,
+          "retail_price": 455.0,
+          "bill_yuan": 277.315675,
+          "tou_bill_yuan": 188.94035000000002,
+          "allocated_cost_yuan": 248.28971587738644
+        },
+        {
+          "period": 17,
+          "load_mwh": 0.627864,
+          "tou_price": 310.0,
+          "retail_price": 455.0,
+          "bill_yuan": 285.67812,
+          "tou_bill_yuan": 194.63783999999998,
+          "allocated_cost_yuan": 256.0684966495056
+        },
+        {
+          "period": 18,
+          "load_mwh": 0.611361,
+          "tou_price": 310.0,
+          "retail_price": 455.0,
+          "bill_yuan": 278.169255,
+          "tou_bill_yuan": 189.52191000000002,
+          "allocated_cost_yuan": 249.02160750500414
+        },
+        {
+          "period": 19,
+          "load_mwh": 0.626354,
+          "tou_price": 310.0,
+          "retail_price": 455.0,
+          "bill_yuan": 284.99107,
+          "tou_bill_yuan": 194.16974,
+          "allocated_cost_yuan": 255.07601676837282
+        },
+        {
+          "period": 20,
+          "load_mwh": 0.61218,
+          "tou_price": 310.0,
+          "retail_price": 455.0,
+          "bill_yuan": 278.5419,
+          "tou_bill_yuan": 189.77579999999998,
+          "allocated_cost_yuan": 237.01499978971216
+        },
+        {
+          "period": 21,
+          "load_mwh": 0.610866,
+          "tou_price": 310.0,
+          "retail_price": 455.0,
+          "bill_yuan": 277.94403,
+          "tou_bill_yuan": 189.36846,
+          "allocated_cost_yuan": 248.82678723827618
+        },
+        {
+          "period": 22,
+          "load_mwh": 0.612985,
+          "tou_price": 310.0,
+          "retail_price": 455.0,
+          "bill_yuan": 278.908175,
+          "tou_bill_yuan": 190.02535,
+          "allocated_cost_yuan": 249.32997075475095
+        },
+        {
+          "period": 23,
+          "load_mwh": 0.596871,
+          "tou_price": 310.0,
+          "retail_price": 455.0,
+          "bill_yuan": 271.576305,
+          "tou_bill_yuan": 185.03001,
+          "allocated_cost_yuan": 242.90938143592166
+        },
+        {
+          "period": 24,
+          "load_mwh": 0.608223,
+          "tou_price": 310.0,
+          "retail_price": 455.0,
+          "bill_yuan": 276.741465,
+          "tou_bill_yuan": 188.54913,
+          "allocated_cost_yuan": 248.10724675542414
+        },
+        {
+          "period": 25,
+          "load_mwh": 0.627595,
+          "tou_price": 310.0,
+          "retail_price": 455.0,
+          "bill_yuan": 285.555725,
+          "tou_bill_yuan": 194.55445,
+          "allocated_cost_yuan": 255.33015725291614
+        },
+        {
+          "period": 26,
+          "load_mwh": 0.626137,
+          "tou_price": 310.0,
+          "retail_price": 455.0,
+          "bill_yuan": 284.892335,
+          "tou_bill_yuan": 194.10247,
+          "allocated_cost_yuan": 254.8077451842532
+        },
+        {
+          "period": 27,
+          "load_mwh": 0.62636,
+          "tou_price": 310.0,
+          "retail_price": 455.0,
+          "bill_yuan": 284.9938,
+          "tou_bill_yuan": 194.1716,
+          "allocated_cost_yuan": 255.15217699287996
+        },
+        {
+          "period": 28,
+          "load_mwh": 0.61279,
+          "tou_price": 310.0,
+          "retail_price": 455.0,
+          "bill_yuan": 278.81944999999996,
+          "tou_bill_yuan": 189.96489999999997,
+          "allocated_cost_yuan": 249.02239695385785
+        },
+        {
+          "period": 29,
+          "load_mwh": 1.008445,
+          "tou_price": 510.0,
+          "retail_price": 455.0,
+          "bill_yuan": 458.84247500000004,
+          "tou_bill_yuan": 514.30695,
+          "allocated_cost_yuan": 410.6136359208443
+        },
+        {
+          "period": 30,
+          "load_mwh": 1.022158,
+          "tou_price": 510.0,
+          "retail_price": 455.0,
+          "bill_yuan": 465.08188999999993,
+          "tou_bill_yuan": 521.30058,
+          "allocated_cost_yuan": 416.85286263384614
+        },
+        {
+          "period": 31,
+          "load_mwh": 1.033853,
+          "tou_price": 510.0,
+          "retail_price": 455.0,
+          "bill_yuan": 470.40311499999996,
+          "tou_bill_yuan": 527.2650299999999,
+          "allocated_cost_yuan": 421.11656191411527
+        },
+        {
+          "period": 32,
+          "load_mwh": 1.013779,
+          "tou_price": 510.0,
+          "retail_price": 455.0,
+          "bill_yuan": 461.269445,
+          "tou_bill_yuan": 517.02729,
+          "allocated_cost_yuan": 412.2292008996637
+        },
+        {
+          "period": 33,
+          "load_mwh": 1.714933,
+          "tou_price": 510.0,
+          "retail_price": 455.0,
+          "bill_yuan": 780.294515,
+          "tou_bill_yuan": 874.6158300000001,
+          "allocated_cost_yuan": 624.0535680176258
+        },
+        {
+          "period": 34,
+          "load_mwh": 1.718759,
+          "tou_price": 510.0,
+          "retail_price": 455.0,
+          "bill_yuan": 782.035345,
+          "tou_bill_yuan": 876.56709,
+          "allocated_cost_yuan": 617.905366721729
+        },
+        {
+          "period": 35,
+          "load_mwh": 1.764653,
+          "tou_price": 510.0,
+          "retail_price": 455.0,
+          "bill_yuan": 802.917115,
+          "tou_bill_yuan": 899.97303,
+          "allocated_cost_yuan": 644.5643011703098
+        },
+        {
+          "period": 36,
+          "load_mwh": 1.717949,
+          "tou_price": 510.0,
+          "retail_price": 455.0,
+          "bill_yuan": 781.666795,
+          "tou_bill_yuan": 876.15399,
+          "allocated_cost_yuan": 646.2901445637219
+        },
+        {
+          "period": 37,
+          "load_mwh": 1.774002,
+          "tou_price": 730.0,
+          "retail_price": 455.0,
+          "bill_yuan": 807.17091,
+          "tou_bill_yuan": 1295.0214600000002,
+          "allocated_cost_yuan": 674.7442305708627
+        },
+        {
+          "period": 38,
+          "load_mwh": 1.705558,
+          "tou_price": 730.0,
+          "retail_price": 455.0,
+          "bill_yuan": 776.0288899999999,
+          "tou_bill_yuan": 1245.0573399999998,
+          "allocated_cost_yuan": 626.6072872264659
+        },
+        {
+          "period": 39,
+          "load_mwh": 1.762901,
+          "tou_price": 730.0,
+          "retail_price": 455.0,
+          "bill_yuan": 802.119955,
+          "tou_bill_yuan": 1286.9177300000001,
+          "allocated_cost_yuan": 663.6694587714447
+        },
+        {
+          "period": 40,
+          "load_mwh": 1.727145,
+          "tou_price": 730.0,
+          "retail_price": 455.0,
+          "bill_yuan": 785.850975,
+          "tou_bill_yuan": 1260.81585,
+          "allocated_cost_yuan": 647.403590198499
+        },
+        {
+          "period": 41,
+          "load_mwh": 1.691117,
+          "tou_price": 730.0,
+          "retail_price": 455.0,
+          "bill_yuan": 769.458235,
+          "tou_bill_yuan": 1234.51541,
+          "allocated_cost_yuan": 682.5216142804721
+        },
+        {
+          "period": 42,
+          "load_mwh": 1.760224,
+          "tou_price": 730.0,
+          "retail_price": 455.0,
+          "bill_yuan": 800.90192,
+          "tou_bill_yuan": 1284.96352,
+          "allocated_cost_yuan": 776.722550467239
+        },
+        {
+          "period": 43,
+          "load_mwh": 1.766654,
+          "tou_price": 730.0,
+          "retail_price": 455.0,
+          "bill_yuan": 803.8275699999999,
+          "tou_bill_yuan": 1289.65742,
+          "allocated_cost_yuan": 751.0762756175914
+        },
+        {
+          "period": 44,
+          "load_mwh": 1.724265,
+          "tou_price": 730.0,
+          "retail_price": 455.0,
+          "bill_yuan": 784.540575,
+          "tou_bill_yuan": 1258.71345,
+          "allocated_cost_yuan": 729.0531127165681
+        },
+        {
+          "period": 45,
+          "load_mwh": 1.721531,
+          "tou_price": 510.0,
+          "retail_price": 455.0,
+          "bill_yuan": 783.296605,
+          "tou_bill_yuan": 877.9808099999999,
+          "allocated_cost_yuan": 719.8176500035271
+        },
+        {
+          "period": 46,
+          "load_mwh": 1.717323,
+          "tou_price": 510.0,
+          "retail_price": 455.0,
+          "bill_yuan": 781.3819649999999,
+          "tou_bill_yuan": 875.8347299999999,
+          "allocated_cost_yuan": 721.7035309517026
+        },
+        {
+          "period": 47,
+          "load_mwh": 1.732188,
+          "tou_price": 510.0,
+          "retail_price": 455.0,
+          "bill_yuan": 788.14554,
+          "tou_bill_yuan": 883.41588,
+          "allocated_cost_yuan": 730.1190316045095
+        },
+        {
+          "period": 48,
+          "load_mwh": 1.698552,
+          "tou_price": 510.0,
+          "retail_price": 455.0,
+          "bill_yuan": 772.8411600000001,
+          "tou_bill_yuan": 866.26152,
+          "allocated_cost_yuan": 731.0152395757798
+        },
+        {
+          "period": 49,
+          "load_mwh": 1.717266,
+          "tou_price": 510.0,
+          "retail_price": 455.0,
+          "bill_yuan": 781.35603,
+          "tou_bill_yuan": 875.80566,
+          "allocated_cost_yuan": 739.954214763425
+        },
+        {
+          "period": 50,
+          "load_mwh": 1.687886,
+          "tou_price": 510.0,
+          "retail_price": 455.0,
+          "bill_yuan": 767.98813,
+          "tou_bill_yuan": 860.82186,
+          "allocated_cost_yuan": 719.5628093736977
+        },
+        {
+          "period": 51,
+          "load_mwh": 1.683185,
+          "tou_price": 510.0,
+          "retail_price": 455.0,
+          "bill_yuan": 765.849175,
+          "tou_bill_yuan": 858.42435,
+          "allocated_cost_yuan": 727.8847778225683
+        },
+        {
+          "period": 52,
+          "load_mwh": 1.715918,
+          "tou_price": 510.0,
+          "retail_price": 455.0,
+          "bill_yuan": 780.74269,
+          "tou_bill_yuan": 875.11818,
+          "allocated_cost_yuan": 705.4578268284527
+        },
+        {
+          "period": 53,
+          "load_mwh": 1.711503,
+          "tou_price": 510.0,
+          "retail_price": 455.0,
+          "bill_yuan": 778.733865,
+          "tou_bill_yuan": 872.86653,
+          "allocated_cost_yuan": 722.902890912569
+        },
+        {
+          "period": 54,
+          "load_mwh": 1.75861,
+          "tou_price": 510.0,
+          "retail_price": 455.0,
+          "bill_yuan": 800.16755,
+          "tou_bill_yuan": 896.8911,
+          "allocated_cost_yuan": 728.9453882144863
+        },
+        {
+          "period": 55,
+          "load_mwh": 1.775448,
+          "tou_price": 510.0,
+          "retail_price": 455.0,
+          "bill_yuan": 807.82884,
+          "tou_bill_yuan": 905.47848,
+          "allocated_cost_yuan": 738.7789216582709
+        },
+        {
+          "period": 56,
+          "load_mwh": 1.694882,
+          "tou_price": 510.0,
+          "retail_price": 455.0,
+          "bill_yuan": 771.17131,
+          "tou_bill_yuan": 864.38982,
+          "allocated_cost_yuan": 741.6742102559075
+        },
+        {
+          "period": 57,
+          "load_mwh": 1.697635,
+          "tou_price": 510.0,
+          "retail_price": 455.0,
+          "bill_yuan": 772.423925,
+          "tou_bill_yuan": 865.79385,
+          "allocated_cost_yuan": 698.4670655637096
+        },
+        {
+          "period": 58,
+          "load_mwh": 1.768384,
+          "tou_price": 510.0,
+          "retail_price": 455.0,
+          "bill_yuan": 804.61472,
+          "tou_bill_yuan": 901.8758399999999,
+          "allocated_cost_yuan": 772.4399468290017
+        },
+        {
+          "period": 59,
+          "load_mwh": 1.680728,
+          "tou_price": 510.0,
+          "retail_price": 455.0,
+          "bill_yuan": 764.73124,
+          "tou_bill_yuan": 857.17128,
+          "allocated_cost_yuan": 735.8231992515571
+        },
+        {
+          "period": 60,
+          "load_mwh": 1.727474,
+          "tou_price": 510.0,
+          "retail_price": 455.0,
+          "bill_yuan": 786.00067,
+          "tou_bill_yuan": 881.01174,
+          "allocated_cost_yuan": 767.8039219481909
+        },
+        {
+          "period": 61,
+          "load_mwh": 1.726777,
+          "tou_price": 510.0,
+          "retail_price": 455.0,
+          "bill_yuan": 785.683535,
+          "tou_bill_yuan": 880.65627,
+          "allocated_cost_yuan": 702.6833968809945
+        },
+        {
+          "period": 62,
+          "load_mwh": 1.732793,
+          "tou_price": 510.0,
+          "retail_price": 455.0,
+          "bill_yuan": 788.4208150000001,
+          "tou_bill_yuan": 883.72443,
+          "allocated_cost_yuan": 705.7071156389939
+        },
+        {
+          "period": 63,
+          "load_mwh": 1.764447,
+          "tou_price": 510.0,
+          "retail_price": 455.0,
+          "bill_yuan": 802.823385,
+          "tou_bill_yuan": 899.86797,
+          "allocated_cost_yuan": 720.0690291227887
+        },
+        {
+          "period": 64,
+          "load_mwh": 1.698098,
+          "tou_price": 510.0,
+          "retail_price": 455.0,
+          "bill_yuan": 772.63459,
+          "tou_bill_yuan": 866.02998,
+          "allocated_cost_yuan": 690.4959268649462
+        },
+        {
+          "period": 65,
+          "load_mwh": 1.709212,
+          "tou_price": 510.0,
+          "retail_price": 455.0,
+          "bill_yuan": 777.69146,
+          "tou_bill_yuan": 871.69812,
+          "allocated_cost_yuan": 696.2665715795836
+        },
+        {
+          "period": 66,
+          "load_mwh": 1.698542,
+          "tou_price": 510.0,
+          "retail_price": 455.0,
+          "bill_yuan": 772.83661,
+          "tou_bill_yuan": 866.25642,
+          "allocated_cost_yuan": 692.1175378805237
+        },
+        {
+          "period": 67,
+          "load_mwh": 1.679504,
+          "tou_price": 510.0,
+          "retail_price": 455.0,
+          "bill_yuan": 764.1743200000001,
+          "tou_bill_yuan": 856.54704,
+          "allocated_cost_yuan": 629.0900830673038
+        },
+        {
+          "period": 68,
+          "load_mwh": 1.683703,
+          "tou_price": 510.0,
+          "retail_price": 455.0,
+          "bill_yuan": 766.0848649999999,
+          "tou_bill_yuan": 858.68853,
+          "allocated_cost_yuan": 670.0293495827386
+        },
+        {
+          "period": 69,
+          "load_mwh": 1.729548,
+          "tou_price": 730.0,
+          "retail_price": 455.0,
+          "bill_yuan": 786.94434,
+          "tou_bill_yuan": 1262.57004,
+          "allocated_cost_yuan": 651.4605008390923
+        },
+        {
+          "period": 70,
+          "load_mwh": 1.678393,
+          "tou_price": 730.0,
+          "retail_price": 455.0,
+          "bill_yuan": 763.668815,
+          "tou_bill_yuan": 1225.22689,
+          "allocated_cost_yuan": 660.5770128214324
+        },
+        {
+          "period": 71,
+          "load_mwh": 1.723052,
+          "tou_price": 730.0,
+          "retail_price": 455.0,
+          "bill_yuan": 783.98866,
+          "tou_bill_yuan": 1257.82796,
+          "allocated_cost_yuan": 683.190352697548
+        },
+        {
+          "period": 72,
+          "load_mwh": 1.755968,
+          "tou_price": 730.0,
+          "retail_price": 455.0,
+          "bill_yuan": 798.96544,
+          "tou_bill_yuan": 1281.85664,
+          "allocated_cost_yuan": 638.537527509924
+        },
+        {
+          "period": 73,
+          "load_mwh": 1.006303,
+          "tou_price": 730.0,
+          "retail_price": 455.0,
+          "bill_yuan": 457.867865,
+          "tou_bill_yuan": 734.60119,
+          "allocated_cost_yuan": 393.4997058941399
+        },
+        {
+          "period": 74,
+          "load_mwh": 1.022913,
+          "tou_price": 730.0,
+          "retail_price": 455.0,
+          "bill_yuan": 465.425415,
+          "tou_bill_yuan": 746.72649,
+          "allocated_cost_yuan": 397.7474019285088
+        },
+        {
+          "period": 75,
+          "load_mwh": 0.990407,
+          "tou_price": 730.0,
+          "retail_price": 455.0,
+          "bill_yuan": 450.63518500000004,
+          "tou_bill_yuan": 722.99711,
+          "allocated_cost_yuan": 382.4562901156231
+        },
+        {
+          "period": 76,
+          "load_mwh": 1.041311,
+          "tou_price": 730.0,
+          "retail_price": 455.0,
+          "bill_yuan": 473.796505,
+          "tou_bill_yuan": 760.1570300000001,
+          "allocated_cost_yuan": 410.37177857812657
+        },
+        {
+          "period": 77,
+          "load_mwh": 0.993761,
+          "tou_price": 730.0,
+          "retail_price": 455.0,
+          "bill_yuan": 452.161255,
+          "tou_bill_yuan": 725.44553,
+          "allocated_cost_yuan": 386.1104017016532
+        },
+        {
+          "period": 78,
+          "load_mwh": 1.031897,
+          "tou_price": 730.0,
+          "retail_price": 455.0,
+          "bill_yuan": 469.51313500000003,
+          "tou_bill_yuan": 753.28481,
+          "allocated_cost_yuan": 403.8249710106419
+        },
+        {
+          "period": 79,
+          "load_mwh": 0.998038,
+          "tou_price": 730.0,
+          "retail_price": 455.0,
+          "bill_yuan": 454.10729,
+          "tou_bill_yuan": 728.56774,
+          "allocated_cost_yuan": 382.51009833458227
+        },
+        {
+          "period": 80,
+          "load_mwh": 1.034645,
+          "tou_price": 730.0,
+          "retail_price": 455.0,
+          "bill_yuan": 470.763475,
+          "tou_bill_yuan": 755.29085,
+          "allocated_cost_yuan": 405.9271006685934
+        },
+        {
+          "period": 81,
+          "load_mwh": 1.014409,
+          "tou_price": 730.0,
+          "retail_price": 455.0,
+          "bill_yuan": 461.55609499999997,
+          "tou_bill_yuan": 740.51857,
+          "allocated_cost_yuan": 385.1395789263708
+        },
+        {
+          "period": 82,
+          "load_mwh": 1.038069,
+          "tou_price": 730.0,
+          "retail_price": 455.0,
+          "bill_yuan": 472.32139499999994,
+          "tou_bill_yuan": 757.7903699999999,
+          "allocated_cost_yuan": 407.8681793655308
+        },
+        {
+          "period": 83,
+          "load_mwh": 1.002955,
+          "tou_price": 730.0,
+          "retail_price": 455.0,
+          "bill_yuan": 456.34452500000003,
+          "tou_bill_yuan": 732.15715,
+          "allocated_cost_yuan": 389.55638881083723
+        },
+        {
+          "period": 84,
+          "load_mwh": 1.030356,
+          "tou_price": 730.0,
+          "retail_price": 455.0,
+          "bill_yuan": 468.81198,
+          "tou_bill_yuan": 752.15988,
+          "allocated_cost_yuan": 404.39875372405794
+        },
+        {
+          "period": 85,
+          "load_mwh": 0.991005,
+          "tou_price": 510.0,
+          "retail_price": 455.0,
+          "bill_yuan": 450.907275,
+          "tou_bill_yuan": 505.41255,
+          "allocated_cost_yuan": 404.11525377722984
+        },
+        {
+          "period": 86,
+          "load_mwh": 1.019409,
+          "tou_price": 510.0,
+          "retail_price": 455.0,
+          "bill_yuan": 463.831095,
+          "tou_bill_yuan": 519.89859,
+          "allocated_cost_yuan": 415.19053151882633
+        },
+        {
+          "period": 87,
+          "load_mwh": 1.031045,
+          "tou_price": 510.0,
+          "retail_price": 455.0,
+          "bill_yuan": 469.125475,
+          "tou_bill_yuan": 525.83295,
+          "allocated_cost_yuan": 419.54699046189364
+        },
+        {
+          "period": 88,
+          "load_mwh": 1.00032,
+          "tou_price": 510.0,
+          "retail_price": 455.0,
+          "bill_yuan": 455.14560000000006,
+          "tou_bill_yuan": 510.1632000000001,
+          "allocated_cost_yuan": 407.25865241618516
+        },
+        {
+          "period": 89,
+          "load_mwh": 1.017735,
+          "tou_price": 510.0,
+          "retail_price": 455.0,
+          "bill_yuan": 463.069425,
+          "tou_bill_yuan": 519.04485,
+          "allocated_cost_yuan": 414.11186379049997
+        },
+        {
+          "period": 90,
+          "load_mwh": 1.032297,
+          "tou_price": 510.0,
+          "retail_price": 455.0,
+          "bill_yuan": 469.695135,
+          "tou_bill_yuan": 526.47147,
+          "allocated_cost_yuan": 420.28228439441034
+        },
+        {
+          "period": 91,
+          "load_mwh": 1.01189,
+          "tou_price": 510.0,
+          "retail_price": 455.0,
+          "bill_yuan": 460.40995,
+          "tou_bill_yuan": 516.0639,
+          "allocated_cost_yuan": 412.5621911855578
+        },
+        {
+          "period": 92,
+          "load_mwh": 0.986303,
+          "tou_price": 510.0,
+          "retail_price": 455.0,
+          "bill_yuan": 448.76786500000003,
+          "tou_bill_yuan": 503.01453000000004,
+          "allocated_cost_yuan": 401.1413642820288
+        },
+        {
+          "period": 93,
+          "load_mwh": 1.043389,
+          "tou_price": 510.0,
+          "retail_price": 455.0,
+          "bill_yuan": 474.741995,
+          "tou_bill_yuan": 532.12839,
+          "allocated_cost_yuan": 425.1996377656263
+        },
+        {
+          "period": 94,
+          "load_mwh": 1.003132,
+          "tou_price": 510.0,
+          "retail_price": 455.0,
+          "bill_yuan": 456.42506,
+          "tou_bill_yuan": 511.59731999999997,
+          "allocated_cost_yuan": 408.3821541792547
+        },
+        {
+          "period": 95,
+          "load_mwh": 1.017013,
+          "tou_price": 510.0,
+          "retail_price": 455.0,
+          "bill_yuan": 462.740915,
+          "tou_bill_yuan": 518.6766299999999,
+          "allocated_cost_yuan": 415.04718921709326
+        },
+        {
+          "period": 96,
+          "load_mwh": 1.021124,
+          "tou_price": 510.0,
+          "retail_price": 455.0,
+          "bill_yuan": 464.61141999999995,
+          "tou_bill_yuan": 520.77324,
+          "allocated_cost_yuan": 415.37401674382
+        }
+      ]
+    },
+    {
+      "customer_id": "C2",
+      "package": "S",
+      "energy_mwh": 125.86517800000007,
+      "tou_bill_yuan": 68427.22723999995,
+      "actual_bill_yuan": 52923.07207287706,
+      "saving_yuan": 15504.155167122888,
+      "saving_ratio": 0.2265787434692334,
+      "allocated_cost_yuan": 50533.71368007909,
+      "allocated_revenue_yuan": 54723.558941572075,
+      "company_profit_on_customer_yuan": 2389.3583927979707,
+      "spread_yuan_per_mwh": 18.98347446660719,
+      "cost_breakdown": {
+        "annual_energy_cost_yuan": 40735.06821089653,
+        "monthly_energy_cost_yuan": 7848.571015757414,
+        "ten_day_energy_cost_yuan": 2374.9129968408697,
+        "d3_energy_cost_yuan": -20.671438417102532,
+        "d2_energy_cost_yuan": -13.222206156732106,
+        "day_ahead_cost_yuan": -1351.2122615580647,
+        "real_time_cost_yuan": 725.7892856384801,
+        "deviation_penalty_yuan": 223.401410827486,
+        "storage_degradation_yuan": 11.076666250211412
+      },
+      "periods": [
+        {
+          "period": 1,
+          "load_mwh": 0.666994,
+          "tou_price": 310.0,
+          "retail_price": 420.40453127692933,
+          "bill_yuan": 280.4072999345242,
+          "tou_bill_yuan": 206.76814,
+          "allocated_cost_yuan": 242.6791702735881
+        },
+        {
+          "period": 2,
+          "load_mwh": 0.651498,
+          "tou_price": 310.0,
+          "retail_price": 421.28991597957065,
+          "bill_yuan": 274.4695376808583,
+          "tou_bill_yuan": 201.96438,
+          "allocated_cost_yuan": 239.95217103911887
+        },
+        {
+          "period": 3,
+          "load_mwh": 0.690157,
+          "tou_price": 310.0,
+          "retail_price": 421.5855390695163,
+          "bill_yuan": 290.96021088760017,
+          "tou_bill_yuan": 213.94867,
+          "allocated_cost_yuan": 250.50736715659386
+        },
+        {
+          "period": 4,
+          "load_mwh": 0.672668,
+          "tou_price": 310.0,
+          "retail_price": 421.14587086125374,
+          "bill_yuan": 283.29135066049787,
+          "tou_bill_yuan": 208.52708,
+          "allocated_cost_yuan": 251.14083007868035
+        },
+        {
+          "period": 5,
+          "load_mwh": 0.669405,
+          "tou_price": 310.0,
+          "retail_price": 420.37993858225605,
+          "bill_yuan": 281.4044327866551,
+          "tou_bill_yuan": 207.51555000000002,
+          "allocated_cost_yuan": 254.37176495370832
+        },
+        {
+          "period": 6,
+          "load_mwh": 0.677743,
+          "tou_price": 310.0,
+          "retail_price": 420.9516922786104,
+          "bill_yuan": 285.29706277998224,
+          "tou_bill_yuan": 210.10032999999999,
+          "allocated_cost_yuan": 253.29464122481454
+        },
+        {
+          "period": 7,
+          "load_mwh": 0.668554,
+          "tou_price": 310.0,
+          "retail_price": 421.363971760376,
+          "bill_yuan": 281.7045687762864,
+          "tou_bill_yuan": 207.25173999999998,
+          "allocated_cost_yuan": 252.04938567439729
+        },
+        {
+          "period": 8,
+          "load_mwh": 0.679985,
+          "tou_price": 310.0,
+          "retail_price": 421.4530459765441,
+          "bill_yuan": 286.58174946836033,
+          "tou_bill_yuan": 210.79534999999998,
+          "allocated_cost_yuan": 261.5003125979377
+        },
+        {
+          "period": 9,
+          "load_mwh": 0.673729,
+          "tou_price": 310.0,
+          "retail_price": 420.9408768146525,
+          "bill_yuan": 283.600075995459,
+          "tou_bill_yuan": 208.85599000000002,
+          "allocated_cost_yuan": 256.5675952348655
+        },
+        {
+          "period": 10,
+          "load_mwh": 0.682548,
+          "tou_price": 310.0,
+          "retail_price": 421.45661303076156,
+          "bill_yuan": 287.6643683109203,
+          "tou_bill_yuan": 211.58988000000002,
+          "allocated_cost_yuan": 264.44822281489024
+        },
+        {
+          "period": 11,
+          "load_mwh": 0.667167,
+          "tou_price": 310.0,
+          "retail_price": 421.0552836623407,
+          "bill_yuan": 280.9141904351528,
+          "tou_bill_yuan": 206.82177,
+          "allocated_cost_yuan": 252.5108017339087
+        },
+        {
+          "period": 12,
+          "load_mwh": 0.66836,
+          "tou_price": 310.0,
+          "retail_price": 420.4766936764071,
+          "bill_yuan": 281.02980298556344,
+          "tou_bill_yuan": 207.1916,
+          "allocated_cost_yuan": 250.33670906686334
+        },
+        {
+          "period": 13,
+          "load_mwh": 0.678488,
+          "tou_price": 310.0,
+          "retail_price": 421.3449978710553,
+          "bill_yuan": 285.8775249155365,
+          "tou_bill_yuan": 210.33128,
+          "allocated_cost_yuan": 255.2030242253082
+        },
+        {
+          "period": 14,
+          "load_mwh": 0.677058,
+          "tou_price": 310.0,
+          "retail_price": 420.83238614549293,
+          "bill_yuan": 284.9279336988952,
+          "tou_bill_yuan": 209.88798000000003,
+          "allocated_cost_yuan": 252.90041740047442
+        },
+        {
+          "period": 15,
+          "load_mwh": 0.67678,
+          "tou_price": 310.0,
+          "retail_price": 421.6503398407809,
+          "bill_yuan": 285.3645169974437,
+          "tou_bill_yuan": 209.80180000000001,
+          "allocated_cost_yuan": 254.00938434907602
+        },
+        {
+          "period": 16,
+          "load_mwh": 0.657799,
+          "tou_price": 310.0,
+          "retail_price": 420.38589591801815,
+          "bill_yuan": 276.52942194897645,
+          "tou_bill_yuan": 203.91769,
+          "allocated_cost_yuan": 267.9716921900111
+        },
+        {
+          "period": 17,
+          "load_mwh": 0.651027,
+          "tou_price": 310.0,
+          "retail_price": 421.24781814908624,
+          "bill_yuan": 274.24370330614516,
+          "tou_bill_yuan": 201.81837000000002,
+          "allocated_cost_yuan": 265.51531090847334
+        },
+        {
+          "period": 18,
+          "load_mwh": 0.68563,
+          "tou_price": 310.0,
+          "retail_price": 420.4592278485677,
+          "bill_yuan": 288.27946038981344,
+          "tou_bill_yuan": 212.5453,
+          "allocated_cost_yuan": 279.27310501267823
+        },
+        {
+          "period": 19,
+          "load_mwh": 0.68117,
+          "tou_price": 310.0,
+          "retail_price": 421.1223022609827,
+          "bill_yuan": 286.85587863111357,
+          "tou_bill_yuan": 211.16270000000003,
+          "allocated_cost_yuan": 277.39925081042435
+        },
+        {
+          "period": 20,
+          "load_mwh": 0.67689,
+          "tou_price": 310.0,
+          "retail_price": 421.5497039535624,
+          "bill_yuan": 285.34277910912687,
+          "tou_bill_yuan": 209.8359,
+          "allocated_cost_yuan": 262.0684818315827
+        },
+        {
+          "period": 21,
+          "load_mwh": 0.652371,
+          "tou_price": 310.0,
+          "retail_price": 420.5659151736628,
+          "bill_yuan": 274.3650066477576,
+          "tou_bill_yuan": 202.23501000000002,
+          "allocated_cost_yuan": 265.7332050194666
+        },
+        {
+          "period": 22,
+          "load_mwh": 0.655832,
+          "tou_price": 310.0,
+          "retail_price": 420.36082712847167,
+          "bill_yuan": 275.6860819773198,
+          "tou_bill_yuan": 203.30792,
+          "allocated_cost_yuan": 266.7578707146664
+        },
+        {
+          "period": 23,
+          "load_mwh": 0.668156,
+          "tou_price": 310.0,
+          "retail_price": 420.6224570525235,
+          "bill_yuan": 281.0414184143859,
+          "tou_bill_yuan": 207.12836,
+          "allocated_cost_yuan": 271.9203323041321
+        },
+        {
+          "period": 24,
+          "load_mwh": 0.651155,
+          "tou_price": 310.0,
+          "retail_price": 421.51880734953073,
+          "bill_yuan": 274.4740789996837,
+          "tou_bill_yuan": 201.85805000000002,
+          "allocated_cost_yuan": 265.62013317652935
+        },
+        {
+          "period": 25,
+          "load_mwh": 0.653379,
+          "tou_price": 310.0,
+          "retail_price": 420.5001755869929,
+          "bill_yuan": 274.7459842248538,
+          "tou_bill_yuan": 202.54749,
+          "allocated_cost_yuan": 265.8200954688184
+        },
+        {
+          "period": 26,
+          "load_mwh": 0.661323,
+          "tou_price": 310.0,
+          "retail_price": 420.6111705239191,
+          "bill_yuan": 278.15984112438974,
+          "tou_bill_yuan": 205.01013,
+          "allocated_cost_yuan": 269.12676054679065
+        },
+        {
+          "period": 27,
+          "load_mwh": 0.67816,
+          "tou_price": 310.0,
+          "retail_price": 420.89329475568144,
+          "bill_yuan": 285.43299677151293,
+          "tou_bill_yuan": 210.2296,
+          "allocated_cost_yuan": 276.2532734361892
+        },
+        {
+          "period": 28,
+          "load_mwh": 0.687595,
+          "tou_price": 310.0,
+          "retail_price": 420.2412357342624,
+          "bill_yuan": 288.9557724847001,
+          "tou_bill_yuan": 213.15445,
+          "allocated_cost_yuan": 279.4212618245857
+        },
+        {
+          "period": 29,
+          "load_mwh": 1.109468,
+          "tou_price": 510.0,
+          "retail_price": 420.79676394533175,
+          "bill_yuan": 466.8605441008993,
+          "tou_bill_yuan": 565.82868,
+          "allocated_cost_yuan": 451.747680258048
+        },
+        {
+          "period": 30,
+          "load_mwh": 1.117565,
+          "tou_price": 510.0,
+          "retail_price": 421.2546935387222,
+          "bill_yuan": 470.7795015846021,
+          "tou_bill_yuan": 569.9581499999999,
+          "allocated_cost_yuan": 455.76140814765847
+        },
+        {
+          "period": 31,
+          "load_mwh": 1.085681,
+          "tou_price": 510.0,
+          "retail_price": 420.9326041117339,
+          "bill_yuan": 456.9985305646313,
+          "tou_bill_yuan": 553.6973099999999,
+          "allocated_cost_yuan": 442.22752176129353
+        },
+        {
+          "period": 32,
+          "load_mwh": 1.118941,
+          "tou_price": 510.0,
+          "retail_price": 420.2925884226662,
+          "bill_yuan": 470.2826091822465,
+          "tou_bill_yuan": 570.65991,
+          "allocated_cost_yuan": 454.99083556067995
+        },
+        {
+          "period": 33,
+          "load_mwh": 1.849607,
+          "tou_price": 510.0,
+          "retail_price": 420.9405793319845,
+          "bill_yuan": 778.5746421164939,
+          "tou_bill_yuan": 943.29957,
+          "allocated_cost_yuan": 673.0606080706225
+        },
+        {
+          "period": 34,
+          "load_mwh": 1.927037,
+          "tou_price": 510.0,
+          "retail_price": 420.97682001155204,
+          "bill_yuan": 811.2379083046012,
+          "tou_bill_yuan": 982.7888700000001,
+          "allocated_cost_yuan": 692.7827020375402
+        },
+        {
+          "period": 35,
+          "load_mwh": 1.94677,
+          "tou_price": 510.0,
+          "retail_price": 421.459828414388,
+          "bill_yuan": 820.4853501622781,
+          "tou_bill_yuan": 992.8526999999999,
+          "allocated_cost_yuan": 711.0850941172708
+        },
+        {
+          "period": 36,
+          "load_mwh": 1.861676,
+          "tou_price": 510.0,
+          "retail_price": 420.32016116486466,
+          "bill_yuan": 782.4999563567607,
+          "tou_bill_yuan": 949.4547600000001,
+          "allocated_cost_yuan": 700.3600521149416
+        },
+        {
+          "period": 37,
+          "load_mwh": 1.950517,
+          "tou_price": 730.0,
+          "retail_price": 421.5940645871601,
+          "bill_yuan": 822.3263900763538,
+          "tou_bill_yuan": 1423.87741,
+          "allocated_cost_yuan": 741.8819665256226
+        },
+        {
+          "period": 38,
+          "load_mwh": 1.933601,
+          "tou_price": 730.0,
+          "retail_price": 420.8597144924626,
+          "bill_yuan": 813.7747648023402,
+          "tou_bill_yuan": 1411.52873,
+          "allocated_cost_yuan": 710.3883170131897
+        },
+        {
+          "period": 39,
+          "load_mwh": 1.870215,
+          "tou_price": 730.0,
+          "retail_price": 420.8806979573841,
+          "bill_yuan": 787.1373945303691,
+          "tou_bill_yuan": 1365.25695,
+          "allocated_cost_yuan": 704.0693588784836
+        },
+        {
+          "period": 40,
+          "load_mwh": 1.947422,
+          "tou_price": 730.0,
+          "retail_price": 420.63281896190836,
+          "bill_yuan": 819.1496055684374,
+          "tou_bill_yuan": 1421.61806,
+          "allocated_cost_yuan": 729.97229209565
+        },
+        {
+          "period": 41,
+          "load_mwh": 1.926629,
+          "tou_price": 730.0,
+          "retail_price": 413.7544228438034,
+          "bill_yuan": 797.1512699291341,
+          "tou_bill_yuan": 1406.4391699999999,
+          "allocated_cost_yuan": 777.5724182298279
+        },
+        {
+          "period": 42,
+          "load_mwh": 1.850446,
+          "tou_price": 730.0,
+          "retail_price": 414.2381458883041,
+          "bill_yuan": 766.5253201064287,
+          "tou_bill_yuan": 1350.82558,
+          "allocated_cost_yuan": 816.534223270391
+        },
+        {
+          "period": 43,
+          "load_mwh": 1.89121,
+          "tou_price": 730.0,
+          "retail_price": 413.4358356396755,
+          "bill_yuan": 781.8939867201107,
+          "tou_bill_yuan": 1380.5833,
+          "allocated_cost_yuan": 804.03008354253
+        },
+        {
+          "period": 44,
+          "load_mwh": 1.940601,
+          "tou_price": 730.0,
+          "retail_price": 414.3876694014115,
+          "bill_yuan": 804.1611256280485,
+          "tou_bill_yuan": 1416.6387300000001,
+          "allocated_cost_yuan": 820.5242231274686
+        },
+        {
+          "period": 45,
+          "load_mwh": 1.869244,
+          "tou_price": 510.0,
+          "retail_price": 413.8363279344129,
+          "bill_yuan": 773.5610729734336,
+          "tou_bill_yuan": 953.31444,
+          "allocated_cost_yuan": 781.5803626906473
+        },
+        {
+          "period": 46,
+          "load_mwh": 1.916392,
+          "tou_price": 510.0,
+          "retail_price": 412.9616668337897,
+          "bill_yuan": 791.3964346269399,
+          "tou_bill_yuan": 977.3599200000001,
+          "allocated_cost_yuan": 805.3621089845041
+        },
+        {
+          "period": 47,
+          "load_mwh": 1.854351,
+          "tou_price": 510.0,
+          "retail_price": 414.02633941925967,
+          "bill_yuan": 767.7501565284437,
+          "tou_bill_yuan": 945.71901,
+          "allocated_cost_yuan": 781.6108623168234
+        },
+        {
+          "period": 48,
+          "load_mwh": 1.856311,
+          "tou_price": 510.0,
+          "retail_price": 413.8530978827907,
+          "bill_yuan": 768.240057983901,
+          "tou_bill_yuan": 946.71861,
+          "allocated_cost_yuan": 798.9108548882549
+        },
+        {
+          "period": 49,
+          "load_mwh": 1.880441,
+          "tou_price": 510.0,
+          "retail_price": 414.2888787829342,
+          "bill_yuan": 779.0457935074596,
+          "tou_bill_yuan": 959.02491,
+          "allocated_cost_yuan": 810.2648300053395
+        },
+        {
+          "period": 50,
+          "load_mwh": 1.880676,
+          "tou_price": 510.0,
+          "retail_price": 413.5707112400264,
+          "bill_yuan": 777.7925109320479,
+          "tou_bill_yuan": 959.14476,
+          "allocated_cost_yuan": 801.7511289753506
+        },
+        {
+          "period": 51,
+          "load_mwh": 1.864434,
+          "tou_price": 510.0,
+          "retail_price": 414.2137115112823,
+          "bill_yuan": 772.2741270078261,
+          "tou_bill_yuan": 950.8613399999999,
+          "allocated_cost_yuan": 806.2649844520015
+        },
+        {
+          "period": 52,
+          "load_mwh": 1.931066,
+          "tou_price": 510.0,
+          "retail_price": 413.28903551720884,
+          "bill_yuan": 798.0884046600744,
+          "tou_bill_yuan": 984.84366,
+          "allocated_cost_yuan": 793.9106786118641
+        },
+        {
+          "period": 53,
+          "load_mwh": 1.853701,
+          "tou_price": 510.0,
+          "retail_price": 413.93729953704405,
+          "bill_yuan": 767.3159860891182,
+          "tou_bill_yuan": 945.38751,
+          "allocated_cost_yuan": 782.9643370695348
+        },
+        {
+          "period": 54,
+          "load_mwh": 1.910436,
+          "tou_price": 510.0,
+          "retail_price": 413.3972274415963,
+          "bill_yuan": 789.7689456046136,
+          "tou_bill_yuan": 974.32236,
+          "allocated_cost_yuan": 791.8773984447549
+        },
+        {
+          "period": 55,
+          "load_mwh": 1.954979,
+          "tou_price": 510.0,
+          "retail_price": 414.3041035518756,
+          "bill_yuan": 809.9558220577422,
+          "tou_bill_yuan": 997.03929,
+          "allocated_cost_yuan": 813.4832884345614
+        },
+        {
+          "period": 56,
+          "load_mwh": 1.918825,
+          "tou_price": 510.0,
+          "retail_price": 413.9530868393465,
+          "bill_yuan": 794.3035318545091,
+          "tou_bill_yuan": 978.60075,
+          "allocated_cost_yuan": 839.670854073789
+        },
+        {
+          "period": 57,
+          "load_mwh": 1.886222,
+          "tou_price": 510.0,
+          "retail_price": 414.3822883234309,
+          "bill_yuan": 781.6169886459985,
+          "tou_bill_yuan": 961.9732200000001,
+          "allocated_cost_yuan": 776.0584255989725
+        },
+        {
+          "period": 58,
+          "load_mwh": 1.849834,
+          "tou_price": 510.0,
+          "retail_price": 413.3986107493334,
+          "bill_yuan": 764.7188057168823,
+          "tou_bill_yuan": 943.41534,
+          "allocated_cost_yuan": 808.0177589270654
+        },
+        {
+          "period": 59,
+          "load_mwh": 1.915221,
+          "tou_price": 510.0,
+          "retail_price": 413.8768292917033,
+          "bill_yuan": 792.6655948728853,
+          "tou_bill_yuan": 976.7627100000001,
+          "allocated_cost_yuan": 838.4843017393453
+        },
+        {
+          "period": 60,
+          "load_mwh": 1.946994,
+          "tou_price": 510.0,
+          "retail_price": 413.85836685174604,
+          "bill_yuan": 805.7797571101484,
+          "tou_bill_yuan": 992.9669399999999,
+          "allocated_cost_yuan": 865.3731571124058
+        },
+        {
+          "period": 61,
+          "load_mwh": 1.938471,
+          "tou_price": 510.0,
+          "retail_price": 420.5888459025846,
+          "bill_yuan": 815.299280705629,
+          "tou_bill_yuan": 988.62021,
+          "allocated_cost_yuan": 788.8287758264664
+        },
+        {
+          "period": 62,
+          "load_mwh": 1.917518,
+          "tou_price": 510.0,
+          "retail_price": 420.86997207185016,
+          "bill_yuan": 807.02574710727,
+          "tou_bill_yuan": 977.9341800000001,
+          "allocated_cost_yuan": 780.9392679713344
+        },
+        {
+          "period": 63,
+          "load_mwh": 1.908048,
+          "tou_price": 510.0,
+          "retail_price": 421.47186236625146,
+          "bill_yuan": 804.1885440442013,
+          "tou_bill_yuan": 973.10448,
+          "allocated_cost_yuan": 778.6724514137736
+        },
+        {
+          "period": 64,
+          "load_mwh": 1.874823,
+          "tou_price": 510.0,
+          "retail_price": 420.2347089979728,
+          "bill_yuan": 787.8656978277063,
+          "tou_bill_yuan": 956.15973,
+          "allocated_cost_yuan": 762.3574405556799
+        },
+        {
+          "period": 65,
+          "load_mwh": 1.879445,
+          "tou_price": 510.0,
+          "retail_price": 420.42290637545165,
+          "bill_yuan": 790.1617292728107,
+          "tou_bill_yuan": 958.5169500000001,
+          "allocated_cost_yuan": 765.6128827918307
+        },
+        {
+          "period": 66,
+          "load_mwh": 1.855932,
+          "tou_price": 510.0,
+          "retail_price": 420.3744685352841,
+          "bill_yuan": 780.1864281376269,
+          "tou_bill_yuan": 946.52532,
+          "allocated_cost_yuan": 756.2504114197212
+        },
+        {
+          "period": 67,
+          "load_mwh": 1.846027,
+          "tou_price": 510.0,
+          "retail_price": 420.3229684586405,
+          "bill_yuan": 775.9275484947988,
+          "tou_bill_yuan": 941.4737700000001,
+          "allocated_cost_yuan": 691.4644316265311
+        },
+        {
+          "period": 68,
+          "load_mwh": 1.879362,
+          "tou_price": 510.0,
+          "retail_price": 421.1932927003202,
+          "bill_yuan": 791.5746689558592,
+          "tou_bill_yuan": 958.47462,
+          "allocated_cost_yuan": 747.8918185039256
+        },
+        {
+          "period": 69,
+          "load_mwh": 1.854087,
+          "tou_price": 730.0,
+          "retail_price": 431.335093440925,
+          "bill_yuan": 799.7327893926043,
+          "tou_bill_yuan": 1353.48351,
+          "allocated_cost_yuan": 698.3700051222922
+        },
+        {
+          "period": 70,
+          "load_mwh": 1.939744,
+          "tou_price": 730.0,
+          "retail_price": 431.0007482819125,
+          "bill_yuan": 836.03111547535,
+          "tou_bill_yuan": 1416.0131199999998,
+          "allocated_cost_yuan": 763.4387757565103
+        },
+        {
+          "period": 71,
+          "load_mwh": 1.946714,
+          "tou_price": 730.0,
+          "retail_price": 430.8124677257895,
+          "bill_yuan": 838.6686622963425,
+          "tou_bill_yuan": 1421.10122,
+          "allocated_cost_yuan": 771.8723661626315
+        },
+        {
+          "period": 72,
+          "load_mwh": 1.896623,
+          "tou_price": 730.0,
+          "retail_price": 431.7289267824418,
+          "bill_yuan": 818.8270123008951,
+          "tou_bill_yuan": 1384.53479,
+          "allocated_cost_yuan": 689.6850973585251
+        },
+        {
+          "period": 73,
+          "load_mwh": 1.105428,
+          "tou_price": 730.0,
+          "retail_price": 430.99646168860517,
+          "bill_yuan": 476.4355566515115,
+          "tou_bill_yuan": 806.96244,
+          "allocated_cost_yuan": 432.261051479671
+        },
+        {
+          "period": 74,
+          "load_mwh": 1.093342,
+          "tou_price": 730.0,
+          "retail_price": 430.5906961950948,
+          "bill_yuan": 470.78289295933735,
+          "tou_bill_yuan": 798.13966,
+          "allocated_cost_yuan": 425.132870458504
+        },
+        {
+          "period": 75,
+          "load_mwh": 1.089019,
+          "tou_price": 730.0,
+          "retail_price": 431.6991764287332,
+          "bill_yuan": 470.1286054152426,
+          "tou_bill_yuan": 794.98387,
+          "allocated_cost_yuan": 420.53637202223507
+        },
+        {
+          "period": 76,
+          "load_mwh": 1.10225,
+          "tou_price": 730.0,
+          "retail_price": 431.74021982458544,
+          "bill_yuan": 475.8856573016493,
+          "tou_bill_yuan": 804.6424999999999,
+          "allocated_cost_yuan": 434.3873184262338
+        },
+        {
+          "period": 77,
+          "load_mwh": 1.109671,
+          "tou_price": 730.0,
+          "retail_price": 431.10556416434594,
+          "bill_yuan": 478.38534249181396,
+          "tou_bill_yuan": 810.05983,
+          "allocated_cost_yuan": 431.1454319164017
+        },
+        {
+          "period": 78,
+          "load_mwh": 1.143945,
+          "tou_price": 730.0,
+          "retail_price": 430.95187650930507,
+          "bill_yuan": 492.98524437343696,
+          "tou_bill_yuan": 835.07985,
+          "allocated_cost_yuan": 447.67409582813855
+        },
+        {
+          "period": 79,
+          "load_mwh": 1.131055,
+          "tou_price": 730.0,
+          "retail_price": 431.5830124249468,
+          "bill_yuan": 488.1441241182982,
+          "tou_bill_yuan": 825.6701499999999,
+          "allocated_cost_yuan": 433.49046756919176
+        },
+        {
+          "period": 80,
+          "load_mwh": 1.148739,
+          "tou_price": 730.0,
+          "retail_price": 430.5137980813067,
+          "bill_yuan": 494.5479898941221,
+          "tou_bill_yuan": 838.57947,
+          "allocated_cost_yuan": 450.6901320693951
+        },
+        {
+          "period": 81,
+          "load_mwh": 1.131554,
+          "tou_price": 730.0,
+          "retail_price": 430.55318137441,
+          "bill_yuan": 487.1941745969391,
+          "tou_bill_yuan": 826.03442,
+          "allocated_cost_yuan": 429.6158956520009
+        },
+        {
+          "period": 82,
+          "load_mwh": 1.093022,
+          "tou_price": 730.0,
+          "retail_price": 431.5363008368255,
+          "bill_yuan": 471.67867061326865,
+          "tou_bill_yuan": 797.9060599999999,
+          "allocated_cost_yuan": 429.45978845960263
+        },
+        {
+          "period": 83,
+          "load_mwh": 1.086474,
+          "tou_price": 730.0,
+          "retail_price": 430.7834047681809,
+          "bill_yuan": 468.03496891210455,
+          "tou_bill_yuan": 793.1260199999999,
+          "allocated_cost_yuan": 421.99589012155633
+        },
+        {
+          "period": 84,
+          "load_mwh": 1.128195,
+          "tou_price": 730.0,
+          "retail_price": 431.2865508802684,
+          "bill_yuan": 486.5753302703644,
+          "tou_bill_yuan": 823.58235,
+          "allocated_cost_yuan": 442.7990441728039
+        },
+        {
+          "period": 85,
+          "load_mwh": 1.132074,
+          "tou_price": 510.0,
+          "retail_price": 421.2458812721217,
+          "bill_yuan": 476.8815097952559,
+          "tou_bill_yuan": 577.35774,
+          "allocated_cost_yuan": 461.64083108016985
+        },
+        {
+          "period": 86,
+          "load_mwh": 1.144555,
+          "tou_price": 510.0,
+          "retail_price": 420.8402734982741,
+          "bill_yuan": 481.67483923381707,
+          "tou_bill_yuan": 583.72305,
+          "allocated_cost_yuan": 466.16068604704316
+        },
+        {
+          "period": 87,
+          "load_mwh": 1.088488,
+          "tou_price": 510.0,
+          "retail_price": 420.5671173995818,
+          "bill_yuan": 457.78226048403593,
+          "tou_bill_yuan": 555.12888,
+          "allocated_cost_yuan": 442.9213706035
+        },
+        {
+          "period": 88,
+          "load_mwh": 1.110713,
+          "tou_price": 510.0,
+          "retail_price": 420.75215764885377,
+          "bill_yuan": 467.33489127863135,
+          "tou_bill_yuan": 566.4636300000001,
+          "allocated_cost_yuan": 452.20277471323004
+        },
+        {
+          "period": 89,
+          "load_mwh": 1.094328,
+          "tou_price": 510.0,
+          "retail_price": 420.5670295680882,
+          "bill_yuan": 460.2382763331868,
+          "tou_bill_yuan": 558.10728,
+          "allocated_cost_yuan": 445.27721624797243
+        },
+        {
+          "period": 90,
+          "load_mwh": 1.087793,
+          "tou_price": 510.0,
+          "retail_price": 420.7553804571904,
+          "bill_yuan": 457.69475757366854,
+          "tou_bill_yuan": 554.77443,
+          "allocated_cost_yuan": 442.87654327024956
+        },
+        {
+          "period": 91,
+          "load_mwh": 1.128316,
+          "tou_price": 510.0,
+          "retail_price": 421.2030546070116,
+          "bill_yuan": 475.250145761965,
+          "tou_bill_yuan": 575.4411600000001,
+          "allocated_cost_yuan": 460.0307556253386
+        },
+        {
+          "period": 92,
+          "load_mwh": 1.135668,
+          "tou_price": 510.0,
+          "retail_price": 420.3912792836684,
+          "bill_yuan": 477.4249233615251,
+          "tou_bill_yuan": 579.1906799999999,
+          "allocated_cost_yuan": 461.8899170857668
+        },
+        {
+          "period": 93,
+          "load_mwh": 1.096912,
+          "tou_price": 510.0,
+          "retail_price": 421.0870545896764,
+          "bill_yuan": 461.8954432240712,
+          "tou_bill_yuan": 559.4251200000001,
+          "allocated_cost_yuan": 447.01121543429036
+        },
+        {
+          "period": 94,
+          "load_mwh": 1.1247,
+          "tou_price": 510.0,
+          "retail_price": 420.73283947766527,
+          "bill_yuan": 473.19822456053015,
+          "tou_bill_yuan": 573.597,
+          "allocated_cost_yuan": 457.87334947485255
+        },
+        {
+          "period": 95,
+          "load_mwh": 1.141123,
+          "tou_price": 510.0,
+          "retail_price": 421.45748165979603,
+          "bill_yuan": 480.9348258440715,
+          "tou_bill_yuan": 581.9727300000001,
+          "allocated_cost_yuan": 465.6969907965554
+        },
+        {
+          "period": 96,
+          "load_mwh": 1.102886,
+          "tou_price": 510.0,
+          "retail_price": 421.416405292881,
+          "bill_yuan": 464.77425356784437,
+          "tou_bill_yuan": 562.47186,
+          "allocated_cost_yuan": 448.6332588701516
+        }
+      ]
+    },
+    {
+      "customer_id": "C3",
+      "package": "L",
+      "energy_mwh": 134.58960700000003,
+      "tou_bill_yuan": 73148.48142999999,
+      "actual_bill_yuan": 58003.69990239276,
+      "saving_yuan": 15144.781527607229,
+      "saving_ratio": 0.20704163957388708,
+      "allocated_cost_yuan": 54035.91724662655,
+      "allocated_revenue_yuan": 58518.256288690834,
+      "company_profit_on_customer_yuan": 3967.7826557662047,
+      "spread_yuan_per_mwh": 29.480602137178423,
+      "cost_breakdown": {
+        "annual_energy_cost_yuan": 43558.623761986906,
+        "monthly_energy_cost_yuan": 8392.595532728397,
+        "ten_day_energy_cost_yuan": 2544.2775543898433,
+        "d3_energy_cost_yuan": -21.798618981008158,
+        "d2_energy_cost_yuan": -14.196868410756382,
+        "day_ahead_cost_yuan": -1449.8967617878316,
+        "real_time_cost_yuan": 776.5563272105964,
+        "deviation_penalty_yuan": 237.93395335457268,
+        "storage_degradation_yuan": 11.822366135816612
+      },
+      "periods": [
+        {
+          "period": 1,
+          "load_mwh": 0.715312,
+          "tou_price": 310.0,
+          "retail_price": 430.80906255385867,
+          "bill_yuan": 308.1628921535257,
+          "tou_bill_yuan": 221.74671999999998,
+          "allocated_cost_yuan": 260.25919670452936
+        },
+        {
+          "period": 2,
+          "load_mwh": 0.72349,
+          "tou_price": 310.0,
+          "retail_price": 432.5798319591413,
+          "bill_yuan": 312.9671826241191,
+          "tou_bill_yuan": 224.28189999999998,
+          "allocated_cost_yuan": 266.46742772056416
+        },
+        {
+          "period": 3,
+          "load_mwh": 0.719822,
+          "tou_price": 310.0,
+          "retail_price": 433.1710781390326,
+          "bill_yuan": 311.8060718081947,
+          "tou_bill_yuan": 223.14481999999998,
+          "allocated_cost_yuan": 261.2749186654539
+        },
+        {
+          "period": 4,
+          "load_mwh": 0.725685,
+          "tou_price": 310.0,
+          "retail_price": 432.2917417225075,
+          "bill_yuan": 313.70763259189783,
+          "tou_bill_yuan": 224.96235000000001,
+          "allocated_cost_yuan": 270.93474533595645
+        },
+        {
+          "period": 5,
+          "load_mwh": 0.726986,
+          "tou_price": 310.0,
+          "retail_price": 430.7598771645121,
+          "bill_yuan": 313.15640006032,
+          "tou_bill_yuan": 225.36566000000002,
+          "allocated_cost_yuan": 276.2523613009114
+        },
+        {
+          "period": 6,
+          "load_mwh": 0.732055,
+          "tou_price": 310.0,
+          "retail_price": 431.9033845572207,
+          "bill_yuan": 316.1770321820362,
+          "tou_bill_yuan": 226.93705,
+          "allocated_cost_yuan": 273.5928052105763
+        },
+        {
+          "period": 7,
+          "load_mwh": 0.718176,
+          "tou_price": 310.0,
+          "retail_price": 432.727943520752,
+          "bill_yuan": 310.7748235659596,
+          "tou_bill_yuan": 222.63456000000002,
+          "allocated_cost_yuan": 270.75721573140834
+        },
+        {
+          "period": 8,
+          "load_mwh": 0.71693,
+          "tou_price": 310.0,
+          "retail_price": 432.9060919530882,
+          "bill_yuan": 310.3633645039275,
+          "tou_bill_yuan": 222.2483,
+          "allocated_cost_yuan": 275.7081687255446
+        },
+        {
+          "period": 9,
+          "load_mwh": 0.734455,
+          "tou_price": 310.0,
+          "retail_price": 431.8817536293049,
+          "bill_yuan": 317.1977133618111,
+          "tou_bill_yuan": 227.68105,
+          "allocated_cost_yuan": 279.6931008732341
+        },
+        {
+          "period": 10,
+          "load_mwh": 0.709033,
+          "tou_price": 310.0,
+          "retail_price": 432.9132260615232,
+          "bill_yuan": 306.94976341408,
+          "tou_bill_yuan": 219.80023,
+          "allocated_cost_yuan": 274.7096420575697
+        },
+        {
+          "period": 11,
+          "load_mwh": 0.698073,
+          "tou_price": 310.0,
+          "retail_price": 432.1105673246814,
+          "bill_yuan": 301.64472006404236,
+          "tou_bill_yuan": 216.40263000000002,
+          "allocated_cost_yuan": 264.2081711157699
+        },
+        {
+          "period": 12,
+          "load_mwh": 0.693998,
+          "tou_price": 310.0,
+          "retail_price": 430.9533873528141,
+          "bill_yuan": 299.0807889160783,
+          "tou_bill_yuan": 215.13938,
+          "allocated_cost_yuan": 259.9395167559175
+        },
+        {
+          "period": 13,
+          "load_mwh": 0.722718,
+          "tou_price": 310.0,
+          "retail_price": 432.68999574211057,
+          "bill_yuan": 312.71284834274667,
+          "tou_bill_yuan": 224.04258,
+          "allocated_cost_yuan": 271.8394713864745
+        },
+        {
+          "period": 14,
+          "load_mwh": 0.705755,
+          "tou_price": 310.0,
+          "retail_price": 431.6647722909859,
+          "bill_yuan": 304.64957136822477,
+          "tou_bill_yuan": 218.78405,
+          "allocated_cost_yuan": 263.6195629953
+        },
+        {
+          "period": 15,
+          "load_mwh": 0.715231,
+          "tou_price": 310.0,
+          "retail_price": 433.30067968156175,
+          "bill_yuan": 309.91007842932305,
+          "tou_bill_yuan": 221.72161,
+          "allocated_cost_yuan": 268.4408315514258
+        },
+        {
+          "period": 16,
+          "load_mwh": 0.734137,
+          "tou_price": 310.0,
+          "retail_price": 430.7717918360363,
+          "bill_yuan": 316.2455109431322,
+          "tou_bill_yuan": 227.58247,
+          "allocated_cost_yuan": 299.0699806313147
+        },
+        {
+          "period": 17,
+          "load_mwh": 0.736552,
+          "tou_price": 310.0,
+          "retail_price": 432.4956362981725,
+          "bill_yuan": 318.5555259066915,
+          "tou_bill_yuan": 228.33112,
+          "allocated_cost_yuan": 300.3958872370237
+        },
+        {
+          "period": 18,
+          "load_mwh": 0.714891,
+          "tou_price": 310.0,
+          "retail_price": 430.9184556971354,
+          "bill_yuan": 308.05972571178086,
+          "tou_bill_yuan": 221.61621000000002,
+          "allocated_cost_yuan": 291.1917934098837
+        },
+        {
+          "period": 19,
+          "load_mwh": 0.724222,
+          "tou_price": 310.0,
+          "retail_price": 432.2446045219654,
+          "bill_yuan": 313.04105197610687,
+          "tou_bill_yuan": 224.50882000000001,
+          "allocated_cost_yuan": 294.9317207458155
+        },
+        {
+          "period": 20,
+          "load_mwh": 0.697845,
+          "tou_price": 310.0,
+          "retail_price": 433.0994079071248,
+          "bill_yuan": 302.23625631094757,
+          "tou_bill_yuan": 216.33195,
+          "allocated_cost_yuan": 270.18153570559593
+        },
+        {
+          "period": 21,
+          "load_mwh": 0.723601,
+          "tou_price": 310.0,
+          "retail_price": 431.13183034732566,
+          "bill_yuan": 311.9674235711552,
+          "tou_bill_yuan": 224.31631000000002,
+          "allocated_cost_yuan": 294.74764035386465
+        },
+        {
+          "period": 22,
+          "load_mwh": 0.695592,
+          "tou_price": 310.0,
+          "retail_price": 430.7216542569434,
+          "bill_yuan": 299.6065369278958,
+          "tou_bill_yuan": 215.63352,
+          "allocated_cost_yuan": 282.93014187498665
+        },
+        {
+          "period": 23,
+          "load_mwh": 0.726495,
+          "tou_price": 310.0,
+          "retail_price": 431.2449141050469,
+          "bill_yuan": 313.2972738727461,
+          "tou_bill_yuan": 225.21345,
+          "allocated_cost_yuan": 295.66263240514263
+        },
+        {
+          "period": 24,
+          "load_mwh": 0.716485,
+          "tou_price": 310.0,
+          "retail_price": 433.03761469906146,
+          "bill_yuan": 310.2649553676571,
+          "tou_bill_yuan": 222.11035,
+          "allocated_cost_yuan": 292.26964565884566
+        },
+        {
+          "period": 25,
+          "load_mwh": 0.703288,
+          "tou_price": 310.0,
+          "retail_price": 431.0003511739858,
+          "bill_yuan": 303.11737497645015,
+          "tou_bill_yuan": 218.01928,
+          "allocated_cost_yuan": 286.1250259069765
+        },
+        {
+          "period": 26,
+          "load_mwh": 0.710741,
+          "tou_price": 310.0,
+          "retail_price": 431.22234104783814,
+          "bill_yuan": 306.48739789868154,
+          "tou_bill_yuan": 220.32970999999998,
+          "allocated_cost_yuan": 289.23751769980254
+        },
+        {
+          "period": 27,
+          "load_mwh": 0.722037,
+          "tou_price": 310.0,
+          "retail_price": 431.7865895113629,
+          "bill_yuan": 311.7658937310159,
+          "tou_bill_yuan": 223.83147000000002,
+          "allocated_cost_yuan": 294.12687978065026
+        },
+        {
+          "period": 28,
+          "load_mwh": 0.723952,
+          "tou_price": 310.0,
+          "retail_price": 430.48247146852475,
+          "bill_yuan": 311.6486461845814,
+          "tou_bill_yuan": 224.42512000000002,
+          "allocated_cost_yuan": 294.19582943510716
+        },
+        {
+          "period": 29,
+          "load_mwh": 1.192461,
+          "tou_price": 510.0,
+          "retail_price": 431.5935278906635,
+          "bill_yuan": 514.6584498620285,
+          "tou_bill_yuan": 608.15511,
+          "allocated_cost_yuan": 485.5403585756346
+        },
+        {
+          "period": 30,
+          "load_mwh": 1.208246,
+          "tou_price": 510.0,
+          "retail_price": 432.5093870774444,
+          "bill_yuan": 522.5777368987739,
+          "tou_bill_yuan": 616.20546,
+          "allocated_cost_yuan": 492.7426130460204
+        },
+        {
+          "period": 31,
+          "load_mwh": 1.188284,
+          "tou_price": 510.0,
+          "retail_price": 431.86520822346785,
+          "bill_yuan": 513.1785170886152,
+          "tou_bill_yuan": 606.0248399999999,
+          "allocated_cost_yuan": 484.02052579772226
+        },
+        {
+          "period": 32,
+          "load_mwh": 1.165365,
+          "tou_price": 510.0,
+          "retail_price": 430.58517684533234,
+          "bill_yuan": 501.78889461436074,
+          "tou_bill_yuan": 594.33615,
+          "allocated_cost_yuan": 473.86805477962804
+        },
+        {
+          "period": 33,
+          "load_mwh": 1.974903,
+          "tou_price": 510.0,
+          "retail_price": 431.88115866396896,
+          "bill_yuan": 852.9233958889483,
+          "tou_bill_yuan": 1007.2005300000001,
+          "allocated_cost_yuan": 718.6550516193422
+        },
+        {
+          "period": 34,
+          "load_mwh": 2.056406,
+          "tou_price": 510.0,
+          "retail_price": 431.9536400231041,
+          "bill_yuan": 888.2720570653513,
+          "tou_bill_yuan": 1048.76706,
+          "allocated_cost_yuan": 739.2917235975281
+        },
+        {
+          "period": 35,
+          "load_mwh": 2.06028,
+          "tou_price": 510.0,
+          "retail_price": 432.91965682877606,
+          "bill_yuan": 891.9357105711907,
+          "tou_bill_yuan": 1050.7428,
+          "allocated_cost_yuan": 752.5462164035457
+        },
+        {
+          "period": 36,
+          "load_mwh": 2.022182,
+          "tou_price": 510.0,
+          "retail_price": 430.6403223297293,
+          "bill_yuan": 870.8331082893767,
+          "tou_bill_yuan": 1031.3128199999999,
+          "allocated_cost_yuan": 760.7421973028049
+        },
+        {
+          "period": 37,
+          "load_mwh": 2.024697,
+          "tou_price": 730.0,
+          "retail_price": 433.1881291743203,
+          "bill_yuan": 877.0747055748589,
+          "tou_bill_yuan": 1478.0288100000002,
+          "allocated_cost_yuan": 770.0964369849269
+        },
+        {
+          "period": 38,
+          "load_mwh": 2.030287,
+          "tou_price": 730.0,
+          "retail_price": 431.71942898492523,
+          "bill_yuan": 876.5143443155168,
+          "tou_bill_yuan": 1482.10951,
+          "allocated_cost_yuan": 745.9099188424902
+        },
+        {
+          "period": 39,
+          "load_mwh": 1.974625,
+          "tou_price": 730.0,
+          "retail_price": 431.76139591476823,
+          "bill_yuan": 852.5668464081992,
+          "tou_bill_yuan": 1441.4762500000002,
+          "allocated_cost_yuan": 743.376006381847
+        },
+        {
+          "period": 40,
+          "load_mwh": 2.08696,
+          "tou_price": 730.0,
+          "retail_price": 431.2656379238167,
+          "bill_yuan": 900.0341357214885,
+          "tou_bill_yuan": 1523.4808,
+          "allocated_cost_yuan": 782.276761129297
+        },
+        {
+          "period": 41,
+          "load_mwh": 1.981377,
+          "tou_price": 730.0,
+          "retail_price": 417.5088456876068,
+          "bill_yuan": 827.2424241419733,
+          "tou_bill_yuan": 1446.40521,
+          "allocated_cost_yuan": 799.6682834707469
+        },
+        {
+          "period": 42,
+          "load_mwh": 2.045477,
+          "tou_price": 730.0,
+          "retail_price": 418.47629177660815,
+          "bill_yuan": 855.9836298743411,
+          "tou_bill_yuan": 1493.19821,
+          "allocated_cost_yuan": 902.5942791156561
+        },
+        {
+          "period": 43,
+          "load_mwh": 2.022983,
+          "tou_price": 730.0,
+          "retail_price": 416.87167127935095,
+          "bill_yuan": 843.3243041797152,
+          "tou_bill_yuan": 1476.77759,
+          "allocated_cost_yuan": 860.0521309083169
+        },
+        {
+          "period": 44,
+          "load_mwh": 2.062441,
+          "tou_price": 730.0,
+          "retail_price": 418.77533880282294,
+          "bill_yuan": 863.699428535833,
+          "tou_bill_yuan": 1505.58193,
+          "allocated_cost_yuan": 872.040568499779
+        },
+        {
+          "period": 45,
+          "load_mwh": 2.053907,
+          "tou_price": 510.0,
+          "retail_price": 417.67265586882587,
+          "bill_yuan": 857.8607915975726,
+          "tou_bill_yuan": 1047.4925700000001,
+          "allocated_cost_yuan": 858.7928477998911
+        },
+        {
+          "period": 46,
+          "load_mwh": 2.047298,
+          "tou_price": 510.0,
+          "retail_price": 415.9233336675794,
+          "bill_yuan": 851.519009170968,
+          "tou_bill_yuan": 1044.1219800000001,
+          "allocated_cost_yuan": 860.3752442087825
+        },
+        {
+          "period": 47,
+          "load_mwh": 2.05423,
+          "tou_price": 510.0,
+          "retail_price": 418.0526788385193,
+          "bill_yuan": 858.7763544504514,
+          "tou_bill_yuan": 1047.6573,
+          "allocated_cost_yuan": 865.8600673211749
+        },
+        {
+          "period": 48,
+          "load_mwh": 1.975992,
+          "tou_price": 510.0,
+          "retail_price": 417.70619576558136,
+          "bill_yuan": 825.3841011832226,
+          "tou_bill_yuan": 1007.75592,
+          "allocated_cost_yuan": 850.4186302685016
+        },
+        {
+          "period": 49,
+          "load_mwh": 2.018411,
+          "tou_price": 510.0,
+          "retail_price": 418.5777575658684,
+          "bill_yuan": 844.861950226282,
+          "tou_bill_yuan": 1029.38961,
+          "allocated_cost_yuan": 869.7148412504871
+        },
+        {
+          "period": 50,
+          "load_mwh": 2.008437,
+          "tou_price": 510.0,
+          "retail_price": 417.1414224800529,
+          "bill_yuan": 837.8022671415699,
+          "tou_bill_yuan": 1024.30287,
+          "allocated_cost_yuan": 856.2169306280647
+        },
+        {
+          "period": 51,
+          "load_mwh": 2.014779,
+          "tou_price": 510.0,
+          "retail_price": 418.4274230225646,
+          "bill_yuan": 843.0387849299797,
+          "tou_bill_yuan": 1027.53729,
+          "allocated_cost_yuan": 871.280913729968
+        },
+        {
+          "period": 52,
+          "load_mwh": 2.075703,
+          "tou_price": 510.0,
+          "retail_price": 416.5780710344177,
+          "bill_yuan": 864.6923517803539,
+          "tou_bill_yuan": 1058.60853,
+          "allocated_cost_yuan": 853.3746528221625
+        },
+        {
+          "period": 53,
+          "load_mwh": 2.019641,
+          "tou_price": 510.0,
+          "retail_price": 417.87459907408817,
+          "bill_yuan": 843.9566731485905,
+          "tou_bill_yuan": 1030.01691,
+          "allocated_cost_yuan": 853.0539049628027
+        },
+        {
+          "period": 54,
+          "load_mwh": 2.079982,
+          "tou_price": 510.0,
+          "retail_price": 416.79445488319266,
+          "bill_yuan": 866.924963856853,
+          "tou_bill_yuan": 1060.7908200000002,
+          "allocated_cost_yuan": 862.1543642246684
+        },
+        {
+          "period": 55,
+          "load_mwh": 2.005926,
+          "tou_price": 510.0,
+          "retail_price": 418.60820710375117,
+          "bill_yuan": 839.6970864427992,
+          "tou_bill_yuan": 1023.0222600000001,
+          "allocated_cost_yuan": 834.6827658181421
+        },
+        {
+          "period": 56,
+          "load_mwh": 1.969358,
+          "tou_price": 510.0,
+          "retail_price": 417.90617367869294,
+          "bill_yuan": 823.0068663835233,
+          "tou_bill_yuan": 1004.37258,
+          "allocated_cost_yuan": 861.7839114234225
+        },
+        {
+          "period": 57,
+          "load_mwh": 1.996404,
+          "tou_price": 510.0,
+          "retail_price": 418.7645766468617,
+          "bill_yuan": 836.0232758761014,
+          "tou_bill_yuan": 1018.1660400000001,
+          "allocated_cost_yuan": 821.3911963170249
+        },
+        {
+          "period": 58,
+          "load_mwh": 2.021859,
+          "tou_price": 510.0,
+          "retail_price": 416.7972214986668,
+          "bill_yuan": 842.705213462073,
+          "tou_bill_yuan": 1031.1480900000001,
+          "allocated_cost_yuan": 883.1592337726074
+        },
+        {
+          "period": 59,
+          "load_mwh": 1.973487,
+          "tou_price": 510.0,
+          "retail_price": 417.75365858340666,
+          "bill_yuan": 824.4314144167914,
+          "tou_bill_yuan": 1006.47837,
+          "allocated_cost_yuan": 863.993173209084
+        },
+        {
+          "period": 60,
+          "load_mwh": 1.999195,
+          "tou_price": 510.0,
+          "retail_price": 417.716733703492,
+          "bill_yuan": 835.0972054363527,
+          "tou_bill_yuan": 1019.58945,
+          "allocated_cost_yuan": 888.5747407713307
+        },
+        {
+          "period": 61,
+          "load_mwh": 1.971203,
+          "tou_price": 510.0,
+          "retail_price": 431.1776918051692,
+          "bill_yuan": 849.938759619425,
+          "tou_bill_yuan": 1005.31353,
+          "allocated_cost_yuan": 802.1485229314537
+        },
+        {
+          "period": 62,
+          "load_mwh": 1.989447,
+          "tou_price": 510.0,
+          "retail_price": 431.73994414370037,
+          "bill_yuan": 858.9237366568523,
+          "tou_bill_yuan": 1014.61797,
+          "allocated_cost_yuan": 810.2334809100969
+        },
+        {
+          "period": 63,
+          "load_mwh": 2.014197,
+          "tou_price": 510.0,
+          "retail_price": 432.94372473250286,
+          "bill_yuan": 872.033951525033,
+          "tou_bill_yuan": 1027.24047,
+          "allocated_cost_yuan": 821.9917505326221
+        },
+        {
+          "period": 64,
+          "load_mwh": 1.993012,
+          "tou_price": 510.0,
+          "retail_price": 430.4694179959456,
+          "bill_yuan": 857.9307156989355,
+          "tou_bill_yuan": 1016.43612,
+          "allocated_cost_yuan": 810.4165178882255
+        },
+        {
+          "period": 65,
+          "load_mwh": 2.083935,
+          "tou_price": 510.0,
+          "retail_price": 430.8458127509033,
+          "bill_yuan": 897.8546687950536,
+          "tou_bill_yuan": 1062.80685,
+          "allocated_cost_yuan": 848.9141650331845
+        },
+        {
+          "period": 66,
+          "load_mwh": 2.037512,
+          "tou_price": 510.0,
+          "retail_price": 430.7489370705682,
+          "bill_yuan": 877.6561282685276,
+          "tou_bill_yuan": 1039.13112,
+          "allocated_cost_yuan": 830.2401641184156
+        },
+        {
+          "period": 67,
+          "load_mwh": 2.007977,
+          "tou_price": 510.0,
+          "retail_price": 430.645936917281,
+          "bill_yuan": 864.7271364733512,
+          "tou_bill_yuan": 1024.06827,
+          "allocated_cost_yuan": 752.1258762868295
+        },
+        {
+          "period": 68,
+          "load_mwh": 2.071729,
+          "tou_price": 510.0,
+          "retail_price": 432.38658540064046,
+          "bill_yuan": 895.7878281854835,
+          "tou_bill_yuan": 1056.58179,
+          "allocated_cost_yuan": 824.4442365320353
+        },
+        {
+          "period": 69,
+          "load_mwh": 1.992101,
+          "tou_price": 730.0,
+          "retail_price": 452.67018688185004,
+          "bill_yuan": 901.7647319575203,
+          "tou_bill_yuan": 1454.23373,
+          "allocated_cost_yuan": 750.3550726444462
+        },
+        {
+          "period": 70,
+          "load_mwh": 1.980388,
+          "tou_price": 730.0,
+          "retail_price": 452.001496563825,
+          "bill_yuan": 895.1383397770403,
+          "tou_bill_yuan": 1445.68324,
+          "allocated_cost_yuan": 779.4353225182724
+        },
+        {
+          "period": 71,
+          "load_mwh": 2.079134,
+          "tou_price": 730.0,
+          "retail_price": 451.6249354515789,
+          "bill_yuan": 938.9887585451829,
+          "tou_bill_yuan": 1517.7678199999998,
+          "allocated_cost_yuan": 824.3769141996083
+        },
+        {
+          "period": 72,
+          "load_mwh": 2.063146,
+          "tou_price": 730.0,
+          "retail_price": 453.4578535648836,
+          "bill_yuan": 935.5497567509753,
+          "tou_bill_yuan": 1506.0965800000001,
+          "allocated_cost_yuan": 750.2392673055488
+        },
+        {
+          "period": 73,
+          "load_mwh": 1.21924,
+          "tou_price": 730.0,
+          "retail_price": 451.99292337721033,
+          "bill_yuan": 551.08785189843,
+          "tou_bill_yuan": 890.0452,
+          "allocated_cost_yuan": 476.7655282895621
+        },
+        {
+          "period": 74,
+          "load_mwh": 1.17843,
+          "tou_price": 730.0,
+          "retail_price": 451.18139239018956,
+          "bill_yuan": 531.6856882343711,
+          "tou_bill_yuan": 860.2539,
+          "allocated_cost_yuan": 458.21831461190993
+        },
+        {
+          "period": 75,
+          "load_mwh": 1.179126,
+          "tou_price": 730.0,
+          "retail_price": 453.3983528574664,
+          "bill_yuan": 534.613786211413,
+          "tou_bill_yuan": 860.7619799999999,
+          "allocated_cost_yuan": 455.33215692020974
+        },
+        {
+          "period": 76,
+          "load_mwh": 1.226049,
+          "tou_price": 730.0,
+          "retail_price": 453.4804396491709,
+          "bill_yuan": 555.9892395514263,
+          "tou_bill_yuan": 895.01577,
+          "allocated_cost_yuan": 483.1754478286827
+        },
+        {
+          "period": 77,
+          "load_mwh": 1.211828,
+          "tou_price": 730.0,
+          "retail_price": 452.21112832869187,
+          "bill_yuan": 548.0021072203019,
+          "tou_bill_yuan": 884.6344399999999,
+          "allocated_cost_yuan": 470.83694758932074
+        },
+        {
+          "period": 78,
+          "load_mwh": 1.180491,
+          "tou_price": 730.0,
+          "retail_price": 451.90375301861013,
+          "bill_yuan": 533.4683133046921,
+          "tou_bill_yuan": 861.75843,
+          "allocated_cost_yuan": 461.9760924329886
+        },
+        {
+          "period": 79,
+          "load_mwh": 1.189742,
+          "tou_price": 730.0,
+          "retail_price": 453.1660248498935,
+          "bill_yuan": 539.150652736962,
+          "tou_bill_yuan": 868.51166,
+          "allocated_cost_yuan": 455.9829679959908
+        },
+        {
+          "period": 80,
+          "load_mwh": 1.185103,
+          "tou_price": 730.0,
+          "retail_price": 451.02759616261335,
+          "bill_yuan": 534.5141572951015,
+          "tou_bill_yuan": 865.12519,
+          "allocated_cost_yuan": 464.95698986961906
+        },
+        {
+          "period": 81,
+          "load_mwh": 1.222794,
+          "tou_price": 730.0,
+          "retail_price": 451.10636274881995,
+          "bill_yuan": 551.6101537310805,
+          "tou_bill_yuan": 892.6396199999999,
+          "allocated_cost_yuan": 464.2568887634994
+        },
+        {
+          "period": 82,
+          "load_mwh": 1.218028,
+          "tou_price": 730.0,
+          "retail_price": 453.0726016736509,
+          "bill_yuan": 551.8551148713537,
+          "tou_bill_yuan": 889.1604400000001,
+          "allocated_cost_yuan": 478.57595475468287
+        },
+        {
+          "period": 83,
+          "load_mwh": 1.207222,
+          "tou_price": 730.0,
+          "retail_price": 451.5668095363618,
+          "bill_yuan": 545.1413869421058,
+          "tou_bill_yuan": 881.27206,
+          "allocated_cost_yuan": 468.89545673833476
+        },
+        {
+          "period": 84,
+          "load_mwh": 1.189664,
+          "tou_price": 730.0,
+          "retail_price": 452.5731017605368,
+          "bill_yuan": 538.4099265328473,
+          "tou_bill_yuan": 868.4547200000001,
+          "allocated_cost_yuan": 466.9246735597965
+        },
+        {
+          "period": 85,
+          "load_mwh": 1.21788,
+          "tou_price": 510.0,
+          "retail_price": 432.49176254424344,
+          "bill_yuan": 526.7230677673832,
+          "tou_bill_yuan": 621.1188000000001,
+          "allocated_cost_yuan": 496.63108185146666
+        },
+        {
+          "period": 86,
+          "load_mwh": 1.225757,
+          "tou_price": 510.0,
+          "retail_price": 431.68054699654823,
+          "bill_yuan": 529.135452244848,
+          "tou_bill_yuan": 625.13607,
+          "allocated_cost_yuan": 499.23308538861437
+        },
+        {
+          "period": 87,
+          "load_mwh": 1.18778,
+          "tou_price": 510.0,
+          "retail_price": 431.13423479916355,
+          "bill_yuan": 512.0926214097506,
+          "tou_bill_yuan": 605.7678000000001,
+          "allocated_cost_yuan": 483.324708747754
+        },
+        {
+          "period": 88,
+          "load_mwh": 1.215193,
+          "tou_price": 510.0,
+          "retail_price": 431.5043152977076,
+          "bill_yuan": 524.3610234195671,
+          "tou_bill_yuan": 619.74843,
+          "allocated_cost_yuan": 494.7395469505571
+        },
+        {
+          "period": 89,
+          "load_mwh": 1.219506,
+          "tou_price": 510.0,
+          "retail_price": 431.1340591361763,
+          "bill_yuan": 525.7705719209218,
+          "tou_bill_yuan": 621.9480599999999,
+          "allocated_cost_yuan": 496.2115900147852
+        },
+        {
+          "period": 90,
+          "load_mwh": 1.208682,
+          "tou_price": 510.0,
+          "retail_price": 431.51076091438085,
+          "bill_yuan": 521.5592895235156,
+          "tou_bill_yuan": 616.42782,
+          "allocated_cost_yuan": 492.0944573765154
+        },
+        {
+          "period": 91,
+          "load_mwh": 1.196345,
+          "tou_price": 510.0,
+          "retail_price": 432.4061092140232,
+          "bill_yuan": 517.3068867276506,
+          "tou_bill_yuan": 610.13595,
+          "allocated_cost_yuan": 487.7671630452778
+        },
+        {
+          "period": 92,
+          "load_mwh": 1.187519,
+          "tou_price": 510.0,
+          "retail_price": 430.7825585673367,
+          "bill_yuan": 511.5624731673251,
+          "tou_bill_yuan": 605.63469,
+          "allocated_cost_yuan": 482.9783461784366
+        },
+        {
+          "period": 93,
+          "load_mwh": 1.174766,
+          "tou_price": 510.0,
+          "retail_price": 432.1741091793529,
+          "bill_yuan": 507.7034495441917,
+          "tou_bill_yuan": 599.13066,
+          "allocated_cost_yuan": 478.7381098127101
+        },
+        {
+          "period": 94,
+          "load_mwh": 1.213784,
+          "tou_price": 510.0,
+          "retail_price": 431.46567895533053,
+          "bill_yuan": 523.7061376651169,
+          "tou_bill_yuan": 619.02984,
+          "allocated_cost_yuan": 494.1400779043162
+        },
+        {
+          "period": 95,
+          "load_mwh": 1.192788,
+          "tou_price": 510.0,
+          "retail_price": 432.9149633195921,
+          "bill_yuan": 516.3757732680497,
+          "tou_bill_yuan": 608.32188,
+          "allocated_cost_yuan": 486.78168984258633
+        },
+        {
+          "period": 96,
+          "load_mwh": 1.158969,
+          "tou_price": 510.0,
+          "retail_price": 432.832810585762,
+          "bill_yuan": 501.63980965176995,
+          "tou_bill_yuan": 591.0741899999999,
+          "allocated_cost_yuan": 471.44676729914124
+        }
+      ]
+    }
+  ],
+  "cost_breakdown": {
+    "annual_energy_cost_yuan": 121357.67932876726,
+    "monthly_energy_cost_yuan": 23382.417290322584,
+    "ten_day_energy_cost_yuan": 7078.9867272727315,
+    "d3_energy_cost_yuan": -61.197898316,
+    "d2_energy_cost_yuan": -39.397582603000004,
+    "day_ahead_cost_yuan": -4032.343240047508,
+    "real_time_cost_yuan": 2168.114760974787,
+    "deviation_penalty_yuan": 663.6473764719311,
+    "storage_degradation_yuan": 32.977507141859235,
+    "contract_cost_yuan": 151718.4878654434,
+    "total_wholesale_cost_yuan": 150550.88426998453
+  },
+  "accounting_checks": {
+    "max_energy_balance_residual_mwh": 8.881784197001252e-16,
+    "max_soc_recursion_residual_mwh": 6.661338147750939e-16,
+    "terminal_soc_residual_mwh": 0.0,
+    "max_wholesale_ledger_residual_yuan": 8.731149137020111e-11,
+    "customer_cost_reconciliation_yuan": 0.0,
+    "customer_revenue_reconciliation_yuan": -5.820766091346741e-11,
+    "expected_profit_reconciliation_yuan": 0.0
+  },
+  "unallocated_cost_yuan": 0.0,
+  "forecast_comparison": {
+    "expected_cost_yuan": 148828.7752611619,
+    "expected_profit_yuan": 12783.0253172563,
+    "cost_error_yuan": 1722.1090088226192,
+    "profit_error_yuan": -300.92208697107526
+  },
+  "dispatch_reoptimized": false,
+  "physical_validation": "OPTIMAL"
+}

@@ -1,0 +1,293 @@
+{
+  "case_id": "20260929-101602-0ee44785",
+  "name": "验收：三客户签约至结算",
+  "target_date": "2026-10-28",
+  "created_at": "2026-09-29T10:16:02.349177+08:00",
+  "revision": 2,
+  "status": "TRADING",
+  "stages": [
+    {
+      "node": "ANNUAL",
+      "result_file": "01_ANNUAL.json",
+      "report_file": "01_ANNUAL.html",
+      "status": "OPTIMAL",
+      "elapsed_seconds": 0.0910701250013517,
+      "forecast": {
+        "as_of": "2025-12-01",
+        "scope_start": "2026-01-01",
+        "scope_end": "2026-12-31",
+        "representation": "范围内日均96点代表曲线；合同按交割日历天数缩放，考核统一折算至本节点范围"
+      },
+      "input_revision": 2
+    },
+    {
+      "node": "MONTHLY",
+      "result_file": "02_MONTHLY.json",
+      "report_file": "02_MONTHLY.html",
+      "status": "OPTIMAL",
+      "elapsed_seconds": 0.0712081660003605,
+      "forecast": {
+        "as_of": "2026-09-26",
+        "scope_start": "2026-10-01",
+        "scope_end": "2026-10-31",
+        "representation": "范围内日均96点代表曲线；合同按交割日历天数缩放，考核统一折算至本节点范围"
+      },
+      "input_revision": 2
+    },
+    {
+      "node": "TEN_DAY",
+      "result_file": "03_TEN_DAY.json",
+      "report_file": "03_TEN_DAY.html",
+      "status": "OPTIMAL",
+      "elapsed_seconds": 0.03458591699927638,
+      "forecast": {
+        "as_of": "2026-10-20",
+        "scope_start": "2026-10-21",
+        "scope_end": "2026-10-31",
+        "representation": "范围内日均96点代表曲线；合同按交割日历天数缩放，考核统一折算至本节点范围"
+      },
+      "input_revision": 2
+    },
+    {
+      "node": "D-3",
+      "result_file": "04_D-3.json",
+      "report_file": "04_D-3.html",
+      "status": "EXECUTED",
+      "elapsed_seconds": 0.8587581669999054,
+      "forecast": {
+        "as_of": "2026-10-25",
+        "scope_start": "2026-10-28",
+        "scope_end": "2026-10-28",
+        "representation": "范围内日均96点代表曲线；合同按交割日历天数缩放，考核统一折算至本节点范围"
+      },
+      "input_revision": 2
+    },
+    {
+      "node": "D-2",
+      "result_file": "05_D-2.json",
+      "report_file": "05_D-2.html",
+      "status": "EXECUTED",
+      "elapsed_seconds": 1.281739791000291,
+      "forecast": {
+        "as_of": "2026-10-26",
+        "scope_start": "2026-10-28",
+        "scope_end": "2026-10-28",
+        "representation": "范围内日均96点代表曲线；合同按交割日历天数缩放，考核统一折算至本节点范围"
+      },
+      "input_revision": 2
+    },
+    {
+      "node": "L3-A",
+      "result_file": "06_L3-A.json",
+      "report_file": "06_L3-A.html",
+      "status": "OPTIMAL",
+      "elapsed_seconds": 1.9937354160010727,
+      "forecast": {
+        "as_of": "2026-10-27",
+        "scope_start": "2026-10-28",
+        "scope_end": "2026-10-28",
+        "representation": "范围内日均96点代表曲线；合同按交割日历天数缩放，考核统一折算至本节点范围"
+      },
+      "input_revision": 2
+    },
+    {
+      "node": "STORAGE-DA",
+      "result_file": "07_STORAGE-DA.json",
+      "report_file": "07_STORAGE-DA.html",
+      "status": "OPTIMAL",
+      "elapsed_seconds": 0.5100066250015516,
+      "forecast": {
+        "as_of": "2026-10-27",
+        "scope_start": "2026-10-28",
+        "scope_end": "2026-10-28",
+        "representation": "范围内日均96点代表曲线；合同按交割日历天数缩放，考核统一折算至本节点范围"
+      },
+      "input_revision": 2
+    }
+  ],
+  "packages": {
+    "C1": "F",
+    "C2": "S",
+    "C3": "L"
+  },
+  "clock": "2026-10-27",
+  "recommendation": {
+    "period": {
+      "issued_at": "2025-11-30",
+      "start_date": "2026-10-01",
+      "end_date": "2026-10-30"
+    },
+    "day_count": 30,
+    "customers": [
+      {
+        "customer_id": "C1",
+        "daily_energy_cv": 0.03604381312542107,
+        "forecast_uncertainty": 0.06,
+        "instability_score": 0.048021906562710534,
+        "stability_preference": "F",
+        "recommended_package": "F",
+        "reason": "整段预测稳定性适配 F；满足客户节省和公司不亏损底线",
+        "candidates": [
+          {
+            "package": "F",
+            "eligible": true,
+            "expected_cost_yuan": 1371776.9698602604,
+            "expected_revenue_yuan": 1528740.564623995,
+            "expected_profit_yuan": 156963.59476373435,
+            "profit_p10_yuan": 140225.90521960007,
+            "profit_p90_yuan": 172766.1763477337,
+            "expected_customer_saving_yuan": 297026.7498720046,
+            "expected_tou_bill_yuan": 1825767.3144959996,
+            "expected_spread_yuan_per_mwh": 46.71717181460731,
+            "spread_p10": 40.779747586807794,
+            "spread_p90": 49.036478153600264
+          },
+          {
+            "package": "L",
+            "eligible": true,
+            "expected_cost_yuan": 1371776.9698602604,
+            "expected_revenue_yuan": 1438974.357316257,
+            "expected_profit_yuan": 67197.38745599646,
+            "profit_p10_yuan": 63165.54420864768,
+            "profit_p90_yuan": 68772.32622452592,
+            "expected_customer_saving_yuan": 386792.95717974246,
+            "expected_tou_bill_yuan": 1825767.3144959996,
+            "expected_spread_yuan_per_mwh": 19.999999999998945,
+            "spread_p10": 19.99999999999396,
+            "spread_p90": 20.000000000004977
+          },
+          {
+            "package": "S",
+            "eligible": true,
+            "expected_cost_yuan": 1371776.9698602604,
+            "expected_revenue_yuan": 1408260.400082128,
+            "expected_profit_yuan": 36483.43022186734,
+            "profit_p10_yuan": 28099.482032528613,
+            "profit_p90_yuan": 42802.49619245133,
+            "expected_customer_saving_yuan": 417506.9144138716,
+            "expected_tou_bill_yuan": 1825767.3144959996,
+            "expected_spread_yuan_per_mwh": 10.85858590730368,
+            "spread_p10": 7.889873793407374,
+            "spread_p90": 12.018239076801668
+          }
+        ]
+      },
+      {
+        "customer_id": "C2",
+        "daily_energy_cv": 0.10252502996710185,
+        "forecast_uncertainty": 0.18,
+        "instability_score": 0.1412625149835509,
+        "stability_preference": "S",
+        "recommended_package": "S",
+        "reason": "整段预测稳定性适配 S；满足客户节省和公司不亏损底线",
+        "candidates": [
+          {
+            "package": "F",
+            "eligible": true,
+            "expected_cost_yuan": 1546039.1179561324,
+            "expected_revenue_yuan": 1734489.3238065173,
+            "expected_profit_yuan": 188450.20585038495,
+            "profit_p10_yuan": 161723.58011978166,
+            "profit_p90_yuan": 212018.30953697232,
+            "expected_customer_saving_yuan": 323433.9935779555,
+            "expected_tou_bill_yuan": 2057923.3173844723,
+            "expected_spread_yuan_per_mwh": 49.761156263596966,
+            "spread_p10": 43.83032970313902,
+            "spread_p90": 52.0778853887837
+          },
+          {
+            "package": "L",
+            "eligible": true,
+            "expected_cost_yuan": 1546039.1179561324,
+            "expected_revenue_yuan": 1625568.104418872,
+            "expected_profit_yuan": 79528.9864627394,
+            "profit_p10_yuan": 65213.76889946498,
+            "profit_p90_yuan": 85120.86832344392,
+            "expected_customer_saving_yuan": 432355.21296560107,
+            "expected_tou_bill_yuan": 2057923.3173844723,
+            "expected_spread_yuan_per_mwh": 20.99999999999892,
+            "spread_p10": 20.999999999992816,
+            "spread_p90": 21.00000000000778
+          },
+          {
+            "package": "S",
+            "eligible": true,
+            "expected_cost_yuan": 1546039.1179561324,
+            "expected_revenue_yuan": 1591031.9911662869,
+            "expected_profit_yuan": 44992.87321015433,
+            "profit_p10_yuan": 36136.5034957733,
+            "profit_p90_yuan": 53091.59038796462,
+            "expected_customer_saving_yuan": 466891.32621818606,
+            "expected_tou_bill_yuan": 2057923.3173844723,
+            "expected_spread_yuan_per_mwh": 11.880578131796906,
+            "spread_p10": 8.915164851574248,
+            "spread_p90": 13.038942694396075
+          }
+        ]
+      },
+      {
+        "customer_id": "C3",
+        "daily_energy_cv": 0.19835580460680832,
+        "forecast_uncertainty": 0.36,
+        "instability_score": 0.27917790230340417,
+        "stability_preference": "L",
+        "recommended_package": "L",
+        "reason": "整段预测稳定性适配 L；满足客户节省和公司不亏损底线",
+        "candidates": [
+          {
+            "package": "F",
+            "eligible": true,
+            "expected_cost_yuan": 1737446.5241534386,
+            "expected_revenue_yuan": 1962100.432976118,
+            "expected_profit_yuan": 224653.90882267998,
+            "profit_p10_yuan": 159924.91407093522,
+            "profit_p90_yuan": 285022.42986270646,
+            "expected_customer_saving_yuan": 350727.60312532634,
+            "expected_tou_bill_yuan": 2312828.0361014437,
+            "expected_spread_yuan_per_mwh": 52.78295148743622,
+            "spread_p10": 46.85539421055625,
+            "spread_p90": 55.09840354872812
+          },
+          {
+            "package": "L",
+            "eligible": true,
+            "expected_cost_yuan": 1737446.5241534386,
+            "expected_revenue_yuan": 1831082.5534928667,
+            "expected_profit_yuan": 93636.029339428,
+            "profit_p10_yuan": 59927.058777239174,
+            "profit_p90_yuan": 106803.5959652951,
+            "expected_customer_saving_yuan": 481745.48260857817,
+            "expected_tou_bill_yuan": 2312828.0361014437,
+            "expected_spread_yuan_per_mwh": 22.00000000000087,
+            "spread_p10": 21.999999999996287,
+            "spread_p90": 22.000000000003762
+          },
+          {
+            "package": "S",
+            "eligible": true,
+            "expected_cost_yuan": 1737446.5241534386,
+            "expected_revenue_yuan": 1792315.0060155846,
+            "expected_profit_yuan": 54868.481862146145,
+            "profit_p10_yuan": 38269.42456840607,
+            "profit_p90_yuan": 68204.78499745647,
+            "expected_customer_saving_yuan": 520513.0300858601,
+            "expected_tou_bill_yuan": 2312828.0361014437,
+            "expected_spread_yuan_per_mwh": 12.89147574371746,
+            "spread_p10": 9.927697105275564,
+            "spread_p90": 14.049201774365626
+          }
+        ]
+      }
+    ],
+    "method": "稳定性优先 + 客户节省及公司期望利润底线",
+    "formula": "不稳定度=0.5×逐日预测电量变异系数+0.5×预测相对半区间；低→固定F，中→分成S，高→联动L",
+    "cost_basis": "签约前采购成本代理：年度/月度/现货预测按可编辑权重组合，加运营费；不是成交策略或结算成本",
+    "risk_note": "25条负荷/价格组合情景作收益区间估计，不保证每个场景不亏损；推荐不自动签约",
+    "policy": {
+      "stable_threshold": 0.12,
+      "variable_threshold": 0.25,
+      "minimum_expected_profit_yuan": 2000,
+      "minimum_customer_saving_yuan": 2000
+    }
+  }
+}

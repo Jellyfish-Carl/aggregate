@@ -4,6 +4,8 @@ __pycache__/
 .coverage
 .venv/
 venv/
+pifa_lingshou/.venv-pifa-lingshou/
+pifa_lingshou/.venv/
 .idea/
 .DS_Store
 build/
