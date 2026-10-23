@@ -1,10 +1,11 @@
 """Exact quarter-hour ledgers for the pifa L1/L2/L3 retail extension."""
 from __future__ import annotations
 
-from ..inputs.full_model import retail_prices
+from ..service.full_model import retail_prices
 from .retail import summarize_distribution, weighted_mean
+from ..problem_solver.storage_switching import switching_ledger
 
-COST_KEYS = ('annual_energy_cost_yuan', 'monthly_energy_cost_yuan', 'ten_day_energy_cost_yuan', 'd3_energy_cost_yuan', 'd2_energy_cost_yuan', 'day_ahead_cost_yuan', 'real_time_cost_yuan', 'deviation_penalty_yuan', 'storage_degradation_yuan')
+COST_KEYS = ('annual_energy_cost_yuan', 'monthly_energy_cost_yuan', 'ten_day_energy_cost_yuan', 'd3_energy_cost_yuan', 'd2_energy_cost_yuan', 'day_ahead_cost_yuan', 'real_time_cost_yuan', 'deviation_penalty_yuan', 'storage_degradation_yuan', 'storage_switching_degradation_yuan')
 PRODUCT_COST_KEYS = {'ANNUAL':'annual_energy_cost_yuan','MONTHLY':'monthly_energy_cost_yuan','TEN_DAY':'ten_day_energy_cost_yuan','D-3':'d3_energy_cost_yuan','D-2':'d2_energy_cost_yuan'}
 
 
@@ -45,6 +46,8 @@ def account(config, package, risk, wholesale):
     efficiency=settings.get('efficiency',.92)
     ratio=settings.get('deviation_ratio',.1)
     degradation=settings.get('degradation_yuan_per_mwh',2.)
+    batteries=raw.get('customer_storage',{})
+    switching=raw['switching_ledger'] if batteries else switching_ledger(raw['charge_mwh'],raw['discharge_mwh'],settings)
     fills = wholesale['portfolio']['optimized']['fills']
     contract_costs_by_product = contract_period_costs_by_product(fills)
     contract_costs = [sum(values[j] for values in contract_costs_by_product.values()) for j in range(96)]
@@ -61,6 +64,7 @@ def account(config, package, risk, wholesale):
     max_balance = max_ledger = max_customer = 0.0
     for si, s in enumerate(raw['scenarios']):
         prices = retail_prices(config, package, s['real_time_price'])
+        client_loads=s.get('customer_load_mwh') or {c.customer_id:[q*config.customer_shares[i][j] for j,q in enumerate(s['load_mwh'])] for i,c in enumerate(config.customers)}
         periods = []
         for j in range(96):
             load, da, rt = s['load_mwh'][j], s['day_ahead_price'][j], s['real_time_price'][j]
@@ -74,10 +78,11 @@ def account(config, package, risk, wholesale):
                 'deviation_penalty_yuan': (1.05*max(da-rt,0)*max(rb-rs-ratio*load,0)
                     + 1.05*max(rt-da,0)*max(rs-rb-ratio*load,0)
                     + (s['period_costs'][j].get('contract_assessment_penalty_yuan',0.) if 'period_costs' in s else 0.)),
-                'storage_degradation_yuan': degradation*(c+d),
+                'storage_degradation_yuan': (sum(b['settings']['degradation_yuan_per_mwh']*(b['charge_mwh'][j]+b['discharge_mwh'][j]) for b in batteries.values()) if batteries else degradation*(c+d)),
+                'storage_switching_degradation_yuan':switching['periods'][j]['switching_cost_yuan'],
             })
             cost = sum(cost_parts.values())
-            revenue = sum(load * config.customer_shares[i][j] * prices[cust.customer_id][j] for i,cust in enumerate(config.customers))
+            revenue = sum(client_loads[cust.customer_id][j] * prices[cust.customer_id][j] for cust in config.customers)
             # A zero-load interval cannot supply a unit allocation price. Keep
             # any cash flow explicitly unallocated instead of losing it.
             buy = cost/load if load else None
@@ -97,14 +102,14 @@ def account(config, package, risk, wholesale):
         for i, cust in enumerate(config.customers):
             rows = []
             for j, row in enumerate(periods):
-                q = s['load_mwh'][j]*config.customer_shares[i][j]
+                q = client_loads[cust.customer_id][j]
                 cc = q*(row['buy_price_yuan_per_mwh'] or 0)
-                cr = q*(row['sell_price_yuan_per_mwh'] or 0)
+                cr = q*prices[cust.customer_id][j]
                 rows.append(dict(period=j+1, load_mwh=q, cost_yuan=cc, revenue_yuan=cr,
                     profit_yuan=cr-cc, actual_bill_yuan=q*prices[cust.customer_id][j],
                     buy_price_yuan_per_mwh=row['buy_price_yuan_per_mwh'],
-                    sell_price_yuan_per_mwh=row['sell_price_yuan_per_mwh'],
-                    **{k:row[k]*config.customer_shares[i][j] if row['load_mwh'] else 0. for k in COST_KEYS}))
+                    sell_price_yuan_per_mwh=prices[cust.customer_id][j],
+                    **{k:row[k]*q/row['load_mwh'] if row['load_mwh'] else 0. for k in COST_KEYS}))
             cc, cr, q = (sum(row[key] for row in rows) for key in ('cost_yuan','revenue_yuan','load_mwh'))
             customers[cust.customer_id].append(dict(scenario_id=s['scenario_id'], probability=s['probability'],
                 cost_yuan=cc, revenue_yuan=cr, profit_yuan=cr-cc, energy_mwh=q,
@@ -144,10 +149,16 @@ def account(config, package, risk, wholesale):
             real_time_sell_by_scenario_mwh=[s['rt_sell_mwh'][j] for s in raw['scenarios']],
             real_time_net_by_scenario_mwh=[s['rt_buy_mwh'][j]-s['rt_sell_mwh'][j] for s in raw['scenarios']])
         schedule.append(row)
-    previous=raw['initial_soc_mwh']; soc_error=0
-    for row in schedule:
-        soc_error=max(soc_error,abs(row['soc_mwh']-previous-efficiency*row['charge_mwh']+row['discharge_mwh']/efficiency))
-        previous=row['soc_mwh']
+    previous=raw['soc_mwh'][-1]; soc_error=0
+    if batteries:
+        for b in batteries.values():
+            p=b['settings'];prev=p['initial_soc_mwh']
+            for c,d,e in zip(b['charge_mwh'],b['discharge_mwh'],b['soc_mwh']):
+                soc_error=max(soc_error,abs(e-prev-p['charge_efficiency']*c+d/p['discharge_efficiency']));prev=e
+    else:
+        prev=raw['initial_soc_mwh']
+        for row in schedule:
+            soc_error=max(soc_error,abs(row['soc_mwh']-prev-efficiency*row['charge_mwh']+row['discharge_mwh']/efficiency));prev=row['soc_mwh']
     charge=sum(raw['charge_mwh']); discharge=sum(raw['discharge_mwh'])
     rt_mean=[weighted_mean([s['real_time_price'][j] for s in raw['scenarios']],probs) for j in range(96)]
     result=dict(package=package, risk_lambda=risk, status=opt['status'], feasible=True,
@@ -159,13 +170,15 @@ def account(config, package, risk, wholesale):
         profit_loss_cvar_yuan=stats('loss_yuan')['cvar'],
         declaration_band_penalty_yuan=raw['declaration_penalty_yuan'],
         wholesale_cost_breakdown={'scenarios':breakdowns,'expected':{k:weighted_mean([s[k] for s in breakdowns],probs) for k in COST_KEYS+('contract_cost_yuan','total_wholesale_cost_yuan',)}},
-        customer_results=customer_results, scenario_results=scenario_ledgers, schedule=schedule,
+        customer_results=customer_results, customer_storage=batteries, scenario_results=scenario_ledgers, schedule=schedule,
         storage_summary=dict(total_charge_mwh=charge,total_discharge_mwh=discharge,initial_soc_mwh=raw['initial_soc_mwh'],
             terminal_soc_mwh=previous,soc_lower_bound_mwh=settings.get('minimum_soc_mwh',2),soc_upper_bound_mwh=settings.get('maximum_soc_mwh',20),efficiency=efficiency,
             average_charge_price_yuan_per_mwh=sum(q*p for q,p in zip(raw['charge_mwh'],rt_mean))/charge if charge else None,
-            average_discharge_price_yuan_per_mwh=sum(q*p for q,p in zip(raw['discharge_mwh'],rt_mean))/discharge if discharge else None),
+            average_discharge_price_yuan_per_mwh=sum(q*p for q,p in zip(raw['discharge_mwh'],rt_mean))/discharge if discharge else None,
+            startup_count=switching['startup_count'],shutdown_count=switching['shutdown_count'],
+            switching_degradation_cost_yuan=switching['switching_cost_yuan']),
         accounting_checks=dict(max_energy_balance_residual_mwh=max_balance,max_soc_recursion_residual_mwh=soc_error,
-            terminal_soc_residual_mwh=previous-settings.get('terminal_soc_mwh',raw['initial_soc_mwh']),max_wholesale_ledger_residual_yuan=max_ledger,
+            terminal_soc_residual_mwh=(max(abs(b['soc_mwh'][-1]-b['settings']['terminal_soc_mwh']) for b in batteries.values()) if batteries else previous-settings.get('terminal_soc_mwh',raw['initial_soc_mwh'])),max_wholesale_ledger_residual_yuan=max_ledger,
             customer_cost_reconciliation_yuan=max_customer,
             customer_revenue_reconciliation_yuan=sum(c['expected_revenue_yuan'] for c in customer_results.values())-rev_stats['mean'],
             expected_profit_reconciliation_yuan=profit_stats['mean']-(rev_stats['mean']-cost_stats['mean'])),

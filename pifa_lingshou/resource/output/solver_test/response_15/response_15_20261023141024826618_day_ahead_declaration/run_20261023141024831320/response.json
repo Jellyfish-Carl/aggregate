@@ -1,0 +1,33 @@
+{
+  "node": "L3-A",
+  "solver_test": {
+    "request_file": "/Users/hanwu/PyCharmMiscProject/aggregate/pifa_lingshou/resource/input/solver_test/request_15/request_15_20261023141024826618_day_ahead_declaration.json",
+    "node": "L3-A",
+    "upstream_response_file": "/Users/hanwu/PyCharmMiscProject/aggregate/pifa_lingshou/resource/output/solver_test/response_15/response_15_20261023140944759120_d2/run_20261023140944763288/response.json",
+    "customer_count": 10,
+    "scenario_count": 300,
+    "solved_scenario_count": 300,
+    "time_limit_seconds": 60.0,
+    "time_count": 96,
+    "target_mip_gap": 0.03,
+    "elapsed_seconds": 91.932078375,
+    "solver_seconds": 0.0,
+    "other_processing_seconds": 91.932078375,
+    "request_preparation_seconds": 0.000721209000005274,
+    "model_execution_seconds": 91.92729754200002,
+    "milp_seconds": 0.0,
+    "pricing_lp_seconds": 0.0,
+    "variable_count": null,
+    "constraint_count": null,
+    "mip_gap": null,
+    "status": "TIME_LIMIT",
+    "gap_status": null,
+    "node_count": null,
+    "binary_count": null,
+    "objective_yuan": null,
+    "dual_bound": null,
+    "response_write_seconds": 0.0005649580000408605
+  },
+  "status": "TIME_LIMIT",
+  "error": "MilpSolveError: TIME_LIMIT_REACHED: 外部 watchdog 已在 90.025 秒终止求解子进程（HiGHS时限 60.000 秒，清理宽限 30.000 秒）"
+}

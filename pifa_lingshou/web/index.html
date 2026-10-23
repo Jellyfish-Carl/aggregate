@@ -12,11 +12,20 @@
   <div class="server-state"><i></i><span id="connection">正在连接本地计算服务</span></div>
 </header>
 <main>
+  <section class="setup" aria-labelledby="node-request-title">
+    <div class="section-title"><div><p class="eyebrow">代码与网页共用的输入文件</p><h2 id="node-request-title">决策节点请求</h2></div></div>
+    <p>先选择 retail、annual、monthly 等决策节点，再加载对应 request。保存会直接修改这份输入文件；每次运行新增一条历史记录。下游使用 depends_on 指定请求的有效上游结果，不自动重跑上游。</p>
+    <div class="actions"><label>决策节点<select id="node-request-node"></select></label><label>请求目录<select id="node-request-select"><option value="">选择请求</option></select></label><button id="node-request-refresh">刷新列表和历史</button><button id="node-request-load">加载</button></div>
+    <details class="json-panel" id="node-request-panel"><summary>查看与编辑本节点 request JSON</summary><textarea id="node-request-json" rows="16" spellcheck="false" aria-label="节点请求 JSON" disabled></textarea>
+    <div class="actions"><button id="node-request-save" disabled>保存请求文件</button><button id="node-request-run" class="primary" disabled>运行本节点</button></div></details>
+    <p id="node-request-message" role="status">生成新数据：运行 request_genaration_test.py，再刷新列表。</p>
+    <pre id="node-request-log"></pre><h3>所选 request 的运行历史</h3><ul id="node-request-history"></ul>
+  </section>
   <section class="setup" aria-labelledby="setup-title">
     <div class="section-title"><div><p class="eyebrow">测试案例</p><h1 id="setup-title">建立一组可复算的输入</h1></div><div class="actions"><label>历史案例<select id="case-select"><option value="">新建 / 选择已有案例</option></select></label><button id="create-case" class="primary">＋ 新建案例</button></div></div>
     <div class="setup-grid">
       <label>案例名称<input id="case-name" value="批零测试"></label>
-      <label>客户数量<input id="customer-count" type="number" min="1" max="20" value="3"></label>
+      <label>客户数量<input id="customer-count" type="number" min="1" max="100" value="3"></label>
       <label>标的日<input id="target-date" type="date"></label>
       <label>套餐推荐预测天数<input id="recommendation-days" type="number" min="7" max="366" value="30"></label>
       <label>风险权重 λ<input id="risk-lambda" type="number" min="0" max="1" step="0.05" value="0.25"></label>
@@ -31,14 +40,14 @@
       <label>月度零售参考价 · 元/MWh<input data-market="monthly_reference_price" type="number" step="0.1" value="416"></label>
       <label>运营成本 · 元/MWh<input data-market="operating_cost_yuan_per_mwh" type="number" step="0.1" value="2"></label>
       <label>参考价组成 · 年/月/现货<input data-market-array="reference_weights" value="0.7, 0.2, 0.1"></label>
-      <label>采购成本组成 · 年/月/现货<input data-market-array="procurement_weights" value="0.7, 0.2, 0.1"></label>
       <label title="以预测价格为中心生成上下波动范围。例如 0.15 表示价格约按 ±15% 生成情景。">价格预测相对区间<input data-market="price_uncertainty_ratio" type="number" min="0" max="0.99" step="0.01" value="0.15"></label>
-      <label title="不稳定度不超过此值时，程序优先推荐固定价 F。">低不稳定阈值<input id="stable-threshold" type="number" min="0" max="0.99" step="0.01" value="0.12"></label>
-      <label title="不稳定度高于此值时，程序优先推荐市场联动 L；两者之间优先推荐比例分成 S。">高不稳定阈值<input id="variable-threshold" type="number" min="0" max="0.99" step="0.01" value="0.25"></label>
-      <label>公司最低期望利润 · 元<input id="minimum-profit" type="number" min="0" step="10" value="0"></label>
-      <label>客户最低节省 · 元<input id="minimum-saving" type="number" min="0" step="10" value="0"></label>
+      <label>组合最低期望利润 · 元<input id="minimum-profit" type="number" min="0" step="10" value="0"></label>
+      <label>组合利润损失 CVaR 上限 · 元<input id="maximum-cvar" type="number" min="0" step="10" placeholder="不设上限"></label>
+      <label>每客户最低节省 · 元<input id="minimum-saving" type="number" min="0" step="10" value="0"></label>
+      <label>套餐联合模型最大时限 · 秒<input id="recommendation-time-limit" type="number" min="1" max="300" value="300"></label>
+      <label>套餐全局 gap 目标 · %<input id="recommendation-gap" type="number" min="0" max="3" step="0.1" value="3"></label>
     </div>
-    <p class="parameter-help"><strong>参数口径：</strong>价格预测相对区间只控制价格情景的上下波动；套餐推荐另算“不稳定度” = 50% × 逐日电量变异系数 + 50% × 客户预测不确定性。低于低阈值优先推荐固定价 F，介于两个阈值之间优先推荐比例分成 S，高于高阈值优先推荐市场联动 L。程序建议仍需你人工确认。</p>
+    <p class="parameter-help"><strong>参数口径：</strong>套餐推荐与年度 L1 共用 MILP，逐客户选择 F/L/S，搜索完整组合空间，只推荐一个综合组合。金额和经济底线按年度范围折算；全局 gap 达到设定目标（不超过3%）后才能确认，默认最多300秒，达标可提前结束。</p>
     <div class="actions"><button id="edit-inputs">编辑客户和96点预测数据</button><button id="save-inputs" class="primary" disabled>保存并验证输入</button><span id="case-meta">尚未创建案例</span></div>
   </section>
 
@@ -63,7 +72,7 @@
   </section>
 
   <section class="tab-panel" id="tab-recommendation" hidden>
-    <div class="panel-heading"><div><h2>先看程序推荐，再人工确认套餐</h2><p>程序先按整段预测稳定性、客户节省和公司期望利润底线给出建议，并展示 F/L/S 的收益对比。你可以逐客户修改最终选择；点击确认后才会签约并进入购电阶段。</p></div><button id="calculate-recommendation" class="primary">计算套餐收益与推荐</button></div>
+    <div class="panel-heading"><div><h2>确认一个综合最优套餐组合</h2><p>按当前 λ 联合优化逐客户套餐与年度采购，显示全局 gap、可行性与真实耗时。修改人工选择后，在确认时重新核验年度模型。</p></div><button id="calculate-recommendation" class="primary">计算完整套餐组合</button></div>
     <div id="recommendation-results" class="empty-state">先保存并确认输入，再计算推荐。推荐不会自动签约。</div>
     <div id="confirm-packages" hidden><div class="panel-heading"><div><h3>人工确认客户套餐</h3><p>逐客户选择F固定价、L市场联动或S比例分成，再确认签约。</p></div><button id="sign-packages" class="primary">确认套餐并进入购电阶段</button></div><div id="package-choices" class="table-wrap"></div></div>
   </section>
@@ -85,5 +94,6 @@
 </main>
 <div id="toast" role="status" aria-live="polite"></div>
 <script src="/case.js" defer></script>
+<script src="/node_requests.js" defer></script>
 </body>
 </html>

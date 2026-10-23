@@ -1,0 +1,33 @@
+{
+  "node": "L3-A",
+  "solver_test": {
+    "request_file": "/Users/hanwu/PyCharmMiscProject/aggregate/pifa_lingshou/resource/input/solver_test/request_14/request_14_20261023140715311479_day_ahead_declaration.json",
+    "node": "L3-A",
+    "upstream_response_file": "/Users/hanwu/PyCharmMiscProject/aggregate/pifa_lingshou/resource/output/solver_test/response_14/response_14_20261023140642112134_d2/run_20261023140642118142/response.json",
+    "customer_count": 10,
+    "scenario_count": 200,
+    "solved_scenario_count": 200,
+    "time_limit_seconds": 60.0,
+    "time_count": 96,
+    "target_mip_gap": 0.03,
+    "elapsed_seconds": 74.78284191700001,
+    "solver_seconds": 73.553195584,
+    "other_processing_seconds": 1.2296463330000194,
+    "request_preparation_seconds": 0.0005487090000002581,
+    "model_execution_seconds": 74.78096595800001,
+    "milp_seconds": 73.553195584,
+    "pricing_lp_seconds": 0.0,
+    "variable_count": 76529,
+    "constraint_count": 160010,
+    "mip_gap": null,
+    "status": "TIME_LIMIT",
+    "gap_status": "INFINITE_NO_INCUMBENT",
+    "node_count": 0,
+    "binary_count": 1920,
+    "objective_yuan": null,
+    "dual_bound": -106078.033401,
+    "response_write_seconds": 0.0004896670000107406
+  },
+  "status": "TIME_LIMIT",
+  "error": "MilpSolveError: LIMIT_REACHED: Time limit reached. (HiGHS Status 13: model_status is Time limit reached; primal_status is At lower/fixed bound)"
+}

@@ -1,0 +1,13 @@
+{
+  "node": "STORAGE-DA",
+  "status": "RUNNING",
+  "solver_test": {
+    "request_file": "/Users/hanwu/PyCharmMiscProject/aggregate/pifa_lingshou/resource/input/solver_test/request_13/request_13_20261023140134832969_storage_day_ahead.json",
+    "node": "STORAGE-DA",
+    "upstream_response_file": "/Users/hanwu/PyCharmMiscProject/aggregate/pifa_lingshou/resource/output/solver_test/response_13/response_13_20261023140039001760_day_ahead_declaration/run_20261023140039005263/response.json",
+    "customer_count": 10,
+    "scenario_count": 100,
+    "time_limit_seconds": 60.0,
+    "status": "RUNNING"
+  }
+}

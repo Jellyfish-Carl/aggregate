@@ -3,7 +3,7 @@
   'use strict';
   const $=id=>document.getElementById(id), all=s=>[...document.querySelectorAll(s)];
   const nodes=['ANNUAL','MONTHLY','TEN_DAY','D-3','D-2','L3-A','STORAGE-DA','STORAGE-RT'];
-  const names=['年度中长期','月度中长期','旬内中长期','D-3滚撮','D-2滚撮','日前现货申报','日前储能','日内储能'];
+  const names=['年度中长期','月度中长期','旬内中长期','D-3滚撮','D-2滚撮','L3 申报与储能联合优化','L3 17:00后更新（日前价已知）','L3 日内滚动与储能'];
   const name=n=>names[nodes.indexOf(n)]||n;
   const costNames={annual_energy_cost_yuan:'年度电能量',monthly_energy_cost_yuan:'月度电能量',ten_day_energy_cost_yuan:'旬内电能量',d3_energy_cost_yuan:'D-3滚撮电能量',d2_energy_cost_yuan:'D-2滚撮电能量',day_ahead_cost_yuan:'日前现货',real_time_cost_yuan:'实时现货',deviation_penalty_yuan:'考核与罚款',storage_degradation_yuan:'储能退化'};
   const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -38,13 +38,13 @@
   const settled=()=>current?.state.status==='SETTLED';
   const hasDA=()=>!!current?.state.stages.some(s=>s.node==='STORAGE-DA');
   const base=()=>({case_id:current.state.case_id,revision:current.state.revision});
-  const url=(kind,file)=>`/resource/${kind}/${current.state.case_id}/${file}`;
-  function settings(){const market={};all('[data-market]').forEach(e=>market[e.dataset.market]=Number(e.value));all('[data-market-array]').forEach(e=>market[e.dataset.marketArray]=e.value.split(',').map(Number));return {name:$('case-name').value,customer_count:Number($('customer-count').value),target_date:$('target-date').value,seed:Number($('seed').value),recommendation_days:Number($('recommendation-days').value),risk_lambda:Number($('risk-lambda').value),scenario_count:Number($('scenario-count').value),market,recommendation_policy:{stable_threshold:Number($('stable-threshold').value),variable_threshold:Number($('variable-threshold').value),minimum_expected_profit_yuan:Number($('minimum-profit').value),minimum_customer_saving_yuan:Number($('minimum-saving').value)}};}
-  function fillSettings(d){for(const [id,key] of Object.entries({'case-name':'name','customer-count':'customer_count','target-date':'target_date','seed':'seed','recommendation-days':'recommendation_days','risk-lambda':'risk_lambda','scenario-count':'scenario_count'}))$(id).value=d[key];all('[data-market]').forEach(e=>e.value=d.market[e.dataset.market]);all('[data-market-array]').forEach(e=>e.value=d.market[e.dataset.marketArray].join(', '));const p=d.recommendation_policy;$('stable-threshold').value=p.stable_threshold;$('variable-threshold').value=p.variable_threshold;$('minimum-profit').value=p.minimum_expected_profit_yuan;$('minimum-saving').value=p.minimum_customer_saving_yuan;}
+  const url=(kind,file)=>file.startsWith('@')?`/resource/${file.slice(1)}`:`/resource/workflows/${current.state.case_id}/${kind}/${file}`;
+  function settings(){const market={};all('[data-market]').forEach(e=>market[e.dataset.market]=Number(e.value));all('[data-market-array]').forEach(e=>market[e.dataset.marketArray]=e.value.split(',').map(Number));return {name:$('case-name').value,customer_count:Number($('customer-count').value),target_date:$('target-date').value,seed:Number($('seed').value),recommendation_days:Number($('recommendation-days').value),risk_lambda:Number($('risk-lambda').value),scenario_count:Number($('scenario-count').value),market,recommendation_policy:{minimum_total_profit_yuan:Number($('minimum-profit').value),maximum_profit_loss_cvar_yuan:$('maximum-cvar').value===''?null:Number($('maximum-cvar').value),minimum_customer_saving_yuan:Number($('minimum-saving').value),time_limit_seconds:Number($('recommendation-time-limit').value),mip_relative_gap:Number($('recommendation-gap').value)/100}};}
+  function fillSettings(d){for(const [id,key] of Object.entries({'case-name':'name','customer-count':'customer_count','target-date':'target_date','seed':'seed','recommendation-days':'recommendation_days','risk-lambda':'risk_lambda','scenario-count':'scenario_count'}))$(id).value=d[key];all('[data-market]').forEach(e=>e.value=d.market[e.dataset.market]);all('[data-market-array]').forEach(e=>e.value=d.market[e.dataset.marketArray].join(', '));const p=d.recommendation_policy;$('minimum-profit').value=p.minimum_total_profit_yuan;$('maximum-cvar').value=p.maximum_profit_loss_cvar_yuan??'';$('minimum-saving').value=p.minimum_customer_saving_yuan;$('recommendation-time-limit').value=Math.min(p.time_limit_seconds??300,300);$('recommendation-gap').value=(p.mip_relative_gap??.03)*100;}
   function updateControls(){
     $('create-case').disabled=busy;$('case-select').disabled=busy;
     $('save-inputs').disabled=busy||!current||signed();$('calculate-recommendation').disabled=busy||!current||signed();
-    $('sign-packages').disabled=busy||signed();$('prepare-actuals').disabled=busy||!hasDA()||settled();
+    $('sign-packages').disabled=busy||signed()||!current?.state.recommendation?.quality_certified;$('prepare-actuals').disabled=busy||!hasDA()||settled();
     $('settle-case').disabled=busy||!$('actual-json')||settled();$('compare-risk').disabled=busy||!hasDA();
     for(const id of ['apply-customer','apply-json','edit-inputs'])$(id).disabled=busy||!current||signed();
     all('#tab-inputs input,#tab-inputs textarea,#tab-inputs select').forEach(e=>e.disabled=busy||signed());
@@ -54,8 +54,8 @@
       'save-inputs':!current?'请先点击“新建案例”':signed()?'案例已签约，输入已锁定':'保存当前输入后才能计算推荐',
       'calculate-recommendation':!current?'请先新建案例':signed()?'案例已签约，不能重复推荐':'先保存输入',
       'sign-packages':!current?'先新建案例':!current.state.recommendation?'先计算套餐推荐':'请选择每个客户的套餐',
-      'prepare-actuals':!hasDA()?'先完成“日前储能”节点':settled()?'案例已结算':'',
-      'compare-risk':!hasDA()?'先完成“日前储能”节点':'',
+      'prepare-actuals':!hasDA()?'先完成“L3 17:00后更新”节点':settled()?'案例已结算':'',
+      'compare-risk':!hasDA()?'先完成“L3 17:00后更新”节点':'',
       'settle-case':!$('actual-json')?'先点击“生成可编辑模拟实绩”':settled()?'案例已结算':''
     };
     Object.entries(reasons).forEach(([id,reason])=>{const e=$(id);if(e)e.title=e.disabled&&reason?reason:'';});
@@ -63,8 +63,8 @@
     if(help){
       if(!current)help.textContent='当前还没有案例。先点击“新建案例”，页面才会加载客户、96点预测和后续计算按钮。';
       else if(!signed())help.textContent=current.state.recommendation?'下一步：在“套餐推荐”页为每个客户选择套餐并点击“确认套餐并进入购电阶段”。':'下一步：在“输入与校验”页点击“保存并验证输入”，再点击“计算套餐收益与推荐”。';
-      else if(!hasDA())help.textContent='已签约。请在“逐阶段购电”页按左侧高亮的“下一节点”依次运行；储能曲线会在完成“日前储能”后出现在页面底部结果卡片。';
-      else help.textContent='日前储能已完成。请在页面底部点击储能节点结果中的“查看储能充放电与 SOC 曲线”；完成后可生成实绩并结算。';
+      else if(!hasDA())help.textContent='已签约。请在“逐阶段购电”页按左侧高亮的“下一节点”依次运行；储能曲线从 L3 申报与储能联合优化节点起就可查看。';
+      else help.textContent='L3 日前价已知更新已完成。请在页面底部点击储能节点结果中的“查看储能充放电与 SOC 曲线”；完成后可生成实绩并结算。';
     }
   }
   function markDirty(){if(!signed()){dirty=true;$('input-status').textContent='有未保存修改';}}
@@ -106,41 +106,34 @@
   }
   async function save(){if(!current)throw Error('请先新建案例');captureInputs();current=await api('/api/cases/save',{...base(),input:current.input});dirty=false;renderAll();await listCases();}
   function renderRecommendation(){
-    const r=current?.state.recommendation,box=$('recommendation-results');$('confirm-packages').hidden=!r;
-    if(!r){box.className='empty-state';box.textContent='先保存并确认输入，再计算推荐。推荐不会自动签约。';return;}
-    r.customers.forEach(c=>{packageSelections[c.customer_id]=packageSelections[c.customer_id]||current.state.packages[c.customer_id]||c.recommended_package||'F';});
-    const company=r.company_curve;
-    const selectedCustomers=r.customers.map(c=>c.candidates.find(x=>x.package===packageSelections[c.customer_id])||c.candidates[0]);
-    const usesRecommendedMix=!!company&&r.customers.every(c=>packageSelections[c.customer_id]===(c.recommended_package||'F'));
-    const displayCompany=company&&usesRecommendedMix?company:company?{...company,
-      packages:Object.fromEntries(r.customers.map(c=>[c.customer_id,packageSelections[c.customer_id]])),
-      expected_cost_yuan:selectedCustomers.reduce((a,x)=>a+x.expected_cost_yuan,0),
-      expected_revenue_yuan:selectedCustomers.reduce((a,x)=>a+x.expected_revenue_yuan,0),
-      profit_p10_yuan:selectedCustomers.reduce((a,x)=>a+x.profit_p10_yuan,0),
-      profit_p90_yuan:selectedCustomers.reduce((a,x)=>a+x.profit_p90_yuan,0),
-      lambda_curve:(company.lambda_curve||[]).map((_,i)=>({
-        lambda_value:company.lambda_curve[i].lambda_value,
-        expected_profit_yuan:selectedCustomers.reduce((a,x)=>a+x.lambda_curve[i].expected_profit_yuan,0),
-        expected_saving_yuan:selectedCustomers.reduce((a,x)=>a+x.lambda_curve[i].expected_saving_yuan,0),
-        expected_spread_yuan_per_mwh:selectedCustomers.reduce((a,x)=>a+x.lambda_curve[i].expected_spread_yuan_per_mwh,0),
-        profit_p10_yuan:selectedCustomers.reduce((a,x)=>a+x.lambda_curve[i].profit_p10_yuan,0),
-        profit_p90_yuan:selectedCustomers.reduce((a,x)=>a+x.lambda_curve[i].profit_p90_yuan,0),
-        profit_interval_low_yuan:selectedCustomers.reduce((a,x)=>a+x.lambda_curve[i].profit_interval_low_yuan,0),
-        profit_interval_high_yuan:selectedCustomers.reduce((a,x)=>a+x.lambda_curve[i].profit_interval_high_yuan,0),
-        saving_interval_low_yuan:selectedCustomers.reduce((a,x)=>a+x.lambda_curve[i].saving_interval_low_yuan,0),
-        saving_interval_high_yuan:selectedCustomers.reduce((a,x)=>a+x.lambda_curve[i].saving_interval_high_yuan,0),
-      }))}:null;
-    const companyChart=displayCompany?lambdaChart('售电公司：λ–风险调整利润与预测区间',[{name:'当前客户套餐组合',points:displayCompany.lambda_curve}],'expected_profit_yuan','profit_interval_low_yuan','profit_interval_high_yuan'):'';
-    const companyBlock=displayCompany?`<section class="recommend-portfolio"><div class="panel-heading"><div><h3>售电公司整体 λ 曲线</h3><p>组合：${esc(Object.entries(displayCompany.packages).map(([id,p])=>`${id}=${p}`).join('，'))}；客户修改套餐后曲线即时更新。</p></div></div><div class="metric-row">${metric('期望成本 · 元',displayCompany.expected_cost_yuan)+metric('期望收入 · 元',displayCompany.expected_revenue_yuan)+metric('λ=0期望利润 · 元',displayCompany.lambda_curve[0]?.expected_profit_yuan)+metric('λ=1风险调整利润 · 元',displayCompany.lambda_curve[displayCompany.lambda_curve.length-1]?.expected_profit_yuan)+metric('利润预测区间 · P10–P90',`${num(displayCompany.profit_p10_yuan)} ~ ${num(displayCompany.profit_p90_yuan)}`)}</div>${companyChart}<p class="eyebrow">公司曲线聚合当前客户套餐候选结果；保持程序推荐组合时使用联合情景区间，手动更换套餐后为客户区间的加总近似。</p></section>`:'';
-    box.className='';box.innerHTML=`<p>${esc(r.formula)}</p><p>${esc(r.cost_basis)}</p><p class="eyebrow">${esc(r.risk_note)}；金额为整个 ${r.day_count} 天预测期的元，价差为元/MWh。</p><p class="lambda-note">${esc(r.lambda_curve_definition||'λ=0 使用情景均值，λ=1 向情景 P10 下行分位数靠拢。')}</p>${companyBlock}`+r.customers.map(c=>{const selected=packageSelections[c.customer_id]||c.recommended_package||'F';const customerSeries=c.candidates.map(x=>({name:`套餐 ${x.package}`,points:x.lambda_curve}));return `<article class="recommend-card"><h3>${esc(c.customer_id)}　<span class="tag">建议 ${esc(c.recommended_package||'调整报价')}</span></h3><p>${esc(c.reason)}。不稳定度 ${c.instability_score.toFixed(3)}；逐日电量CV ${c.daily_energy_cv.toFixed(3)}</p><div class="metric-row">${metric('客户期望节省 · 元',c.candidates.find(x=>x.package===selected)?.expected_customer_saving_yuan)+metric('客户节省 P10 · 元',c.candidates.find(x=>x.package===selected)?.saving_p10_yuan)+metric('客户节省 P90 · 元',c.candidates.find(x=>x.package===selected)?.saving_p90_yuan)+metric('推荐套餐',selected)+metric('推荐期望价差 · 元/MWh',c.candidates.find(x=>x.package===selected)?.expected_spread_yuan_per_mwh)}</div>${lambdaChart(`${c.customer_id}：λ–客户风险调整收益与预测区间`,customerSeries,'expected_saving_yuan','saving_interval_low_yuan','saving_interval_high_yuan')}<div class="table-wrap">${table(['套餐','公司期望成本','公司期望收入','公司期望利润','利润P10–P90','客户期望节省','节省P10–P90','期望价差','通过底线'],c.candidates.map(x=>[x.package,num(x.expected_cost_yuan),num(x.expected_revenue_yuan),num(x.expected_profit_yuan),`${num(x.profit_p10_yuan)} ~ ${num(x.profit_p90_yuan)}`,num(x.expected_customer_saving_yuan),`${num(x.saving_p10_yuan)} ~ ${num(x.saving_p90_yuan)}`,num(x.expected_spread_yuan_per_mwh),x.eligible?'是':'否']))}</div></article>`;}).join('');
-    $('package-choices').innerHTML=table(['客户','程序建议','最终选择（可修改）','选择说明'],r.customers.map(c=>[esc(c.customer_id),`<span class="tag">${esc(c.recommended_package||'无可行建议')}</span>`,`<select class="package-select" data-package="${esc(c.customer_id)}" ${signed()?'disabled':''}>${['F','L','S'].map(p=>`<option value="${p}" ${packageSelections[c.customer_id]===p?'selected':''}>${{F:'固定价 F',L:'市场联动 L',S:'比例分成 S'}[p]}</option>`).join('')}</select>`,esc(c.reason)]));
+    const r=current?.state.recommendation,box=$('recommendation-results');
+    $('confirm-packages').hidden=!r?.quality_certified;
+    if(!r){box.className='empty-state';box.textContent='先保存输入，再计算完整套餐组合。推荐不会自动签约。';return;}
+    const portfolio=r.recommended_portfolio||r.candidate_portfolio,perf=r.performance||{},solver=r.solver||{};
+    const packages=portfolio?.packages||{};
+    r.customers.forEach(c=>{packageSelections[c.customer_id]=packageSelections[c.customer_id]||current.state.packages[c.customer_id]||packages[c.customer_id]||'F';});
+    const changed=r.customers.some(c=>packageSelections[c.customer_id]!==packages[c.customer_id]);
+    const gap=solver.mip_gap===null||solver.mip_gap===undefined?'未取得':(100*solver.mip_gap).toFixed(3)+'%';
+    const status=r.quality_certified?'已达到精度要求的综合推荐':portfolio?'待收敛候选（不能作为已认证推荐）':'没有可行组合';
+    box.className='';
+    box.innerHTML='<h3>'+esc(status)+'</h3><p>'+esc(r.formula)+'</p><p>'+esc(r.cost_basis)+'</p>'+
+      '<div class="metric-row">'+metric('完整理论组合数',r.combination_space?.theoretical_count||'—')+metric('全局 gap',gap)+metric('目标 gap',(100*perf.target_mip_gap).toFixed(2)+'%')+metric('求解秒数',perf.solve_seconds)+metric('总用时 · 秒',perf.end_to_end_seconds)+metric('最大时限 · 秒',perf.time_limit_seconds)+'</div>'+
+      '<p>'+esc(perf.explanation||'')+'</p><p>'+esc(r.risk_note)+' 金额按 '+r.annual_scope_days+' 天年度范围折算；签约预测输入来自 '+r.day_count+' 天。</p>'+
+      (portfolio?'<section class="recommend-portfolio"><h3>当前 λ='+r.risk_lambda+' 的单一综合组合</h3><p>'+esc(Object.entries(packages).map(([id,p])=>id+'='+p).join('，'))+'</p>'+
+      '<div class="metric-row">'+metric('年度期望采购与运营成本 · 元',portfolio.expected_cost_yuan)+metric('年度期望零售收入 · 元',portfolio.expected_revenue_yuan)+metric('年度期望利润 · 元',portfolio.expected_profit_yuan)+metric('利润 P10–P90 · 元',num(portfolio.profit_p10_yuan)+' ~ '+num(portfolio.profit_p90_yuan))+metric('组合损失 CVaR · 元',portfolio.profit_loss_cvar_yuan)+'</div>'+
+      '<p>'+(changed?'你已修改套餐。上方数值仍属于计算出的原组合；人工组合将在确认时调用同一年度模型核验，不复用原组合的 gap 或利润。':'采用此组合后，人工确认即可签约。')+'</p></section>':'<p>'+esc(solver.message||r.status)+'</p>')+
+      '<details><summary>求解规模、最优界与状态</summary><pre>'+esc(JSON.stringify({status:r.status,solver:r.solver,performance:perf},null,2))+'</pre></details>';
+    $('package-choices').innerHTML=table(['客户','综合组合中的套餐','最终选择','客户节省 P10 · 元','候选条款'],r.customers.map(c=>{
+      const candidate=c.candidates.find(x=>x.package===packageSelections[c.customer_id]);
+      return [esc(c.customer_id),esc(c.recommended_package||'未认证'),'<select class="package-select" data-package="'+esc(c.customer_id)+'" '+(signed()?'disabled':'')+'>'+['F','L','S'].map(p=>'<option value="'+p+'" '+(packageSelections[c.customer_id]===p?'selected':'')+'>'+p+'</option>').join('')+'</select>',num(candidate?.saving_p10_yuan),c.candidates.map(x=>esc(x.package)+': '+(x.eligible?'满足客户节省底线':'不满足')).join('；')];
+    }));
     all('.package-select').forEach(e=>e.onchange=()=>{packageSelections[e.dataset.package]=e.value;renderRecommendation();});
   }
   function nextNode(){const done=current.state.stages.filter(s=>s.node!=='STORAGE-RT').length;return nodes[Math.min(done,7)];}
   function renderStageEditor(){
     if(!signed()){$('stage-editor').className='empty-state';$('stage-editor').textContent='先在第2页逐客户确认套餐，再开始采购。';return;}
     const n=selectedNode||nextNode(),f=current.input.forecasts[n];selectedNode=n;
-    $('stage-editor').className='';$('stage-editor').innerHTML=`<h3>${name(n)}</h3><p>发布：${f.as_of}　交割：${f.scope_start} — ${f.scope_end}</p><p>已签套餐 ${esc(Object.entries(current.state.packages).map(([c,p])=>c+'：'+p).join('，'))}。年/月/旬固定已成交仓位；储能固定日前申报。</p><div class="table-wrap">${table(['预测指标','范围'],[['客户总预测电量 · MWh/代表日',num(Object.values(f.customer_load_mwh).flat().reduce((a,b)=>a+b,0))],['日前价格 · 元/MWh',`${num(Math.min(...f.day_ahead_price))} ~ ${num(Math.max(...f.day_ahead_price))}`],['实时价格 · 元/MWh',`${num(Math.min(...f.real_time_price))} ~ ${num(Math.max(...f.real_time_price))}`]])}</div><details class="json-panel"><summary>查看 / 更新本节点96点预测与报价</summary><p>客户P10/P50/P90、日前与实时价格均可编辑。保存后输入版本递增，已成交节点不可重写。</p><textarea id="forecast-json" rows="14">${esc(JSON.stringify(f,null,2))}</textarea><button id="save-forecast">保存节点预测</button></details>${n==='STORAGE-RT'?'<div class="json-panel"><h4>已执行实绩</h4><p>输入已执行点数 fixed_until、等长 actual_load_mwh、actual_rt_price，以及 executed_storage 内的 charge_mwh / discharge_mwh / soc_mwh。历史前缀不可改写。</p><textarea id="rt-prefix" rows="7" placeholder="粘贴实绩 JSON"></textarea></div>':''}<div class="stage-controls"><button id="run-stage" class="primary">运行 ${name(n)}</button><span>只计算本节点；下游由你确认后运行。</span></div>`;
+    $('stage-editor').className='';$('stage-editor').innerHTML=`<h3>${name(n)}</h3><p>发布：${f.as_of}　交割：${f.scope_start} — ${f.scope_end}</p><p>已签套餐 ${esc(Object.entries(current.state.packages).map(([c,p])=>c+'：'+p).join('，'))}。年/月/旬固定已成交仓位；L3 申报时联合优化储能，17:00 后固定申报并更新已知日前价。</p><div class="table-wrap">${table(['预测指标','范围'],[['客户总预测电量 · MWh/代表日',num(Object.values(f.customer_load_mwh).flat().reduce((a,b)=>a+b,0))],['日前价格 · 元/MWh',`${num(Math.min(...f.day_ahead_price))} ~ ${num(Math.max(...f.day_ahead_price))}`],['实时价格 · 元/MWh',`${num(Math.min(...f.real_time_price))} ~ ${num(Math.max(...f.real_time_price))}`]])}</div><details class="json-panel"><summary>查看 / 更新本节点96点预测与报价</summary><p>客户P10/P50/P90、日前与实时价格均可编辑。保存后输入版本递增，已成交节点不可重写。</p><textarea id="forecast-json" rows="14">${esc(JSON.stringify(f,null,2))}</textarea><button id="save-forecast">保存节点预测</button></details>${n==='STORAGE-RT'?'<div class="json-panel"><h4>已执行实绩</h4><p>输入已执行点数 fixed_until、等长 actual_load_mwh、actual_rt_price，以及 executed_storage 内的 charge_mwh / discharge_mwh / soc_mwh。历史前缀不可改写。</p><textarea id="rt-prefix" rows="7" placeholder="粘贴实绩 JSON"></textarea></div>':''}<div class="stage-controls"><button id="run-stage" class="primary">运行 ${name(n)}</button><span>只计算本节点；下游由你确认后运行。</span></div>`;
     $('save-forecast').onclick=guard(async()=>{current=await api('/api/cases/forecast',{...base(),node:n,forecast:JSON.parse($('forecast-json').value)});renderAll();notify('节点预测已验证并保存');});
     $('run-stage').onclick=guard(async()=>{let execution;if(n==='STORAGE-RT')execution=JSON.parse($('rt-prefix').value);await startJob('stage',{node:n,execution});});updateControls();
   }
@@ -149,7 +142,7 @@
     $('clock-tag').textContent=`案例时间 ${current.state.clock} · ${settled()?'已结算':signed()?'已签约':'待签约'}`;
     $('stage-list').innerHTML=nodes.map(n=>`<li class="${done.some(r=>r.node===n)?'done ':''}${n===selectedNode?'current':''}"><button data-stage="${n}">${name(n)}</button><small>${done.some(r=>r.node===n)?'已完成':n===expected?'下一节点':'等待前置'} · ${current.input.forecasts[n].as_of}</small></li>`).join('');
     all('[data-stage]').forEach(b=>b.onclick=()=>{selectedNode=b.dataset.stage;renderStages();});renderStageEditor();
-    $('stage-results').innerHTML=done.map(r=>`<article class="stage-result"><strong>${name(r.node)}</strong>　<span class="tag">${esc(r.status)}</span><p>交割 ${r.forecast.scope_start} — ${r.forecast.scope_end} · ${r.elapsed_seconds.toFixed(3)} 秒 · 输入版本 ${r.input_revision}</p><a href="${url('output',r.report_file)}" target="_blank">${r.node.startsWith('STORAGE')?'查看储能充放电与 SOC 曲线':'查看96点曲线 / 成本与收益'}</a><a href="${url('output',r.result_file)}" target="_blank">完整求解结果</a></article>`).join('');
+    $('stage-results').innerHTML=done.map(r=>`<article class="stage-result"><strong>${name(r.node)}</strong>　<span class="tag">${esc(r.status)}</span><p>交割 ${r.forecast.scope_start} — ${r.forecast.scope_end} · ${r.elapsed_seconds.toFixed(3)} 秒 · 输入版本 ${r.input_revision}</p><a href="${url('output',r.report_file)}" target="_blank">${(r.node==='L3-A'||r.node.startsWith('STORAGE'))?'查看储能充放电与 SOC 曲线':'查看96点曲线 / 成本与收益'}</a><a href="${url('output',r.result_file)}" target="_blank">完整求解结果</a></article>`).join('');
     $('risk-report').hidden=!current.state.risk_comparison;if(current.state.risk_comparison)$('risk-report').href=url('output',current.state.risk_comparison.report_file);
   }
   function renderSettlement(){

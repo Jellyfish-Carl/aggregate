@@ -1,161 +1,162 @@
-"""Signing-period package estimates; no procurement orders or realized data."""
+"""Choose one customer package portfolio using the annual L1 MILP."""
+from copy import deepcopy
+from math import isfinite
 from statistics import mean
-from ..inputs.full_model import FullModelInput,retail_prices
-from ..inputs.case_data import layer_input
-from ..data_objects.model import Customer
+from time import perf_counter
+
 from ..accounting.retail import summarize_distribution
-from ..service.layer_runner import run_layer
+from .case_data import layer_input
+from .full_model import retail_prices
+from ..problem_solver.milp import MAX_SOLVER_WALL_TIME_SECONDS, MilpSolveError
+from .layer_runner import l1_context, solve_l1_input
+from .economic_policy import period_policy
+from .full_model import customer_load
 
 
-# The signing screen is an ex-ante comparison, before a procurement MILP has
-# been run.  These fixed points make the recommendation view comparable to
-# the later risk replay without implying that a package is automatically
-# selected by lambda.
-RECOMMENDATION_LAMBDAS = (0.0, 0.25, 0.5, 0.75, 1.0)
+def signing_input(data):
+    """Use only signing-period information; later node forecasts are not truth."""
+    inp=layer_input(data,'ANNUAL',{})
+    days=data['signing_forecast']['days']
+    ids=[c['terms']['customer_id'] for c in data['customers']]
+    loads={c['terms']['customer_id']:[q*mean(day['load_factors'][c['terms']['customer_id']] for day in days)
+        for q in c['load_profile_mwh']] for c in data['customers']}
+    total=[sum(loads[cid][j] for cid in ids) for j in range(96)]
+    inp.update(load_forecast_mwh=total,
+        customer_load_forecast_mwh=loads,
+        customer_load_p10_mwh={c['terms']['customer_id']:[q*(1-c['forecast_uncertainty']) for q in loads[c['terms']['customer_id']]] for c in data['customers']},
+        customer_load_p90_mwh={c['terms']['customer_id']:[q*(1+c['forecast_uncertainty']) for q in loads[c['terms']['customer_id']]] for c in data['customers']},
+        load_p10_mwh=[sum(loads[c['terms']['customer_id']][j]*(1-c['forecast_uncertainty']) for c in data['customers']) for j in range(96)],
+        load_p90_mwh=[sum(loads[c['terms']['customer_id']][j]*(1+c['forecast_uncertainty']) for c in data['customers']) for j in range(96)],
+        customer_shares=[[loads[cid][j]/total[j] if total[j] else 1/len(ids) for j in range(96)] for cid in ids],
+        as_of=data['signing_forecast']['issued_at'],
+        physical_peak_mw=max(20.,max(total)*4*1.3),
+        portfolio_policy=data['recommendation_policy'])
+    # The legacy L1 trader cap is a per-node adjustment cap. A signing
+    # portfolio must cover the full annual aggregate, including 100 clients.
+    cap=max(8000.,sum(inp['load_p90_mwh'])*inp['delivery_days']['ANNUAL']*1.25)
+    inp['trader']={'maximum_node_adjustment_mwh':cap}
+    inp['l1_quote_limits']={'ANNUAL':cap}
+    market=data['market']
+    for key in ('annual_price','monthly_price','ten_day_price'):
+        inp[key]=market[key]
+    factor=mean(day['price_factor'] for day in days)
+    for key,source in (('day_ahead_price','day_ahead_price'),('rt_price','real_time_price')):
+        values=[p*factor for p in market[source]]
+        inp[key+'_forecast']=values
+        inp[key+'_p10']=[p-abs(p)*market['price_uncertainty_ratio'] for p in values]
+        inp[key+'_p90']=[p+abs(p)*market['price_uncertainty_ratio'] for p in values]
+    policy=data['recommendation_policy']
+    inp['l1_solver']=dict(time_limit_seconds=min(policy.get('time_limit_seconds',60.),MAX_SOLVER_WALL_TIME_SECONDS),
+        mip_relative_gap=policy.get('mip_relative_gap',.03))
+    return inp
 
 
-def _risk_adjusted(mean_value, p10_value, risk_lambda):
-    """Move the displayed expected value toward its lower forecast quantile."""
-
-    return float(mean_value) - float(risk_lambda) * (
-        float(mean_value) - float(p10_value)
-    )
-
-
-def _lambda_curve(stats):
-    return [
-        dict(
-            lambda_value=risk_lambda,
-            expected_saving_yuan=_risk_adjusted(
-                stats["saving"]["mean"], stats["saving"]["p10"], risk_lambda
-            ),
-            expected_profit_yuan=_risk_adjusted(
-                stats["profit"]["mean"], stats["profit"]["p10"], risk_lambda
-            ),
-            expected_spread_yuan_per_mwh=_risk_adjusted(
-                stats["spread"]["mean"], stats["spread"]["p10"], risk_lambda
-            ),
-            profit_p10_yuan=float(stats["profit"]["p10"]),
-            profit_p90_yuan=float(stats["profit"]["p90"]),
-            profit_interval_low_yuan=float(stats["profit"]["p10"]),
-            profit_interval_high_yuan=float(stats["profit"]["mean"])
-            + (1.0 - risk_lambda) * (float(stats["profit"]["p90"]) - float(stats["profit"]["mean"])),
-            saving_interval_low_yuan=float(stats["saving"]["p10"]),
-            saving_interval_high_yuan=float(stats["saving"]["mean"])
-            + (1.0 - risk_lambda) * (float(stats["saving"]["p90"]) - float(stats["saving"]["mean"])),
-            spread_p10=float(stats["spread"]["p10"]),
-            spread_p90=float(stats["spread"]["p90"]),
-            spread_interval_low_yuan_per_mwh=float(stats["spread"]["p10"]),
-            spread_interval_high_yuan_per_mwh=float(stats["spread"]["mean"])
-            + (1.0 - risk_lambda) * (float(stats["spread"]["p90"]) - float(stats["spread"]["mean"])),
-        )
-        for risk_lambda in RECOMMENDATION_LAMBDAS
-    ]
+def package_options(data, inp):
+    context=l1_context(inp)
+    scenarios=context['billing']; config=context['config']
+    probs=[s.probability for s in scenarios]
+    prices={p:[retail_prices(config,p,s.real_time_price) for s in scenarios] for p in ('F','L','S')}
+    options={}; customers=[]
+    for ci,c in enumerate(data['customers']):
+        cid=c['terms']['customer_id']
+        loads=[customer_load(s,config,ci) for s in scenarios]
+        energies=[sum(v) for v in loads]
+        baseline=[sum(q*c['tou_price'][j] for j,q in enumerate(v)) for v in loads]
+        candidates=[]; options[cid]={}
+        for p in ('F','L','S'):
+            bills=[sum(q*prices[p][si][cid][j] for j,q in enumerate(v)) for si,v in enumerate(loads)]
+            savings=[b-r for b,r in zip(baseline,bills)]
+            stats=summarize_distribution(savings,probs)
+            eligible=stats['p10']+1e-6>=period_policy(inp,context['scope_days'])['minimum_customer_saving_yuan']
+            options[cid][p]=dict(eligible=eligible,bills=bills,savings=savings,baseline=baseline,energies=energies)
+            candidates.append(dict(package=p,eligible=eligible,expected_revenue_yuan=sum(v*w for v,w in zip(bills,probs)),
+                expected_customer_saving_yuan=stats['mean'],saving_p10_yuan=stats['p10'],saving_p90_yuan=stats['p90']))
+        customers.append(dict(customer_id=cid,recommended_package=None,candidates=candidates))
+    return context,options,customers
 
 
-def _distribution(samples, probabilities):
-    return {
-        key: summarize_distribution([sample[key] for sample in samples], probabilities)
-        for key in samples[0]
-    }
+def quality(solver,target):
+    gap=solver.get('mip_gap')
+    return (gap is not None and isfinite(gap) and gap<=target+1e-9
+            and solver.get('objective_reconciliation_yuan',0.)<=1e-3)
 
 
-def recommend(data):
-    market=data['market'];days=data['signing_forecast']['days'];policy=data['recommendation_policy']
-    levels=((-1.28,.1),(-.5,.2),(0.,.4),(.5,.2),(1.28,.1))
-    probs=[lp*pp for _,lp in levels for _,pp in levels]
-    config=FullModelInput(customers=[Customer(**c['terms']) for c in data['customers']],
-        annual_reference_price=market['annual_reference_price'],monthly_reference_price=market['monthly_reference_price'],
-        reference_weights=market['reference_weights'])
-    price_paths={}
-    for pi,(pz,_) in enumerate(levels):
-        for di,day in enumerate(days):
-            rt=[p*day['price_factor']+abs(p*day['price_factor'])*market['price_uncertainty_ratio']*pz/1.28 for p in market['real_time_price']]
-            price_paths[pi,di]=(rt,{p:retail_prices(config,p,rt) for p in ('F','L','S')})
-    customers=[]
-    customer_choices = {}
-    customer_candidates = {}
-    for c in data['customers']:
-        cid=c['terms']['customer_id'];profile=c['load_profile_mwh']
-        uncertainty=c['forecast_uncertainty']
-        candidates=[]
-        for package in ('F','L','S'):
-            samples=[]
-            for lz,_ in levels:
-                for pi,(pz,_) in enumerate(levels):
-                    energy=bill=cost=baseline=0.
-                    for di,day in enumerate(days):
-                        rt,prices=price_paths[pi,di];weights=market['procurement_weights']
-                        for j,q0 in enumerate(profile):
-                            q=q0*day['load_factors'][cid]*max(0,1+uncertainty*lz/1.28)
-                            energy+=q;bill+=q*prices[package][cid][j];baseline+=q*c['tou_price'][j]
-                            purchase=weights[0]*market['annual_price']+weights[1]*market['monthly_price']+weights[2]*rt[j]
-                            cost+=q*(purchase+market['operating_cost_yuan_per_mwh'])
-                    samples.append(dict(energy=energy,bill=bill,cost=cost,baseline=baseline,profit=bill-cost,saving=baseline-bill,
-                        spread=(bill-cost)/energy if energy else 0.))
-            stats=_distribution(samples,probs)
-            eligible=stats['profit']['mean']>=policy['minimum_total_profit_yuan'] and stats['saving']['mean']>=policy['minimum_customer_saving_yuan']
-            candidates.append(dict(package=package,eligible=eligible,
-                expected_cost_yuan=stats['cost']['mean'],expected_revenue_yuan=stats['bill']['mean'],
-                expected_profit_yuan=stats['profit']['mean'],profit_p10_yuan=stats['profit']['p10'],profit_p90_yuan=stats['profit']['p90'],
-                expected_customer_saving_yuan=stats['saving']['mean'],expected_tou_bill_yuan=stats['baseline']['mean'],
-                saving_p10_yuan=stats['saving']['p10'],saving_p90_yuan=stats['saving']['p90'],
-                expected_spread_yuan_per_mwh=stats['spread']['mean'],spread_p10=stats['spread']['p10'],spread_p90=stats['spread']['p90'],profit_cvar_yuan=stats['profit']['cvar'],
-                lambda_curve=_lambda_curve(stats),
-                _scenario_values=samples))
-        eligible=[r for r in candidates if r['eligible']]
-        choice=max(eligible,key=lambda r:(r['expected_profit_yuan'],r['expected_customer_saving_yuan'])) if eligible else None
-        # Keep a deterministic reference mix for the company curve even when
-        # the economic floor makes every candidate ineligible.  This is a
-        # display basis only; the user still confirms every package below.
-        company_choice=choice or max(candidates,key=lambda r:(r['expected_profit_yuan'],r['expected_customer_saving_yuan']))
-        customer_choices[cid]=company_choice['package']
-        customer_candidates[cid]=candidates
-        customers.append(dict(customer_id=cid,daily_energy_cv=cv,forecast_uncertainty=uncertainty,
-            instability_score=instability,stability_preference=preferred,
-            recommended_package=choice['package'] if choice else None,
-            reason=('满足客户最低节省和单客户期望利润底线' if choice else '无套餐同时满足客户最低节省和单客户期望利润，请调整报价/条款'),
-            candidates=candidates))
-    # Aggregate the same 25 scenario positions across customers.  This gives
-    # the company interval a real portfolio meaning instead of summing
-    # independently rounded customer quantiles.
-    company_samples=[]
-    selected_candidates=[next(item for item in customer_candidates[cid] if item['package']==package)
-                         for cid,package in customer_choices.items()]
-    for index in range(len(probs)):
-        company_samples.append({
-            key:sum(float(candidate['_scenario_values'][index][key])
-                    for candidate in selected_candidates)
-            for key in ('energy','bill','cost','baseline','profit','saving')
-        })
-        company_samples[-1]['spread']=(
-            company_samples[-1]['profit']/company_samples[-1]['energy']
-            if company_samples[-1]['energy'] else 0.
-        )
-    company_stats=_distribution(company_samples,probs)
-    company_curve=dict(
-        basis='按程序推荐套餐组合（仅用于签约前比较，最终以人工确认套餐为准）',
-        packages=customer_choices,
-        expected_cost_yuan=company_stats['cost']['mean'],
-        expected_revenue_yuan=company_stats['bill']['mean'],
-        expected_profit_yuan=company_stats['profit']['mean'],
-        profit_p10_yuan=company_stats['profit']['p10'],
-        profit_p90_yuan=company_stats['profit']['p90'],
-        expected_customer_saving_yuan=company_stats['saving']['mean'],
-        saving_p10_yuan=company_stats['saving']['p10'],
-        saving_p90_yuan=company_stats['saving']['p90'],
-        expected_spread_yuan_per_mwh=company_stats['spread']['mean'],
-        spread_p10=company_stats['spread']['p10'],
-        spread_p90=company_stats['spread']['p90'],
-        lambda_curve=_lambda_curve(company_stats),
-    )
-    for candidates in customer_candidates.values():
-        for candidate in candidates:
-            candidate.pop('_scenario_values',None)
-    return dict(period={k:data['signing_forecast'][k] for k in ('issued_at','start_date','end_date')},
-        day_count=len(days),customers=customers,method='稳定性优先 + 客户节省及公司期望利润底线',
-        formula='不稳定度=0.5×逐日预测电量变异系数+0.5×预测相对半区间；低→固定F，中→分成S，高→联动L',
-        cost_basis='签约前采购成本代理：年度/月度/现货预测按可编辑权重组合，加运营费；不是成交策略或结算成本',
-        risk_note='25条负荷/价格组合情景作收益区间估计；λ曲线将均值向P10下行分位数平滑，区间为底层情景P10–P90；推荐不自动签约',
-        lambda_curve_definition='展示值=(1-λ)×情景均值+λ×P10；风险带下界=P10，上界=均值+(1-λ)×(P90-均值)。它是签约前风险调整观察值，不替代后续批发侧MILP期望收益。',
-        lambda_values=list(RECOMMENDATION_LAMBDAS),company_curve=company_curve,policy=policy)
+def portfolio_summary(context, options, packages, net_losses):
+    probs=[s.probability for s in context['billing']]
+    revenue=[sum(options[cid][p]['bills'][i] for cid,p in packages.items()) for i in range(len(probs))]
+    saving=[sum(options[cid][p]['savings'][i] for cid,p in packages.items()) for i in range(len(probs))]
+    energy=[sum(options[cid][p]['energies'][i] for cid,p in packages.items()) for i in range(len(probs))]
+    profit=[-v for v in net_losses]
+    profits=summarize_distribution(profit,probs); savings=summarize_distribution(saving,probs)
+    losses=summarize_distribution([max(0.,v) for v in net_losses],probs)
+    costs=[l+r for l,r in zip(net_losses,revenue)]
+    return dict(packages=packages,expected_cost_yuan=sum(v*w for v,w in zip(costs,probs)),
+        expected_revenue_yuan=sum(v*w for v,w in zip(revenue,probs)),expected_profit_yuan=profits['mean'],
+        profit_p10_yuan=profits['p10'],profit_p90_yuan=profits['p90'],profit_loss_cvar_yuan=losses['cvar'],
+        expected_customer_saving_yuan=savings['mean'],saving_p10_yuan=savings['p10'],saving_p90_yuan=savings['p90'],
+        expected_spread_yuan_per_mwh=sum(w*(p/e if e else 0.) for p,e,w in zip(profit,energy,probs)),
+        scenarios=[dict(scenario_id=s.scenario_id,probability=w,revenue_yuan=r,procurement_cost_yuan=c,profit_yuan=p,saving_yuan=sv)
+            for s,w,r,c,p,sv in zip(context['billing'],probs,revenue,costs,profit,saving)])
+
+
+def recommend(data, progress=None):
+    started=perf_counter(); emit=progress or (lambda *_:None)
+    inp=signing_input(data); count=len(data['customers'])
+    target=inp['l1_solver']['mip_relative_gap']; budget=inp['l1_solver']['time_limit_seconds']
+    emit(10,f'为 {count} 位客户建立独立 F/L/S 决策，完整组合空间 3^{count}；年度 L1 共用模型')
+    context,options,customers=package_options(data,inp)
+    result=dict(period={k:data['signing_forecast'][k] for k in ('issued_at','start_date','end_date')},
+        day_count=len(data['signing_forecast']['days']),annual_scope_days=context['scope_days'],
+        annual_inputs=inp,customers=customers,policy=deepcopy(data['recommendation_policy']),
+        risk_lambda=inp['risk_lambda'],company_curve=None,recommended_portfolio=None,candidate_portfolio=None,
+        constraints_satisfied=False,quality_certified=False,
+        method='逐客户套餐选择 + 年度 L1 联合 MILP',
+        formula='每客户恰选一种套餐；在客户 P10 节省、组合期望利润及损失 CVaR 约束下，最小化期望净损失与 CVaR 的加权和',
+        cost_basis='与年度 L1 共用采购、48点考核、补救成本及净损失 CVaR；固定套餐变量即得到已签套餐年度模型',
+        risk_note='使用签约时可用预测的平均代表日，按年度交割天数缩放；不是逐日全年情景树。gap 只衡量当前模型的全局求解误差。',
+        combination_space=dict(customer_count=count,package_count=3,theoretical_count=str(3**count),
+            coverage='完整逐客户笛卡尔积；仅按明确的客户经济约束排除不可行套餐',
+            search_method='联合 MILP 分支定界，不逐个枚举，不按客户数量切换启发式'),
+        performance=dict(time_limit_seconds=budget,target_mip_gap=target,
+            explanation='3^N 是理论套餐组合数；只增加 3N 个选择变量，不创建 3^N 份模型。耗时取决于分支定界、风险约束、可行性及最优界证明；时限是上限，达到 gap 可提前结束。'))
+    try:
+        emit(40,f'求解完整组合年度 L1：全局 gap 目标 {target:.1%}，最多 {budget:g} 秒；正在搜索可行组合并收紧最优界')
+        action=solve_l1_input(inp,retail_options=options)
+    except MilpSolveError as exc:
+        status=str(exc).split(':',1)[0]
+        if status not in ('INFEASIBLE','LIMIT_REACHED'): raise
+        result['status']='INFEASIBLE' if status=='INFEASIBLE' else 'NO_FEASIBLE_SOLUTION'
+        result['solver']=dict(status=status,message=str(exc),mip_gap=None)
+        for c in customers:c['reason']='没有通过年度联合模型的可行组合；请调整报价或约束后重算'
+    else:
+        solver=action.solver_details; selected=solver['portfolio']
+        summary=portfolio_summary(context,options,selected['packages'],selected['net_losses_yuan'])
+        summary.update(risk_adjusted_net_loss_yuan=selected['objective_yuan'],constraints_satisfied=True)
+        certified=quality(solver,target)
+        result.update(solver=solver,candidate_portfolio=summary,company_curve=summary,
+            constraints_satisfied=True,quality_certified=certified,status='CERTIFIED' if certified else 'GAP_NOT_MET',
+            recommended_portfolio=summary if certified else None,annual_purchase_curve_mwh=selected['buy_curve_mwh'])
+        for c in customers:
+            c['recommended_package']=selected['packages'][c['customer_id']] if certified else None
+            c['reason']='来自通过全局 gap 精度要求的综合组合' if certified else '已有可行候选，但尚未达到全局 3% 精度要求'
+        result['performance'].update(solve_seconds=solver['solve_seconds'],node_count=solver['node_count'],
+            incumbent_objective_yuan=selected['objective_yuan'],best_bound_yuan=solver['dual_bound'],
+            achieved_mip_gap=solver['mip_gap'],variable_count=solver['variable_count'],
+            binary_count=solver['binary_count'],constraint_count=solver['constraint_count'])
+    result['performance']['end_to_end_seconds']=perf_counter()-started
+    emit(100,'套餐组合计算完成：'+result['status'])
+    return result
+
+
+def validate_selection(data, recommendation, packages):
+    inp=deepcopy(recommendation['annual_inputs'])
+    context,options,_=package_options(data,inp)
+    if any(cid not in options or p not in options[cid] or not options[cid][p]['eligible'] for cid,p in packages.items()):
+        raise ValueError('所选套餐不满足客户 P10 最低节省，请调整选择')
+    inp['customer_packages']=dict(packages)
+    action=solve_l1_input(inp)
+    if not quality(action.solver_details,inp['l1_solver']['mip_relative_gap']):
+        raise ValueError('所选组合的年度采购模型尚未达到 3% 精度，请延长时限后重算')
+    summary=portfolio_summary(context,options,packages,action.solver_details['net_losses_yuan'])
+    return dict(packages=dict(packages),solver=action.solver_details,portfolio=summary,
+        basis='人工选择；固定套餐的年度 L1 可行性与精度，不是重新证明套餐组合全局最优')

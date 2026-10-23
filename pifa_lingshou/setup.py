@@ -5,7 +5,7 @@ setup(
     name="pifa-lingshou",
     version="0.1.0",
     description="Joint wholesale-retail aggregate optimization",
-    packages=['pifa_lingshou']+['pifa_lingshou.'+m for m in find_packages('.',exclude=['tests','tests.*','resource','resource.*'])],
+    packages=['pifa_lingshou']+['pifa_lingshou.'+m for m in find_packages('.',exclude=['*.test','*.test.*','solver_test*','resource','resource.*'])],
     package_dir={'pifa_lingshou':'.'},
     python_requires=">=3.9",
     package_data={"pifa_lingshou.utils.report": ["*.html", "*.css", "*.js"],

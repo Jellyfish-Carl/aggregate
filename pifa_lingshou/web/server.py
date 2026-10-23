@@ -15,6 +15,7 @@ from ..service.layer_runner import run_layer, write_result, NODES
 from ..utils.visualize import render_layer, empty_workbench
 from ..service.cases import CaseService
 from ..config.cases import defaults
+from ..service.node_requests import RequestStore, NODES as REQUEST_NODES, FOLDERS, validate_request
 
 ROOT=Path(__file__).resolve().parents[1]; OUT=ROOT/'resource'/'output'
 CASES=CaseService()
@@ -37,7 +38,7 @@ def start_case_job(payload):
                 JOBS[jid]['log'].append(dict(percent=percent,message=message))
         try:
             progress(5,'读取本案例输入版本 '+str(revision))
-            if action=='recommend':CASES.recommend(cid,revision)
+            if action=='recommend':CASES.recommend(cid,revision,progress)
             elif action=='stage':CASES.run(cid,payload['node'],revision,payload.get('execution'),progress)
             elif action=='risk':CASES.compare_risk(cid,revision,progress)
             else:CASES.settle(cid,payload['actual'],revision,progress)
@@ -52,28 +53,28 @@ def register(path,result,ident=None):
     path=path.resolve(); relative=path.relative_to(OUT.resolve()).as_posix()
     ident=ident or relative
     with LOCK:
-        CATALOG[ident]=dict(id=ident,node=result['node'],package=result['package'],
-            risk_lambda=result['risk_lambda'],status=result['status'],path=str(path),
+        CATALOG[ident]=dict(id=ident,node=result['node'],package=result.get('package','组合'),
+            risk_lambda=result.get('risk_lambda'),status=result['status'],path=str(path),
             result_url='/outputs/'+relative,updated=time())
     return ident
 
 
 def catalog():
-    index=OUT/'layers'/'index.json'
-    if index.exists():
-        for item in json.loads(index.read_text()):
-            ident=item['id']
-            if ident not in CATALOG:
-                path=(OUT/item['path']).resolve()
-                if OUT.resolve() in path.parents:
-                    CATALOG[ident]={**item,'path':str(path),'updated':0.,
-                        'result_url':'/outputs/'+path.relative_to(OUT.resolve()).as_posix()}
+    for path in OUT.glob('*/*/run_*/response.json'):
+        ident=path.resolve().relative_to(OUT.resolve()).as_posix()
+        if not any(item['path']==str(path.resolve()) for item in CATALOG.values()):
+            register(path,json.loads(path.read_text()),ident)
     return [{k:v for k,v in item.items() if k!='path'} for item in sorted(CATALOG.values(),key=lambda x:x['updated'],reverse=True)]
 
 
 def start_job(payload):
-    node=payload.get('node','L3-A')
-    if node not in NODES+('L1','L2','CHAIN'): raise ValueError('未知节点')
+    managed=payload.get('request_id') is not None
+    node=REQUEST_NODES.get(payload.get('folder')) if managed else payload.get('node','L3-A')
+    if node not in NODES+('PACKAGE_RECOMMEND','L1','L2','CHAIN'): raise ValueError('未知节点')
+    store=RequestStore(CASES.store.root if managed else OUT.parent)
+    if managed:
+        current=store.read(payload['folder'],payload['request_id'])
+        if current['revision']!=payload.get('revision'):raise ValueError('请求已被修改，请重新加载')
     if not isinstance(payload.get('inputs',{}),dict): raise ValueError('inputs必须为对象')
     with LOCK:
         if sum(j['status'] in ('QUEUED','RUNNING') for j in JOBS.values())>=8:
@@ -93,15 +94,30 @@ def start_job(payload):
                     catalog(); entry=CATALOG.get(payload['upstream_id'])
                 if not entry: raise ValueError('上游结果不存在，请重新选择')
                 upstream=json.loads(Path(entry['path']).read_text())
-            result=run_layer(node,payload.get('inputs') or {},upstream,progress)
-            directory=OUT/'jobs'/jid; directory.mkdir(parents=True,exist_ok=True)
-            path=write_result(result,directory/'result.json')
+            if managed:
+                saved=store.execute(payload['folder'],payload['request_id'],payload['revision'],progress=progress)
+            else:
+                sequence={'L1':NODES[:3],'L2':NODES[3:5],'CHAIN':NODES[:7]}.get(node,(node,))
+                for i,event in enumerate(sequence):
+                    inputs=dict(payload.get('inputs') or {})
+                    if i:
+                        for key in ('fills','order_book'):inputs.pop(key,None)
+                    record=store.create(dict(node=event,inputs=inputs),dict(source='WORKBENCH'))
+                    saved=store.execute(FOLDERS[event],record['id'],upstream=upstream,
+                                        progress=progress,allow_standalone=True)
+                    upstream=saved['result']
+            result=saved['result'];directory=Path(saved['record']['path'])
+            path=directory/'response.json'
             ident=register(path,result,jid)
-            progress(99,'核算时段成本并生成本节点图表')
-            (directory/'visualize.html').write_text(render_layer(result),encoding='utf-8')
+            report_url=None
+            if result['node']!='PACKAGE_RECOMMEND':
+                progress(99,'核算时段成本并生成本节点图表')
+                (directory/'visualize.html').write_text(render_layer(result),encoding='utf-8')
+                report_url='/outputs/'+(directory/'visualize.html').relative_to(OUT.resolve()).as_posix()
             with LOCK:
-                JOBS[jid].update(status='DONE',progress=100.,message=f'{result["node"]} 完成 · {result["status"]} · {result["elapsed_seconds"]:.3f} 秒',
-                    result_id=ident,result_url=f'/outputs/jobs/{jid}/result.json',report_url=f'/outputs/jobs/{jid}/visualize.html')
+                JOBS[jid].update(status='DONE',progress=100.,message=f'{result["node"]} 完成 · {result["status"]}',
+                    result_id=ident,result_url='/outputs/'+path.relative_to(OUT.resolve()).as_posix(),report_url=report_url,
+                    run=saved['record'])
         except Exception as exc:
             with LOCK: JOBS[jid].update(status='ERROR',message='计算未完成',error=f'{type(exc).__name__}: {exc}')
     WORKERS.submit(work)
@@ -126,6 +142,12 @@ class Handler(BaseHTTPRequestHandler):
             payload=json.loads(self.rfile.read(length))
             if not isinstance(payload,dict): raise ValueError('请求须为JSON对象')
             if self.path=='/api/run':return self.send_json({'job_id':start_job(payload)})
+            if self.path=='/api/requests/save':
+                return self.send_json(RequestStore(CASES.store.root).save(
+                    payload['node'],payload['id'],payload['request'],payload['revision']))
+            if self.path=='/api/requests/run':
+                return self.send_json({'job_id':start_job(dict(folder=payload['node'],
+                    request_id=payload['id'],revision=payload['revision']))})
             if self.path=='/api/cases/create':return self.send_json(CASES.create(payload.get('settings')))
             if self.path=='/api/cases/save':return self.send_json(CASES.save(payload['case_id'],payload['input'],payload['revision']))
             if self.path=='/api/cases/confirm':return self.send_json(CASES.confirm(payload['case_id'],payload['packages'],payload['revision']))
@@ -139,6 +161,16 @@ class Handler(BaseHTTPRequestHandler):
         if path=='/api/health': return self.send_json({'status':'ok'})
         if path=='/workbench':return self.send_body(empty_workbench().encode('utf-8'),'text/html; charset=utf-8')
         if path=='/api/defaults':return self.send_json(defaults())
+        if path=='/api/requests':
+            return self.send_json({'nodes':REQUEST_NODES,'requests':RequestStore(CASES.store.root).listing()})
+        if path.startswith('/api/requests/'):
+            try:
+                parts=path.split('/')[3:];store=RequestStore(CASES.store.root)
+                if len(parts)==3 and parts[2]=='history':
+                    return self.send_json({'runs':store.history(parts[0],parts[1])})
+                if len(parts)!=2:raise ValueError('非法请求路径')
+                return self.send_json(store.read(*parts))
+            except (ValueError,FileNotFoundError):return self.send_json({'error':'请求不存在'},404)
         if path=='/api/cases':return self.send_json({'cases':CASES.store.listing()})
         if path.startswith('/api/cases/'):
             try:return self.send_json(CASES.view(path.rsplit('/',1)[-1]))
@@ -151,7 +183,7 @@ class Handler(BaseHTTPRequestHandler):
             return self.send_json(data or {'error':'job not found'},200 if data else 404)
         if path in ('/','/index.html'):
             return self.send_body((ROOT/'web'/'index.html').read_bytes(),'text/html; charset=utf-8')
-        elif path in ('/case.css','/case.js'):
+        elif path in ('/case.css','/case.js','/node_requests.js'):
             file=ROOT/'web'/path[1:]
             return self.send_body(file.read_bytes(),'text/css; charset=utf-8' if path.endswith('.css') else 'text/javascript; charset=utf-8')
         elif path.startswith('/resource/'):

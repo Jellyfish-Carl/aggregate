@@ -8,7 +8,7 @@ import time
 from pathlib import Path
 from uuid import uuid4
 ROOT=Path(__file__).resolve().parents[2]
-from pifa_lingshou.inputs.full_model import FullModelInput
+from pifa_lingshou.service.full_model import FullModelInput
 from pifa_lingshou.service.full_evaluate import evaluate_full
 from pifa_lingshou.utils.visualize import render_report, empty_workbench
 
@@ -55,23 +55,35 @@ def main():
     parser.add_argument('--lambdas',default='0,0.25,0.5,0.75,1')
     parser.add_argument('--packages',default='F,L,S')
     parser.add_argument('--inputs',type=Path,help='可覆盖客户、负荷预测、价格、储能等默认入参的JSON')
+    parser.add_argument('--scenario-count',type=int,help='L3及前置现货估值使用的输入场景数；默认64')
+    parser.add_argument('--storage-scenario-count',type=int,help='储能MILP使用的代表场景数；默认8')
     parser.add_argument('--event',default='D-1',choices=['D-1'],help='本入口为事前评估；日内使用layer_runner STORAGE-RT')
     parser.add_argument('--no-server',action='store_true')
     parser.add_argument('--port',type=int,default=0,help='0自动选择可用端口')
     args=parser.parse_args()
     inp=json.loads(args.inputs.read_text(encoding='utf-8')) if args.inputs else {}
+    if args.scenario_count is not None:
+        inp['scenario_count']=args.scenario_count
+    if args.storage_scenario_count is not None:
+        inp['storage']={**inp.get('storage',{}),
+                        'optimization_scenario_count':args.storage_scenario_count}
     config=FullModelInput(risk_lambdas=tuple(float(x) for x in args.lambdas.split(',')))
-    output=Path(__file__).resolve().parents[1]/'resource'/'output'
+    from pifa_lingshou.service.node_requests import stamp
+    output=Path(__file__).resolve().parents[1]/'resource'/'reports'/('demo_'+stamp())
+    demo_started=time.perf_counter()
+    def progress(message):
+        print(f'[{time.perf_counter()-demo_started:8.3f}s] {message}',flush=True)
     payload=evaluate_full(config,packages=tuple(args.packages.split(',')),layer_inputs=inp,output_dir=output/'layers',
-        progress=lambda message: print(message,flush=True))
+        progress=progress)
     payload['storage_validation']=payload['results'][0]['storage_validation']
     export_results(payload,output)
-    print('套餐 / λ / 批发成本 / 零售收入 / 净收益 / 充电MWh / 放电MWh')
+    print('批发成本 / 零售收入 / 净收益 / 充电MWh / 放电MWh')
     for r in payload['results']:
         s=r['storage_summary']
-        print(f"{r['package']} / {r['risk_lambda']:.2f} / {r['expected_wholesale_cost_yuan']:.2f} / {r['expected_retail_revenue_yuan']:.2f} / {r['expected_profit_yuan']:.2f} / {s['total_charge_mwh']:.4f} / {s['total_discharge_mwh']:.4f}")
+        print(f"{r['expected_wholesale_cost_yuan']:.2f} / {r['expected_retail_revenue_yuan']:.2f} / {r['expected_profit_yuan']:.2f} / {s['total_charge_mwh']:.4f} / {s['total_discharge_mwh']:.4f}")
     print('HTML文件地址：',(output/'visualize.html').resolve().as_uri(),flush=True)
     print('每个独立节点JSON：',output/'layers')
+    print(f'完整链路总耗时：{time.perf_counter()-demo_started:.3f} 秒',flush=True)
     if not args.no_server:
         try: print('可视化与分层计算：',start_server(output,args.port),flush=True)
         except (OSError,RuntimeError) as exc: print('报告已生成；本地HTTP服务未能启动：',exc,flush=True)

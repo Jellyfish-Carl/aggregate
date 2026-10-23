@@ -5,7 +5,7 @@ from time import perf_counter
 from typing import Callable, Dict, List, Mapping, Optional, Sequence
 
 from pifa_lingshou.data_objects.domain import ContractFill, MpcState
-from pifa_lingshou.inputs.load_forecast import (
+from pifa_lingshou.service.load_forecast import (
     IndustrialParkConfig,
     aggregate_spot_snapshot,
     build_forecast_snapshots,
@@ -18,7 +18,7 @@ from pifa_lingshou.inputs.load_forecast import (
 )
 from pifa_lingshou.problem_solver.l3_milp import solve_l3_milp
 from pifa_lingshou.problem_solver.milp import MilpBackendUnavailable, MilpSolveError
-from pifa_lingshou.inputs.wholesale_mockdata import (
+from pifa_lingshou.service.wholesale_mockdata import (
     HIGH_PRICE_WINDOWS,
     MIDDAY_PV_WINDOW,
     build_price_forecasts,
@@ -2165,7 +2165,7 @@ def simulate(
                 "l3_end_to_end_seconds": l3_objective.get("end_to_end_seconds"),
                 "l2_rule_executed": bool(optimized_all["optimization"].get("l2_near_term_events")),
                 "l2_solver": "RULE_ENGINE",
-                "service_budget_seconds": l3_objective.get("service_budget_seconds", 10.0),
+                "service_budget_seconds": l3_objective.get("service_budget_seconds", 60.0),
                 "diagnostic_mode": diagnostic_mode,
                 "diagnostic_reason": None if full_milp_executed else l3_milp_error,
             },

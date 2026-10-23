@@ -1,0 +1,1032 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>solver-test · D-2</title>
+<style>body{font:14px system-ui,sans-serif;max-width:1100px;margin:32px auto;padding:0 20px;color:#1e2a2b}h1{margin-bottom:4px}.meta{color:#607274}.flow{padding:14px 0;border-bottom:1px solid #d8e1e1;overflow-wrap:anywhere}.flow strong{color:#087f78}.upstream{font-size:12px;color:#607274;overflow-wrap:anywhere}.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:20px 0}.kpi{border:1px solid #d8e1e1;padding:12px}.kpi small{display:block;color:#607274}.kpi strong{display:block;margin-top:6px;font-size:18px}svg{width:100%;height:260px;border:1px solid #d8e1e1;background:#fbfdfd}table{border-collapse:collapse;width:100%}th,td{border-bottom:1px solid #e4eaea;padding:7px;text-align:left}pre{overflow:auto;background:#f4f7f7;padding:14px}@media(max-width:700px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}</style></head><body>
+<h1>solver-test · D-2</h1><div class="meta">状态：EXECUTED；该页面只展示本次 request 的 response，不运行其他节点。</div>
+<div class="flow"><b>完整决策链</b><br>年度 → 月度 → 旬度 → D-3 → <strong aria-current="step">D-2</strong> → 日前申报 → 日前储能<div class="upstream">上游 response：/Users/hanwu/PyCharmMiscProject/aggregate/pifa_lingshou/resource/output/solver_test/response_13/response_13_20261023140013736678_d3/run_20261023140013740130/response.json</div></div>
+<div class="kpis"><div class="kpi"><small>场景数</small><strong>100</strong></div><div class="kpi"><small>模型耗时 / 秒</small><strong>11.8975</strong></div><div class="kpi"><small>变量数</small><strong>0</strong></div><div class="kpi"><small>约束数</small><strong>0</strong></div></div>
+<h2>合同/申报曲线</h2><svg viewBox="0 0 1010 255" role="img" aria-label="合同或申报曲线"><text x="45" y="25">MWh / 15分钟</text><rect x="45.00" y="161.60" width="7.00" height="48.40" fill="#087f78"><title>1: 8.24632</title></rect><rect x="54.20" y="161.60" width="7.00" height="48.40" fill="#087f78"><title>2: 8.24632</title></rect><rect x="63.40" y="161.60" width="7.00" height="48.40" fill="#087f78"><title>3: 8.24632</title></rect><rect x="72.60" y="161.60" width="7.00" height="48.40" fill="#087f78"><title>4: 8.24632</title></rect><rect x="81.80" y="161.60" width="7.00" height="48.40" fill="#087f78"><title>5: 8.24632</title></rect><rect x="91.00" y="161.60" width="7.00" height="48.40" fill="#087f78"><title>6: 8.24632</title></rect><rect x="100.20" y="161.60" width="7.00" height="48.40" fill="#087f78"><title>7: 8.24632</title></rect><rect x="109.40" y="161.60" width="7.00" height="48.40" fill="#087f78"><title>8: 8.24632</title></rect><rect x="118.60" y="161.60" width="7.00" height="48.40" fill="#087f78"><title>9: 8.24632</title></rect><rect x="127.80" y="161.60" width="7.00" height="48.40" fill="#087f78"><title>10: 8.24632</title></rect><rect x="137.00" y="161.60" width="7.00" height="48.40" fill="#087f78"><title>11: 8.24632</title></rect><rect x="146.20" y="161.60" width="7.00" height="48.40" fill="#087f78"><title>12: 8.24632</title></rect><rect x="155.40" y="161.60" width="7.00" height="48.40" fill="#087f78"><title>13: 8.24632</title></rect><rect x="164.60" y="161.60" width="7.00" height="48.40" fill="#087f78"><title>14: 8.24632</title></rect><rect x="173.80" y="161.60" width="7.00" height="48.40" fill="#087f78"><title>15: 8.24632</title></rect><rect x="183.00" y="161.60" width="7.00" height="48.40" fill="#087f78"><title>16: 8.24632</title></rect><rect x="192.20" y="161.60" width="7.00" height="48.40" fill="#087f78"><title>17: 8.24632</title></rect><rect x="201.40" y="161.60" width="7.00" height="48.40" fill="#087f78"><title>18: 8.24632</title></rect><rect x="210.60" y="161.60" width="7.00" height="48.40" fill="#087f78"><title>19: 8.24632</title></rect><rect x="219.80" y="161.60" width="7.00" height="48.40" fill="#087f78"><title>20: 8.24632</title></rect><rect x="229.00" y="161.60" width="7.00" height="48.40" fill="#087f78"><title>21: 8.24632</title></rect><rect x="238.20" y="161.60" width="7.00" height="48.40" fill="#087f78"><title>22: 8.24632</title></rect><rect x="247.40" y="161.60" width="7.00" height="48.40" fill="#087f78"><title>23: 8.24632</title></rect><rect x="256.60" y="161.60" width="7.00" height="48.40" fill="#087f78"><title>24: 8.24632</title></rect><rect x="265.80" y="161.60" width="7.00" height="48.40" fill="#087f78"><title>25: 8.24632</title></rect><rect x="275.00" y="161.60" width="7.00" height="48.40" fill="#087f78"><title>26: 8.24632</title></rect><rect x="284.20" y="161.60" width="7.00" height="48.40" fill="#087f78"><title>27: 8.24632</title></rect><rect x="293.40" y="161.60" width="7.00" height="48.40" fill="#087f78"><title>28: 8.24632</title></rect><rect x="302.60" y="129.33" width="7.00" height="80.67" fill="#087f78"><title>29: 13.74388</title></rect><rect x="311.80" y="129.33" width="7.00" height="80.67" fill="#087f78"><title>30: 13.74388</title></rect><rect x="321.00" y="129.33" width="7.00" height="80.67" fill="#087f78"><title>31: 13.74388</title></rect><rect x="330.20" y="129.33" width="7.00" height="80.67" fill="#087f78"><title>32: 13.74388</title></rect><rect x="339.40" y="72.86" width="7.00" height="137.14" fill="#087f78"><title>33: 23.36459</title></rect><rect x="348.60" y="72.86" width="7.00" height="137.14" fill="#087f78"><title>34: 23.36459</title></rect><rect x="357.80" y="72.86" width="7.00" height="137.14" fill="#087f78"><title>35: 23.36459</title></rect><rect x="367.00" y="72.86" width="7.00" height="137.14" fill="#087f78"><title>36: 23.36459</title></rect><rect x="376.20" y="73.07" width="7.00" height="136.93" fill="#087f78"><title>37: 23.32907</title></rect><rect x="385.40" y="73.07" width="7.00" height="136.93" fill="#087f78"><title>38: 23.32907</title></rect><rect x="394.60" y="72.96" width="7.00" height="137.04" fill="#087f78"><title>39: 23.34701</title></rect><rect x="403.80" y="72.96" width="7.00" height="137.04" fill="#087f78"><title>40: 23.34701</title></rect><rect x="413.00" y="72.86" width="7.00" height="137.14" fill="#087f78"><title>41: 23.36459</title></rect><rect x="422.20" y="72.86" width="7.00" height="137.14" fill="#087f78"><title>42: 23.36459</title></rect><rect x="431.40" y="72.86" width="7.00" height="137.14" fill="#087f78"><title>43: 23.36459</title></rect><rect x="440.60" y="72.86" width="7.00" height="137.14" fill="#087f78"><title>44: 23.36459</title></rect><rect x="449.80" y="72.86" width="7.00" height="137.14" fill="#087f78"><title>45: 23.36459</title></rect><rect x="459.00" y="72.86" width="7.00" height="137.14" fill="#087f78"><title>46: 23.36459</title></rect><rect x="468.20" y="72.86" width="7.00" height="137.14" fill="#087f78"><title>47: 23.36459</title></rect><rect x="477.40" y="72.86" width="7.00" height="137.14" fill="#087f78"><title>48: 23.36459</title></rect><rect x="486.60" y="72.86" width="7.00" height="137.14" fill="#087f78"><title>49: 23.36459</title></rect><rect x="495.80" y="72.86" width="7.00" height="137.14" fill="#087f78"><title>50: 23.36459</title></rect><rect x="505.00" y="72.77" width="7.00" height="137.23" fill="#087f78"><title>51: 23.37964</title></rect><rect x="514.20" y="72.77" width="7.00" height="137.23" fill="#087f78"><title>52: 23.37964</title></rect><rect x="523.40" y="73.03" width="7.00" height="136.97" fill="#087f78"><title>53: 23.33472</title></rect><rect x="532.60" y="73.03" width="7.00" height="136.97" fill="#087f78"><title>54: 23.33472</title></rect><rect x="541.80" y="72.95" width="7.00" height="137.05" fill="#087f78"><title>55: 23.34902</title></rect><rect x="551.00" y="72.95" width="7.00" height="137.05" fill="#087f78"><title>56: 23.34902</title></rect><rect x="560.20" y="72.86" width="7.00" height="137.14" fill="#087f78"><title>57: 23.36459</title></rect><rect x="569.40" y="72.86" width="7.00" height="137.14" fill="#087f78"><title>58: 23.36459</title></rect><rect x="578.60" y="72.86" width="7.00" height="137.14" fill="#087f78"><title>59: 23.36459</title></rect><rect x="587.80" y="72.86" width="7.00" height="137.14" fill="#087f78"><title>60: 23.36459</title></rect><rect x="597.00" y="72.86" width="7.00" height="137.14" fill="#087f78"><title>61: 23.36459</title></rect><rect x="606.20" y="72.86" width="7.00" height="137.14" fill="#087f78"><title>62: 23.36459</title></rect><rect x="615.40" y="72.86" width="7.00" height="137.14" fill="#087f78"><title>63: 23.36459</title></rect><rect x="624.60" y="72.86" width="7.00" height="137.14" fill="#087f78"><title>64: 23.36459</title></rect><rect x="633.80" y="72.86" width="7.00" height="137.14" fill="#087f78"><title>65: 23.36459</title></rect><rect x="643.00" y="72.86" width="7.00" height="137.14" fill="#087f78"><title>66: 23.36459</title></rect><rect x="652.20" y="72.95" width="7.00" height="137.05" fill="#087f78"><title>67: 23.34851</title></rect><rect x="661.40" y="72.95" width="7.00" height="137.05" fill="#087f78"><title>68: 23.34851</title></rect><rect x="670.60" y="62.50" width="7.00" height="147.50" fill="#087f78"><title>69: 25.12924</title></rect><rect x="679.80" y="62.50" width="7.00" height="147.50" fill="#087f78"><title>70: 25.12924</title></rect><rect x="689.00" y="50.00" width="7.00" height="160.00" fill="#087f78"><title>71: 27.25900</title></rect><rect x="698.20" y="50.00" width="7.00" height="160.00" fill="#087f78"><title>72: 27.25900</title></rect><rect x="707.40" y="116.73" width="7.00" height="93.27" fill="#087f78"><title>73: 15.89107</title></rect><rect x="716.60" y="116.73" width="7.00" height="93.27" fill="#087f78"><title>74: 15.89107</title></rect><rect x="725.80" y="113.07" width="7.00" height="96.93" fill="#087f78"><title>75: 16.51430</title></rect><rect x="735.00" y="113.07" width="7.00" height="96.93" fill="#087f78"><title>76: 16.51430</title></rect><rect x="744.20" y="106.81" width="7.00" height="103.19" fill="#087f78"><title>77: 17.57975</title></rect><rect x="753.40" y="106.81" width="7.00" height="103.19" fill="#087f78"><title>78: 17.57975</title></rect><rect x="762.60" y="116.84" width="7.00" height="93.16" fill="#087f78"><title>79: 15.87142</title></rect><rect x="771.80" y="116.84" width="7.00" height="93.16" fill="#087f78"><title>80: 15.87142</title></rect><rect x="781.00" y="117.16" width="7.00" height="92.84" fill="#087f78"><title>81: 15.81733</title></rect><rect x="790.20" y="117.16" width="7.00" height="92.84" fill="#087f78"><title>82: 15.81733</title></rect><rect x="799.40" y="119.38" width="7.00" height="90.62" fill="#087f78"><title>83: 15.43963</title></rect><rect x="808.60" y="119.38" width="7.00" height="90.62" fill="#087f78"><title>84: 15.43963</title></rect><rect x="817.80" y="129.33" width="7.00" height="80.67" fill="#087f78"><title>85: 13.74388</title></rect><rect x="827.00" y="129.33" width="7.00" height="80.67" fill="#087f78"><title>86: 13.74388</title></rect><rect x="836.20" y="129.33" width="7.00" height="80.67" fill="#087f78"><title>87: 13.74388</title></rect><rect x="845.40" y="129.33" width="7.00" height="80.67" fill="#087f78"><title>88: 13.74388</title></rect><rect x="854.60" y="129.33" width="7.00" height="80.67" fill="#087f78"><title>89: 13.74388</title></rect><rect x="863.80" y="129.33" width="7.00" height="80.67" fill="#087f78"><title>90: 13.74388</title></rect><rect x="873.00" y="129.33" width="7.00" height="80.67" fill="#087f78"><title>91: 13.74388</title></rect><rect x="882.20" y="129.33" width="7.00" height="80.67" fill="#087f78"><title>92: 13.74388</title></rect><rect x="891.40" y="129.33" width="7.00" height="80.67" fill="#087f78"><title>93: 13.74388</title></rect><rect x="900.60" y="129.33" width="7.00" height="80.67" fill="#087f78"><title>94: 13.74388</title></rect><rect x="909.80" y="129.33" width="7.00" height="80.67" fill="#087f78"><title>95: 13.74388</title></rect><rect x="919.00" y="129.33" width="7.00" height="80.67" fill="#087f78"><title>96: 13.74388</title></rect><line x1="45" y1="210" x2="960" y2="210" stroke="#789"/><text x="45" y="240">00:00</text><text x="490" y="240">12:00</text><text x="925" y="240">24:00</text></svg>
+<h2>点位数据</h2><table><thead><tr><th>点位</th><th>日前申报</th><th>合同曲线</th></tr></thead><tbody></tbody></table>
+<h2>求解器详情</h2><pre>{
+  &quot;backend&quot;: &quot;RULE_ENGINE_WITH_MILP_VALUATION&quot;,
+  &quot;status&quot;: &quot;EXECUTED&quot;,
+  &quot;mip_gap&quot;: null,
+  &quot;solve_seconds&quot;: 11.5173,
+  &quot;variable_count&quot;: 0,
+  &quot;binary_count&quot;: 0,
+  &quot;constraint_count&quot;: 0,
+  &quot;milp_executed&quot;: false,
+  &quot;valuation_solver&quot;: {
+    &quot;layer&quot;: &quot;L3&quot;,
+    &quot;model_structure&quot;: &quot;96_POINT_JOINT_SCENARIO_L3_MILP&quot;,
+    &quot;candidate_scenario_count&quot;: 100,
+    &quot;optimization_scenario_count&quot;: 100,
+    &quot;time_count&quot;: 96,
+    &quot;scenario_generation&quot;: {
+      &quot;method&quot;: &quot;SEEDED_CORRELATED_96_POINT_MONTE_CARLO&quot;,
+      &quot;seed&quot;: 2026091503,
+      &quot;trajectory_count&quot;: 100,
+      &quot;period_count&quot;: 96,
+      &quot;probability_sum&quot;: 1.0,
+      &quot;load_day_ahead_error_correlation&quot;: 0.523095,
+      &quot;load_real_time_error_correlation&quot;: 0.365316,
+      &quot;day_ahead_real_time_error_correlation&quot;: 0.537639
+    },
+    &quot;scenario_catalog&quot;: [
+      {
+        &quot;scenario_id&quot;: &quot;MC001_L50_DA75_SP05&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P50&quot;,
+        &quot;day_ahead_state&quot;: &quot;P75&quot;,
+        &quot;spread_state&quot;: &quot;P05&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC002_L75_DA50_SP05&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P75&quot;,
+        &quot;day_ahead_state&quot;: &quot;P50&quot;,
+        &quot;spread_state&quot;: &quot;P05&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC003_L95_DA50_SP25&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P95&quot;,
+        &quot;day_ahead_state&quot;: &quot;P50&quot;,
+        &quot;spread_state&quot;: &quot;P25&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC004_L05_DA05_SP05&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P05&quot;,
+        &quot;day_ahead_state&quot;: &quot;P05&quot;,
+        &quot;spread_state&quot;: &quot;P05&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC005_L50_DA75_SP50&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P50&quot;,
+        &quot;day_ahead_state&quot;: &quot;P75&quot;,
+        &quot;spread_state&quot;: &quot;P50&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC006_L75_DA95_SP25&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P75&quot;,
+        &quot;day_ahead_state&quot;: &quot;P95&quot;,
+        &quot;spread_state&quot;: &quot;P25&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC007_L50_DA25_SP25&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P50&quot;,
+        &quot;day_ahead_state&quot;: &quot;P25&quot;,
+        &quot;spread_state&quot;: &quot;P25&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC008_L50_DA75_SP25&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P50&quot;,
+        &quot;day_ahead_state&quot;: &quot;P75&quot;,
+        &quot;spread_state&quot;: &quot;P25&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC009_L25_DA05_SP75&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P25&quot;,
+        &quot;day_ahead_state&quot;: &quot;P05&quot;,
+        &quot;spread_state&quot;: &quot;P75&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC010_L75_DA50_SP50&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P75&quot;,
+        &quot;day_ahead_state&quot;: &quot;P50&quot;,
+        &quot;spread_state&quot;: &quot;P50&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC011_L25_DA25_SP25&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P25&quot;,
+        &quot;day_ahead_state&quot;: &quot;P25&quot;,
+        &quot;spread_state&quot;: &quot;P25&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC012_L75_DA25_SP25&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P75&quot;,
+        &quot;day_ahead_state&quot;: &quot;P25&quot;,
+        &quot;spread_state&quot;: &quot;P25&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC013_L75_DA75_SP75&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P75&quot;,
+        &quot;day_ahead_state&quot;: &quot;P75&quot;,
+        &quot;spread_state&quot;: &quot;P75&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC014_L05_DA25_SP75&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P05&quot;,
+        &quot;day_ahead_state&quot;: &quot;P25&quot;,
+        &quot;spread_state&quot;: &quot;P75&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC015_L75_DA75_SP75&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P75&quot;,
+        &quot;day_ahead_state&quot;: &quot;P75&quot;,
+        &quot;spread_state&quot;: &quot;P75&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC016_L95_DA75_SP50&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P95&quot;,
+        &quot;day_ahead_state&quot;: &quot;P75&quot;,
+        &quot;spread_state&quot;: &quot;P50&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC017_L50_DA25_SP25&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P50&quot;,
+        &quot;day_ahead_state&quot;: &quot;P25&quot;,
+        &quot;spread_state&quot;: &quot;P25&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC018_L50_DA75_SP75&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P50&quot;,
+        &quot;day_ahead_state&quot;: &quot;P75&quot;,
+        &quot;spread_state&quot;: &quot;P75&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;L50_DA50_SP50&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P50&quot;,
+        &quot;day_ahead_state&quot;: &quot;P50&quot;,
+        &quot;spread_state&quot;: &quot;P75&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC020_L75_DA75_SP75&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P75&quot;,
+        &quot;day_ahead_state&quot;: &quot;P75&quot;,
+        &quot;spread_state&quot;: &quot;P75&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC021_L25_DA50_SP75&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P25&quot;,
+        &quot;day_ahead_state&quot;: &quot;P50&quot;,
+        &quot;spread_state&quot;: &quot;P75&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC022_L50_DA50_SP25&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P50&quot;,
+        &quot;day_ahead_state&quot;: &quot;P50&quot;,
+        &quot;spread_state&quot;: &quot;P25&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC023_L50_DA75_SP50&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P50&quot;,
+        &quot;day_ahead_state&quot;: &quot;P75&quot;,
+        &quot;spread_state&quot;: &quot;P50&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC024_L50_DA25_SP75&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P50&quot;,
+        &quot;day_ahead_state&quot;: &quot;P25&quot;,
+        &quot;spread_state&quot;: &quot;P75&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC025_L75_DA25_SP25&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P75&quot;,
+        &quot;day_ahead_state&quot;: &quot;P25&quot;,
+        &quot;spread_state&quot;: &quot;P25&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC026_L75_DA95_SP95&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P75&quot;,
+        &quot;day_ahead_state&quot;: &quot;P95&quot;,
+        &quot;spread_state&quot;: &quot;P95&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC027_L50_DA25_SP25&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P50&quot;,
+        &quot;day_ahead_state&quot;: &quot;P25&quot;,
+        &quot;spread_state&quot;: &quot;P25&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC028_L75_DA50_SP05&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P75&quot;,
+        &quot;day_ahead_state&quot;: &quot;P50&quot;,
+        &quot;spread_state&quot;: &quot;P05&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC029_L75_DA75_SP50&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P75&quot;,
+        &quot;day_ahead_state&quot;: &quot;P75&quot;,
+        &quot;spread_state&quot;: &quot;P50&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC030_L25_DA25_SP25&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P25&quot;,
+        &quot;day_ahead_state&quot;: &quot;P25&quot;,
+        &quot;spread_state&quot;: &quot;P25&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC031_L75_DA75_SP95&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P75&quot;,
+        &quot;day_ahead_state&quot;: &quot;P75&quot;,
+        &quot;spread_state&quot;: &quot;P95&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC032_L25_DA25_SP25&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P25&quot;,
+        &quot;day_ahead_state&quot;: &quot;P25&quot;,
+        &quot;spread_state&quot;: &quot;P25&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC033_L25_DA25_SP25&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P25&quot;,
+        &quot;day_ahead_state&quot;: &quot;P25&quot;,
+        &quot;spread_state&quot;: &quot;P25&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC034_L25_DA75_SP95&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P25&quot;,
+        &quot;day_ahead_state&quot;: &quot;P75&quot;,
+        &quot;spread_state&quot;: &quot;P95&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC035_L75_DA75_SP25&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P75&quot;,
+        &quot;day_ahead_state&quot;: &quot;P75&quot;,
+        &quot;spread_state&quot;: &quot;P25&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC036_L25_DA05_SP05&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P25&quot;,
+        &quot;day_ahead_state&quot;: &quot;P05&quot;,
+        &quot;spread_state&quot;: &quot;P05&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC037_L25_DA50_SP50&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P25&quot;,
+        &quot;day_ahead_state&quot;: &quot;P50&quot;,
+        &quot;spread_state&quot;: &quot;P50&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC038_L25_DA25_SP75&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P25&quot;,
+        &quot;day_ahead_state&quot;: &quot;P25&quot;,
+        &quot;spread_state&quot;: &quot;P75&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC039_L75_DA50_SP75&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P75&quot;,
+        &quot;day_ahead_state&quot;: &quot;P50&quot;,
+        &quot;spread_state&quot;: &quot;P75&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC040_L75_DA95_SP75&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P75&quot;,
+        &quot;day_ahead_state&quot;: &quot;P95&quot;,
+        &quot;spread_state&quot;: &quot;P75&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC041_L50_DA75_SP25&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P50&quot;,
+        &quot;day_ahead_state&quot;: &quot;P75&quot;,
+        &quot;spread_state&quot;: &quot;P25&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC042_L50_DA25_SP25&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P50&quot;,
+        &quot;day_ahead_state&quot;: &quot;P25&quot;,
+        &quot;spread_state&quot;: &quot;P25&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC043_L50_DA75_SP95&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P50&quot;,
+        &quot;day_ahead_state&quot;: &quot;P75&quot;,
+        &quot;spread_state&quot;: &quot;P95&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC044_L50_DA05_SP25&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P50&quot;,
+        &quot;day_ahead_state&quot;: &quot;P05&quot;,
+        &quot;spread_state&quot;: &quot;P25&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC045_L75_DA75_SP50&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P75&quot;,
+        &quot;day_ahead_state&quot;: &quot;P75&quot;,
+        &quot;spread_state&quot;: &quot;P50&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC046_L25_DA25_SP50&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P25&quot;,
+        &quot;day_ahead_state&quot;: &quot;P25&quot;,
+        &quot;spread_state&quot;: &quot;P50&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC047_L95_DA95_SP75&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P95&quot;,
+        &quot;day_ahead_state&quot;: &quot;P95&quot;,
+        &quot;spread_state&quot;: &quot;P75&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC048_L75_DA95_SP75&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P75&quot;,
+        &quot;day_ahead_state&quot;: &quot;P95&quot;,
+        &quot;spread_state&quot;: &quot;P75&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC049_L25_DA05_SP25&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P25&quot;,
+        &quot;day_ahead_state&quot;: &quot;P05&quot;,
+        &quot;spread_state&quot;: &quot;P25&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC050_L25_DA25_SP05&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P25&quot;,
+        &quot;day_ahead_state&quot;: &quot;P25&quot;,
+        &quot;spread_state&quot;: &quot;P05&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC051_L25_DA25_SP50&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P25&quot;,
+        &quot;day_ahead_state&quot;: &quot;P25&quot;,
+        &quot;spread_state&quot;: &quot;P50&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC052_L75_DA50_SP95&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P75&quot;,
+        &quot;day_ahead_state&quot;: &quot;P50&quot;,
+        &quot;spread_state&quot;: &quot;P95&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC053_L05_DA75_SP50&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P05&quot;,
+        &quot;day_ahead_state&quot;: &quot;P75&quot;,
+        &quot;spread_state&quot;: &quot;P50&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC054_L50_DA75_SP95&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P50&quot;,
+        &quot;day_ahead_state&quot;: &quot;P75&quot;,
+        &quot;spread_state&quot;: &quot;P95&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC055_L25_DA50_SP50&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P25&quot;,
+        &quot;day_ahead_state&quot;: &quot;P50&quot;,
+        &quot;spread_state&quot;: &quot;P50&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC056_L75_DA75_SP25&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P75&quot;,
+        &quot;day_ahead_state&quot;: &quot;P75&quot;,
+        &quot;spread_state&quot;: &quot;P25&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC057_L75_DA75_SP75&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P75&quot;,
+        &quot;day_ahead_state&quot;: &quot;P75&quot;,
+        &quot;spread_state&quot;: &quot;P75&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC058_L95_DA25_SP50&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P95&quot;,
+        &quot;day_ahead_state&quot;: &quot;P25&quot;,
+        &quot;spread_state&quot;: &quot;P50&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC059_L25_DA25_SP25&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P25&quot;,
+        &quot;day_ahead_state&quot;: &quot;P25&quot;,
+        &quot;spread_state&quot;: &quot;P25&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC060_L50_DA50_SP75&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P50&quot;,
+        &quot;day_ahead_state&quot;: &quot;P50&quot;,
+        &quot;spread_state&quot;: &quot;P75&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC061_L25_DA75_SP50&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P25&quot;,
+        &quot;day_ahead_state&quot;: &quot;P75&quot;,
+        &quot;spread_state&quot;: &quot;P50&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC062_L25_DA05_SP05&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P25&quot;,
+        &quot;day_ahead_state&quot;: &quot;P05&quot;,
+        &quot;spread_state&quot;: &quot;P05&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC063_L50_DA25_SP75&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P50&quot;,
+        &quot;day_ahead_state&quot;: &quot;P25&quot;,
+        &quot;spread_state&quot;: &quot;P75&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC064_L95_DA50_SP75&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P95&quot;,
+        &quot;day_ahead_state&quot;: &quot;P50&quot;,
+        &quot;spread_state&quot;: &quot;P75&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC065_L05_DA05_SP25&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P05&quot;,
+        &quot;day_ahead_state&quot;: &quot;P05&quot;,
+        &quot;spread_state&quot;: &quot;P25&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC066_L75_DA75_SP95&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P75&quot;,
+        &quot;day_ahead_state&quot;: &quot;P75&quot;,
+        &quot;spread_state&quot;: &quot;P95&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC067_L25_DA50_SP25&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P25&quot;,
+        &quot;day_ahead_state&quot;: &quot;P50&quot;,
+        &quot;spread_state&quot;: &quot;P25&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC068_L05_DA05_SP05&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P05&quot;,
+        &quot;day_ahead_state&quot;: &quot;P05&quot;,
+        &quot;spread_state&quot;: &quot;P05&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC069_L50_DA50_SP50&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P50&quot;,
+        &quot;day_ahead_state&quot;: &quot;P50&quot;,
+        &quot;spread_state&quot;: &quot;P50&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC070_L25_DA50_SP25&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P25&quot;,
+        &quot;day_ahead_state&quot;: &quot;P50&quot;,
+        &quot;spread_state&quot;: &quot;P25&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC071_L95_DA95_SP75&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P95&quot;,
+        &quot;day_ahead_state&quot;: &quot;P95&quot;,
+        &quot;spread_state&quot;: &quot;P75&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC072_L75_DA75_SP50&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P75&quot;,
+        &quot;day_ahead_state&quot;: &quot;P75&quot;,
+        &quot;spread_state&quot;: &quot;P50&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC073_L25_DA25_SP25&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P25&quot;,
+        &quot;day_ahead_state&quot;: &quot;P25&quot;,
+        &quot;spread_state&quot;: &quot;P25&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC074_L05_DA25_SP50&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P05&quot;,
+        &quot;day_ahead_state&quot;: &quot;P25&quot;,
+        &quot;spread_state&quot;: &quot;P50&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC075_L50_DA05_SP25&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P50&quot;,
+        &quot;day_ahead_state&quot;: &quot;P05&quot;,
+        &quot;spread_state&quot;: &quot;P25&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC076_L50_DA25_SP50&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P50&quot;,
+        &quot;day_ahead_state&quot;: &quot;P25&quot;,
+        &quot;spread_state&quot;: &quot;P50&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC077_L05_DA25_SP50&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P05&quot;,
+        &quot;day_ahead_state&quot;: &quot;P25&quot;,
+        &quot;spread_state&quot;: &quot;P50&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC078_L75_DA75_SP75&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P75&quot;,
+        &quot;day_ahead_state&quot;: &quot;P75&quot;,
+        &quot;spread_state&quot;: &quot;P75&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC079_L95_DA95_SP95&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P95&quot;,
+        &quot;day_ahead_state&quot;: &quot;P95&quot;,
+        &quot;spread_state&quot;: &quot;P95&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC080_L25_DA05_SP05&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P25&quot;,
+        &quot;day_ahead_state&quot;: &quot;P05&quot;,
+        &quot;spread_state&quot;: &quot;P05&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC081_L95_DA75_SP75&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P95&quot;,
+        &quot;day_ahead_state&quot;: &quot;P75&quot;,
+        &quot;spread_state&quot;: &quot;P75&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC082_L50_DA25_SP25&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P50&quot;,
+        &quot;day_ahead_state&quot;: &quot;P25&quot;,
+        &quot;spread_state&quot;: &quot;P25&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC083_L75_DA50_SP50&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P75&quot;,
+        &quot;day_ahead_state&quot;: &quot;P50&quot;,
+        &quot;spread_state&quot;: &quot;P50&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC084_L50_DA25_SP50&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P50&quot;,
+        &quot;day_ahead_state&quot;: &quot;P25&quot;,
+        &quot;spread_state&quot;: &quot;P50&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC085_L25_DA50_SP25&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P25&quot;,
+        &quot;day_ahead_state&quot;: &quot;P50&quot;,
+        &quot;spread_state&quot;: &quot;P25&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC086_L75_DA50_SP50&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P75&quot;,
+        &quot;day_ahead_state&quot;: &quot;P50&quot;,
+        &quot;spread_state&quot;: &quot;P50&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC087_L25_DA50_SP50&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P25&quot;,
+        &quot;day_ahead_state&quot;: &quot;P50&quot;,
+        &quot;spread_state&quot;: &quot;P50&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC088_L95_DA95_SP75&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P95&quot;,
+        &quot;day_ahead_state&quot;: &quot;P95&quot;,
+        &quot;spread_state&quot;: &quot;P75&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC089_L25_DA75_SP75&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P25&quot;,
+        &quot;day_ahead_state&quot;: &quot;P75&quot;,
+        &quot;spread_state&quot;: &quot;P75&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC090_L50_DA95_SP75&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P50&quot;,
+        &quot;day_ahead_state&quot;: &quot;P95&quot;,
+        &quot;spread_state&quot;: &quot;P75&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC091_L05_DA25_SP50&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P05&quot;,
+        &quot;day_ahead_state&quot;: &quot;P25&quot;,
+        &quot;spread_state&quot;: &quot;P50&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC092_L95_DA95_SP75&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P95&quot;,
+        &quot;day_ahead_state&quot;: &quot;P95&quot;,
+        &quot;spread_state&quot;: &quot;P75&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC093_L25_DA75_SP95&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P25&quot;,
+        &quot;day_ahead_state&quot;: &quot;P75&quot;,
+        &quot;spread_state&quot;: &quot;P95&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC094_L05_DA50_SP25&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P05&quot;,
+        &quot;day_ahead_state&quot;: &quot;P50&quot;,
+        &quot;spread_state&quot;: &quot;P25&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC095_L75_DA50_SP75&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P75&quot;,
+        &quot;day_ahead_state&quot;: &quot;P50&quot;,
+        &quot;spread_state&quot;: &quot;P75&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC096_L05_DA25_SP05&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P05&quot;,
+        &quot;day_ahead_state&quot;: &quot;P25&quot;,
+        &quot;spread_state&quot;: &quot;P05&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC097_L25_DA50_SP50&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P25&quot;,
+        &quot;day_ahead_state&quot;: &quot;P50&quot;,
+        &quot;spread_state&quot;: &quot;P50&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC098_L50_DA50_SP95&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P50&quot;,
+        &quot;day_ahead_state&quot;: &quot;P50&quot;,
+        &quot;spread_state&quot;: &quot;P95&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC099_L25_DA25_SP75&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P25&quot;,
+        &quot;day_ahead_state&quot;: &quot;P25&quot;,
+        &quot;spread_state&quot;: &quot;P75&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC100_L75_DA50_SP50&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P75&quot;,
+        &quot;day_ahead_state&quot;: &quot;P50&quot;,
+        &quot;spread_state&quot;: &quot;P50&quot;
+      }
+    ],
+    &quot;milp_executed&quot;: true,
+    &quot;backend&quot;: &quot;scipy.optimize.milp / HiGHS&quot;,
+    &quot;status&quot;: &quot;OPTIMAL&quot;,
+    &quot;mip_gap&quot;: 1.5449734112553422e-16,
+    &quot;node_count&quot;: 1,
+    &quot;solve_seconds&quot;: 11.5173,
+    &quot;solver_seconds&quot;: 11.8975,
+    &quot;end_to_end_seconds&quot;: 12.1613,
+    &quot;time_limit_seconds&quot;: 60.0,
+    &quot;milp_time_limit_seconds&quot;: 60.0,
+    &quot;pricing_time_limit_seconds&quot;: 60.0,
+    &quot;service_budget_seconds&quot;: 60.0,
+    &quot;pricing_solve_seconds&quot;: 0.3802,
+    &quot;within_solver_budget&quot;: true,
+    &quot;within_service_budget&quot;: true,
+    &quot;objective_yuan&quot;: -104955.06,
+    &quot;expected_cost_yuan&quot;: 635691.94,
+    &quot;cvar95_yuan&quot;: 660401.06,
+    &quot;scenario_costs_yuan&quot;: [
+      629985.21,
+      638049.45,
+      655070.81,
+      627854.34,
+      630298.39,
+      631188.83,
+      629371.39,
+      630354.87,
+      632344.45,
+      633842.63,
+      629960.09,
+      642812.62,
+      642206.81,
+      618107.77,
+      636595.77,
+      654452.46,
+      630187.53,
+      636051.87,
+      638872.14,
+      649018.71,
+      627215.55,
+      638341.69,
+      637593.46,
+      639430.29,
+      638236.85,
+      648348.58,
+      634940.55,
+      640787.13,
+      642630.16,
+      630887.05,
+      641819.31,
+      628727.91,
+      627033.29,
+      625385.09,
+      635188.29,
+      628438.15,
+      626645.16,
+      628833.27,
+      643407.46,
+      637769.73,
+      634286.56,
+      639206.0,
+      627688.81,
+      636980.3,
+      658019.18,
+      626706.5,
+      650819.48,
+      643360.19,
+      631934.63,
+      621899.3,
+      634212.77,
+      654723.23,
+      624317.39,
+      636030.86,
+      634653.66,
+      644164.92,
+      639849.03,
+      654281.7,
+      631543.39,
+      619554.6,
+      621549.01,
+      627900.52,
+      634731.22,
+      666069.04,
+      624472.4,
+      644841.31,
+      630449.71,
+      615134.23,
+      636898.37,
+      623317.61,
+      649522.27,
+      640568.68,
+      629407.36,
+      618253.6,
+      640357.29,
+      630710.17,
+      608188.39,
+      640092.46,
+      649209.06,
+      626983.16,
+      648455.36,
+      631333.05,
+      651053.71,
+      633803.71,
+      630199.06,
+      652031.67,
+      629666.98,
+      663523.69,
+      635819.59,
+      636739.84,
+      624910.73,
+      659322.56,
+      626950.9,
+      611749.4,
+      643682.64,
+      624985.68,
+      625094.04,
+      640097.11,
+      626976.54,
+      651624.25
+    ],
+    &quot;locked_contract_cost_yuan&quot;: 648555.14,
+    &quot;declaration_slack_penalty_yuan&quot;: 0.0,
+    &quot;objective_definition&quot;: &quot;L3批零净损失 = 批发成本 - 零售收入；目标为期望净损失/CVaR + 申报带松弛惩罚&quot;,
+    &quot;constraint_definition&quot;: {
+      &quot;declaration_band&quot;: &quot;日前申报位于负荷P10-P90物理带内，越界使用高额松弛变量&quot;,
+      &quot;contract_balance&quot;: &quot;日前申报 - 日前买入 + 日前卖出 = 已锁定中长期合同曲线&quot;,
+      &quot;spot_energy_balance&quot;: &quot;日前申报 + 实时买入 - 实时卖出 - 充电 + 放电 = 场景负荷&quot;,
+      &quot;realtime_trade_mode&quot;: &quot;每场景每时段：实时买入 &lt;= M*z，实时卖出 &lt;= M*(1-z)，z为二进制变量&quot;,
+      &quot;execution_deviation_band&quot;: &quot;代表性执行路径的实时净买卖绝对值 &lt;= 实际负荷的10%&quot;,
+      &quot;scenario_deviation_recourse&quot;: &quot;非代表性场景允许超出10%的补救量，并计入偏差回收成本&quot;,
+      &quot;storage_soc&quot;: &quot;SOC按充电效率和放电效率递推，范围为2-20MWh&quot;,
+      &quot;storage_mode&quot;: &quot;充放电二进制互斥，单点功率上限为5MW*15分钟&quot;,
+      &quot;terminal_soc&quot;: &quot;日末SOC回到初始SOC&quot;,
+      &quot;realtime_lock&quot;: &quot;实时阶段锁定已执行前缀，仅重算未实现区间&quot;
+    },
+    &quot;variable_count&quot;: 49161,
+    &quot;binary_count&quot;: 9792,
+    &quot;constraint_count&quot;: 58377,
+    &quot;message&quot;: &quot;Optimization terminated successfully. (HiGHS Status 7: Optimal)&quot;,
+    &quot;pricing_lp&quot;: {
+      &quot;backend&quot;: &quot;scipy.optimize.linprog / HiGHS&quot;,
+      &quot;status&quot;: &quot;OPTIMAL&quot;,
+      &quot;solve_seconds&quot;: 0.3802,
+      &quot;interpretation&quot;: &quot;固定MILP储能及实时交易方向整数模式后的局部LP边际价值&quot;
+    },
+    &quot;contract_marginal_value_yuan_per_mwh&quot;: [
+      407.679545,
+      407.273069,
+      408.19456,
+      408.709532,
+      408.182538,
+      407.989351,
+      408.138758,
+      407.861218,
+      407.603998,
+      408.245153,
+      409.304451,
+      409.945661,
+      409.603911,
+      409.578514,
+      408.186832,
+      408.151347,
+      408.6946,
+      407.635023,
+      408.362009,
+      408.555376,
+      409.01749,
+      409.197103,
+      408.241547,
+      406.966269,
+      408.123642,
+      407.72256,
+      406.269606,
+      406.840996,
+      407.296963,
+      406.496349,
+      405.159443,
+      405.303258,
+      405.996405,
+      405.783819,
+      405.826153,
+      405.635289,
+      405.308258,
+      407.374708,
+      407.671219,
+      409.168625,
+      267.758326,
+      267.889494,
+      266.004343,
+      266.77436,
+      267.254726,
+      267.238686,
+      267.337159,
+      266.772477,
+      265.160173,
+      265.075852,
+      265.232031,
+      266.301106,
+      264.557303,
+      265.541538,
+      265.437149,
+      266.06702,
+      267.302996,
+      266.754175,
+      266.48979,
+      266.808474,
+      405.516754,
+      405.751779,
+      404.475454,
+      406.116361,
+      405.005446,
+      404.036454,
+      405.266855,
+      405.595785,
+      602.493667,
+      603.124731,
+      606.307036,
+      607.310125,
+      605.487956,
+      608.870218,
+      609.944308,
+      611.122316,
+      614.185022,
+      612.916111,
+      611.110218,
+      610.222143,
+      608.40886,
+      608.435042,
+      606.690427,
+      605.346113,
+      405.679097,
+      407.855865,
+      407.697849,
+      407.830492,
+      409.076612,
+      409.132488,
+      407.323272,
+      406.348123,
+      406.119549,
+      405.958913,
+      405.081672,
+      404.558955
+    ],
+    &quot;rolling_half_hour_marginal_value_yuan_per_mwh&quot;: [
+      407.476307,
+      408.452046,
+      408.085945,
+      407.999988,
+      407.924576,
+      409.625056,
+      409.591213,
+      408.16909,
+      408.164811,
+      408.458692,
+      409.107297,
+      407.603908,
+      407.923101,
+      406.555301,
+      406.896656,
+      405.231351,
+      405.890112,
+      405.730721,
+      406.341483,
+      408.419922,
+      267.82391,
+      266.389352,
+      267.246706,
+      267.054818,
+      265.118013,
+      265.766569,
+      265.049421,
+      265.752085,
+      267.028585,
+      266.649132,
+      405.634266,
+      405.295907,
+      404.52095,
+      405.43132,
+      602.809199,
+      606.80858,
+      607.179087,
+      610.533312,
+      613.550567,
+      610.666181,
+      608.421951,
+      606.01827,
+      406.767481,
+      407.76417,
+      409.10455,
+      406.835697,
+      406.039231,
+      404.820314
+    ],
+    &quot;expected_net_loss_yuan&quot;: -106704.47166854872,
+    &quot;net_loss_cvar_yuan&quot;: -99706.81343384081
+  },
+  &quot;solver_backend&quot;: &quot;RULE_ENGINE_WITH_MILP_VALUATION&quot;
+}</pre></body></html>

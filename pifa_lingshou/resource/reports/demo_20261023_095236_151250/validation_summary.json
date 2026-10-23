@@ -1,0 +1,107 @@
+[
+  {
+    "package": "F",
+    "risk_lambda": 0.0,
+    "chain_status": "OPTIMAL",
+    "storage_status": "OPTIMAL",
+    "charge_mwh": 16.569352497996626,
+    "discharge_mwh": 14.02429995430435,
+    "rt_roundtrip_count": 0,
+    "storage_roundtrip_count": 0,
+    "accounting_checks": {
+      "max_energy_balance_residual_mwh": 8.881784197001252e-16,
+      "max_soc_recursion_residual_mwh": 1.618497003086361e-15,
+      "terminal_soc_residual_mwh": 0.0,
+      "max_wholesale_ledger_residual_yuan": 7.275957614183426e-11,
+      "customer_cost_reconciliation_yuan": 8.731149137020111e-11,
+      "customer_revenue_reconciliation_yuan": -4.3655745685100555e-11,
+      "expected_profit_reconciliation_yuan": -2.000888343900442e-11
+    },
+    "storage_comparison": {
+      "status": "OPTIMAL",
+      "package": "F",
+      "risk_lambda": 0.0,
+      "enabled_cost_yuan": 105761.24928805057,
+      "disabled_cost_yuan": 107797.1826436354,
+      "cost_reduction_yuan": 2035.933355584828,
+      "comparison": "合同、日前申报和场景锁定；关停储能后重求实时交易与偏差考核"
+    },
+    "solver": {
+      "backend": "scipy.optimize.milp / HiGHS",
+      "status": "OPTIMAL",
+      "mip_gap": 0.007269631078366955,
+      "solve_seconds": 0.433849833,
+      "time_limit_seconds": 54.0,
+      "variable_count": 3761,
+      "binary_count": 288,
+      "constraint_count": 7505,
+      "solver_backend": "scipy.optimize.milp / HiGHS",
+      "milp_executed": true,
+      "objective_yuan": -15301.097723667215,
+      "objective_reconciliation_yuan": 7.275957614183426e-12,
+      "end_to_end_seconds": 0.49696416599999793,
+      "rt_mutual_exclusion": "单一有符号净交易；买=max(net,0)，卖=max(-net,0)，不允许往返交易",
+      "long_term_assessment": {
+        "basis": "grid_net_load",
+        "annual_coverage": 0.6,
+        "overall_band": [
+          0.9,
+          1.1
+        ],
+        "controllable": true,
+        "note": "储能只优化计量口径下的考核偏差成本，不改变已锁定合同成交量"
+      },
+      "optimization_scenario_count": 8,
+      "optimization_scenarios": [
+        {
+          "scenario_id": "MC018_L50_DA75_SP75",
+          "probability": 0.060000000000000005
+        },
+        {
+          "scenario_id": "MC002_L75_DA50_SP05",
+          "probability": 0.2
+        },
+        {
+          "scenario_id": "MC052_L75_DA50_SP95",
+          "probability": 0.09
+        },
+        {
+          "scenario_id": "MC028_L75_DA50_SP05",
+          "probability": 0.18
+        },
+        {
+          "scenario_id": "MC007_L50_DA25_SP25",
+          "probability": 0.09
+        },
+        {
+          "scenario_id": "L50_DA50_SP50",
+          "probability": 0.15000000000000002
+        },
+        {
+          "scenario_id": "MC046_L25_DA25_SP50",
+          "probability": 0.22000000000000006
+        },
+        {
+          "scenario_id": "MC068_L05_DA05_SP05",
+          "probability": 0.01
+        }
+      ],
+      "scenario_reduction": "按无储能净损失分层，保留两端，最近代表分配概率；近似优化，原场景全量评估",
+      "evaluation_scenario_count": 64,
+      "storage_switching": {
+        "startup_count": 12,
+        "shutdown_count": 11,
+        "startup_cost_yuan": 1.0,
+        "shutdown_cost_yuan": 1.0,
+        "total_cost_yuan": 23.0
+      },
+      "evaluation_objective_yuan": -15261.586222193631,
+      "fixed_until": 0,
+      "model_structure": "L3_JOINT_DECLARATION_STORAGE_MILP",
+      "declaration_optimized": false,
+      "day_ahead_price_known": false,
+      "mip_gap_scope": "当前优化情景的固定申报储能问题",
+      "within_service_budget": true
+    }
+  }
+]

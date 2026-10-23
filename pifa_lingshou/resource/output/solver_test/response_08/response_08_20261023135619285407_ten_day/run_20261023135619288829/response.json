@@ -1,0 +1,33 @@
+{
+  "node": "TEN_DAY",
+  "solver_test": {
+    "request_file": "/Users/hanwu/PyCharmMiscProject/aggregate/pifa_lingshou/resource/input/solver_test/request_08/request_08_20261023135619285407_ten_day.json",
+    "node": "TEN_DAY",
+    "upstream_response_file": "/Users/hanwu/PyCharmMiscProject/aggregate/pifa_lingshou/resource/output/solver_test/response_08/response_08_20261023135618767006_monthly/run_20261023135618770780/response.json",
+    "customer_count": 10,
+    "scenario_count": 5,
+    "solved_scenario_count": 5,
+    "time_limit_seconds": 60.0,
+    "target_mip_gap": 0.03,
+    "elapsed_seconds": 0.002688875000000035,
+    "solver_seconds": 0.0,
+    "other_processing_seconds": 0.002688875000000035,
+    "request_preparation_seconds": 0.0005287080000000444,
+    "model_execution_seconds": 0.00031333300000002673,
+    "milp_seconds": 0.0,
+    "pricing_lp_seconds": 0.0,
+    "variable_count": null,
+    "constraint_count": null,
+    "mip_gap": null,
+    "status": "ERROR",
+    "gap_status": null,
+    "node_count": null,
+    "binary_count": null,
+    "objective_yuan": null,
+    "dual_bound": null,
+    "response_write_seconds": 0.00010395800000018163,
+    "time_count": 48
+  },
+  "status": "ERROR",
+  "error": "RuntimeError: 上游节点求解失败，不能使用默认数据伪造完整链路"
+}

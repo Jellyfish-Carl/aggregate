@@ -3,7 +3,8 @@ from __future__ import annotations
 from dataclasses import asdict
 import json
 from pathlib import Path
-from ..inputs.full_model import FullModelInput
+from time import perf_counter
+from .full_model import FullModelInput
 from ..accounting.full_accounting import account
 from .layer_runner import run_layer, config_from, write_result
 from .storage_validation import compare_storage_layer
@@ -132,6 +133,36 @@ def account_layer(chain):
     return result
 
 
+def _solver_summary(chain):
+    solver=chain.get('solver',{})
+    valuation=solver.get('valuation_solver')
+    details=valuation or solver
+    parts=[f"状态={solver.get('status','未知')}"]
+    if valuation:
+        parts.append(f"估值MILP={valuation.get('status','未知')}")
+    if details.get('solve_seconds') is not None:
+        parts.append(f"求解器耗时={details['solve_seconds']:.3f}s")
+    if details.get('solver_seconds') is not None:
+        parts.append(f"MILP+定价LP={details['solver_seconds']:.3f}s")
+    if details.get('time_limit_seconds') is not None:
+        parts.append(f"时限={details['time_limit_seconds']:g}s")
+    if details.get('mip_gap') is not None:
+        parts.append(f"Gap={details['mip_gap']:.4%}")
+    dimensions=[]
+    for key,label in (('variable_count','变量'),('binary_count','整数变量'),('constraint_count','约束')):
+        if details.get(key) is not None:
+            dimensions.append(f"{label}={details[key]}")
+    if dimensions:
+        parts.append('模型规模='+', '.join(dimensions))
+    if details.get('optimization_scenario_count') is not None:
+        parts.append(f"优化场景={details['optimization_scenario_count']}")
+    if details.get('evaluation_scenario_count') is not None:
+        parts.append(f"评估场景={details['evaluation_scenario_count']}")
+    if details.get('node_count') is not None:
+        parts.append(f"分支节点={details['node_count']}")
+    return '；'.join(parts)
+
+
 def evaluate_full(config=None, packages=('F','L','S'), progress=None, layer_inputs=None, output_dir=None):
     config=config or FullModelInput()
     config.validate()
@@ -149,7 +180,14 @@ def evaluate_full(config=None, packages=('F','L','S'), progress=None, layer_inpu
             chain=None
             from .layer_runner import NODES
             for node in NODES[:7]:
+                stage_started = perf_counter()
                 chain=run_layer(node,inputs,chain,lambda pct,msg: progress(f'{package}/λ={risk:g} {pct:.0f}% {msg}') if progress else None)
+                stage_elapsed = perf_counter() - stage_started
+                if progress:
+                    progress(
+                        f'{package}/λ={risk:g} 完成 {node}，阶段耗时 '
+                        f'{stage_elapsed:.3f} 秒；{_solver_summary(chain)}'
+                    )
                 if output_dir:
                     path=write_result(chain,Path(output_dir)/f'{package}_{risk:g}'/(node+'.json'))
                     rel=path.relative_to(Path(output_dir).resolve().parent).as_posix()

@@ -1,0 +1,33 @@
+{
+  "node": "STORAGE-DA",
+  "solver_test": {
+    "request_file": "/Users/hanwu/PyCharmMiscProject/aggregate/pifa_lingshou/resource/input/solver_test/request_16/request_16_20261023141634820388_storage_day_ahead.json",
+    "node": "STORAGE-DA",
+    "upstream_response_file": "/Users/hanwu/PyCharmMiscProject/aggregate/pifa_lingshou/resource/output/solver_test/response_16/response_16_20261023141501808694_day_ahead_declaration/run_20261023141501812830/response.json",
+    "customer_count": 10,
+    "scenario_count": 500,
+    "solved_scenario_count": 500,
+    "time_limit_seconds": 60.0,
+    "time_count": 96,
+    "target_mip_gap": 0.03,
+    "elapsed_seconds": 0.0019981669998969664,
+    "solver_seconds": 0.0,
+    "other_processing_seconds": 0.0019981669998969664,
+    "request_preparation_seconds": 0.0006072919999269288,
+    "model_execution_seconds": 0.0003135829999791895,
+    "milp_seconds": 0.0,
+    "pricing_lp_seconds": 0.0,
+    "variable_count": null,
+    "constraint_count": null,
+    "mip_gap": null,
+    "status": "ERROR",
+    "gap_status": null,
+    "node_count": null,
+    "binary_count": null,
+    "objective_yuan": null,
+    "dual_bound": null,
+    "response_write_seconds": 0.00021120800010976382
+  },
+  "status": "ERROR",
+  "error": "RuntimeError: 上游节点求解失败，不能使用默认数据伪造完整链路"
+}

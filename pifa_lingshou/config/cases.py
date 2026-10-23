@@ -9,9 +9,12 @@ def defaults():
         market=dict(annual_price=405.,monthly_price=416.,ten_day_price=424.,
             annual_reference_price=405.,monthly_reference_price=416.,
             reference_weights=[.7,.2,.1],procurement_weights=[.7,.2,.1],
-            operating_cost_yuan_per_mwh=2.,price_uncertainty_ratio=.15),
+            price_uncertainty_ratio=.15),
         recommendation_policy=dict(minimum_total_profit_yuan=0.,
-            maximum_profit_loss_cvar_yuan=None,minimum_customer_saving_yuan=0.),
+            maximum_profit_loss_cvar_yuan=None,minimum_customer_saving_yuan=0.,
+            minimum_total_customer_saving_yuan=0.,threshold_basis='per_delivery_day',
+            time_limit_seconds=60.,mip_relative_gap=.03),
         storage=dict(minimum_soc_mwh=2.,maximum_soc_mwh=20.,initial_soc_mwh=10.,terminal_soc_mwh=10.,
             maximum_charge_mwh=1.25,maximum_discharge_mwh=1.25,efficiency=.92,degradation_yuan_per_mwh=2.,
-            optimization_scenario_count=8,assessment_basis='grid_net_load',hard_deviation=False,time_limit_seconds=5.))
+            startup_cost_yuan=1.,shutdown_cost_yuan=1.,minimum_active_power_ratio=.01,
+            optimization_scenario_count=8,assessment_basis='grid_net_load',hard_deviation=False,time_limit_seconds=60.))

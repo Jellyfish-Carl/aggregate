@@ -1,0 +1,1258 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>solver-test · STORAGE-DA</title>
+<style>body{font:14px system-ui,sans-serif;max-width:1100px;margin:32px auto;padding:0 20px;color:#1e2a2b}h1{margin-bottom:4px}.meta{color:#607274}.flow{padding:14px 0;border-bottom:1px solid #d8e1e1;overflow-wrap:anywhere}.flow strong{color:#087f78}.upstream{font-size:12px;color:#607274;overflow-wrap:anywhere}.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:20px 0}.kpi{border:1px solid #d8e1e1;padding:12px}.kpi small{display:block;color:#607274}.kpi strong{display:block;margin-top:6px;font-size:18px}svg{width:100%;height:260px;border:1px solid #d8e1e1;background:#fbfdfd}table{border-collapse:collapse;width:100%}th,td{border-bottom:1px solid #e4eaea;padding:7px;text-align:left}pre{overflow:auto;background:#f4f7f7;padding:14px}@media(max-width:700px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}</style></head><body>
+<h1>solver-test · STORAGE-DA</h1><div class="meta">状态：OPTIMAL；该页面只展示本次 request 的 response，不运行其他节点。</div>
+<div class="flow"><b>完整决策链</b><br>年度 → 月度 → 旬度 → D-3 → D-2 → 日前申报 → <strong aria-current="step">日前储能</strong><div class="upstream">上游 response：/Users/hanwu/PyCharmMiscProject/aggregate/pifa_lingshou/resource/output/solver_test/response_15/response_15_20261023143035500918_day_ahead_declaration/run_20261023143035504416/response.json</div></div>
+<div class="kpis"><div class="kpi"><small>场景数</small><strong>300</strong></div><div class="kpi"><small>模型耗时 / 秒</small><strong>54.093788292</strong></div><div class="kpi"><small>变量数</small><strong>81625</strong></div><div class="kpi"><small>约束数</small><strong>145906</strong></div></div>
+<h2>合同/申报曲线</h2><svg viewBox="0 0 1010 255" role="img" aria-label="合同或申报曲线"><text x="45" y="25">MWh / 15分钟</text><rect x="45.00" y="159.92" width="7.00" height="50.08" fill="#087f78"><title>1: 8.24632</title></rect><rect x="54.20" y="159.92" width="7.00" height="50.08" fill="#087f78"><title>2: 8.24632</title></rect><rect x="63.40" y="159.92" width="7.00" height="50.08" fill="#087f78"><title>3: 8.24632</title></rect><rect x="72.60" y="159.92" width="7.00" height="50.08" fill="#087f78"><title>4: 8.24632</title></rect><rect x="81.80" y="159.92" width="7.00" height="50.08" fill="#087f78"><title>5: 8.24632</title></rect><rect x="91.00" y="159.92" width="7.00" height="50.08" fill="#087f78"><title>6: 8.24632</title></rect><rect x="100.20" y="159.92" width="7.00" height="50.08" fill="#087f78"><title>7: 8.24632</title></rect><rect x="109.40" y="159.92" width="7.00" height="50.08" fill="#087f78"><title>8: 8.24632</title></rect><rect x="118.60" y="159.92" width="7.00" height="50.08" fill="#087f78"><title>9: 8.24632</title></rect><rect x="127.80" y="159.92" width="7.00" height="50.08" fill="#087f78"><title>10: 8.24632</title></rect><rect x="137.00" y="159.92" width="7.00" height="50.08" fill="#087f78"><title>11: 8.24632</title></rect><rect x="146.20" y="159.92" width="7.00" height="50.08" fill="#087f78"><title>12: 8.24632</title></rect><rect x="155.40" y="159.92" width="7.00" height="50.08" fill="#087f78"><title>13: 8.24632</title></rect><rect x="164.60" y="159.92" width="7.00" height="50.08" fill="#087f78"><title>14: 8.24632</title></rect><rect x="173.80" y="159.92" width="7.00" height="50.08" fill="#087f78"><title>15: 8.24632</title></rect><rect x="183.00" y="159.92" width="7.00" height="50.08" fill="#087f78"><title>16: 8.24632</title></rect><rect x="192.20" y="159.92" width="7.00" height="50.08" fill="#087f78"><title>17: 8.24632</title></rect><rect x="201.40" y="159.92" width="7.00" height="50.08" fill="#087f78"><title>18: 8.24632</title></rect><rect x="210.60" y="159.92" width="7.00" height="50.08" fill="#087f78"><title>19: 8.24632</title></rect><rect x="219.80" y="159.92" width="7.00" height="50.08" fill="#087f78"><title>20: 8.24632</title></rect><rect x="229.00" y="159.92" width="7.00" height="50.08" fill="#087f78"><title>21: 8.24632</title></rect><rect x="238.20" y="159.92" width="7.00" height="50.08" fill="#087f78"><title>22: 8.24632</title></rect><rect x="247.40" y="159.92" width="7.00" height="50.08" fill="#087f78"><title>23: 8.24632</title></rect><rect x="256.60" y="159.92" width="7.00" height="50.08" fill="#087f78"><title>24: 8.24632</title></rect><rect x="265.80" y="159.92" width="7.00" height="50.08" fill="#087f78"><title>25: 8.24632</title></rect><rect x="275.00" y="159.92" width="7.00" height="50.08" fill="#087f78"><title>26: 8.24632</title></rect><rect x="284.20" y="159.92" width="7.00" height="50.08" fill="#087f78"><title>27: 8.24632</title></rect><rect x="293.40" y="159.92" width="7.00" height="50.08" fill="#087f78"><title>28: 8.24632</title></rect><rect x="302.60" y="126.54" width="7.00" height="83.46" fill="#087f78"><title>29: 13.74388</title></rect><rect x="311.80" y="126.54" width="7.00" height="83.46" fill="#087f78"><title>30: 13.74388</title></rect><rect x="321.00" y="126.54" width="7.00" height="83.46" fill="#087f78"><title>31: 13.74388</title></rect><rect x="330.20" y="126.54" width="7.00" height="83.46" fill="#087f78"><title>32: 13.74388</title></rect><rect x="339.40" y="68.11" width="7.00" height="141.89" fill="#087f78"><title>33: 23.36459</title></rect><rect x="348.60" y="68.11" width="7.00" height="141.89" fill="#087f78"><title>34: 23.36459</title></rect><rect x="357.80" y="68.11" width="7.00" height="141.89" fill="#087f78"><title>35: 23.36459</title></rect><rect x="367.00" y="68.11" width="7.00" height="141.89" fill="#087f78"><title>36: 23.36459</title></rect><rect x="376.20" y="68.33" width="7.00" height="141.67" fill="#087f78"><title>37: 23.32907</title></rect><rect x="385.40" y="68.33" width="7.00" height="141.67" fill="#087f78"><title>38: 23.32907</title></rect><rect x="394.60" y="68.22" width="7.00" height="141.78" fill="#087f78"><title>39: 23.34701</title></rect><rect x="403.80" y="68.22" width="7.00" height="141.78" fill="#087f78"><title>40: 23.34701</title></rect><rect x="413.00" y="68.11" width="7.00" height="141.89" fill="#087f78"><title>41: 23.36459</title></rect><rect x="422.20" y="68.11" width="7.00" height="141.89" fill="#087f78"><title>42: 23.36459</title></rect><rect x="431.40" y="68.11" width="7.00" height="141.89" fill="#087f78"><title>43: 23.36459</title></rect><rect x="440.60" y="68.11" width="7.00" height="141.89" fill="#087f78"><title>44: 23.36459</title></rect><rect x="449.80" y="68.11" width="7.00" height="141.89" fill="#087f78"><title>45: 23.36459</title></rect><rect x="459.00" y="68.11" width="7.00" height="141.89" fill="#087f78"><title>46: 23.36459</title></rect><rect x="468.20" y="68.11" width="7.00" height="141.89" fill="#087f78"><title>47: 23.36459</title></rect><rect x="477.40" y="68.11" width="7.00" height="141.89" fill="#087f78"><title>48: 23.36459</title></rect><rect x="486.60" y="68.11" width="7.00" height="141.89" fill="#087f78"><title>49: 23.36459</title></rect><rect x="495.80" y="68.11" width="7.00" height="141.89" fill="#087f78"><title>50: 23.36459</title></rect><rect x="505.00" y="68.02" width="7.00" height="141.98" fill="#087f78"><title>51: 23.37964</title></rect><rect x="514.20" y="68.02" width="7.00" height="141.98" fill="#087f78"><title>52: 23.37964</title></rect><rect x="523.40" y="68.29" width="7.00" height="141.71" fill="#087f78"><title>53: 23.33472</title></rect><rect x="532.60" y="68.29" width="7.00" height="141.71" fill="#087f78"><title>54: 23.33472</title></rect><rect x="541.80" y="68.20" width="7.00" height="141.80" fill="#087f78"><title>55: 23.34902</title></rect><rect x="551.00" y="68.20" width="7.00" height="141.80" fill="#087f78"><title>56: 23.34902</title></rect><rect x="560.20" y="68.11" width="7.00" height="141.89" fill="#087f78"><title>57: 23.36459</title></rect><rect x="569.40" y="68.11" width="7.00" height="141.89" fill="#087f78"><title>58: 23.36459</title></rect><rect x="578.60" y="68.11" width="7.00" height="141.89" fill="#087f78"><title>59: 23.36459</title></rect><rect x="587.80" y="68.11" width="7.00" height="141.89" fill="#087f78"><title>60: 23.36459</title></rect><rect x="597.00" y="68.11" width="7.00" height="141.89" fill="#087f78"><title>61: 23.36459</title></rect><rect x="606.20" y="68.11" width="7.00" height="141.89" fill="#087f78"><title>62: 23.36459</title></rect><rect x="615.40" y="68.11" width="7.00" height="141.89" fill="#087f78"><title>63: 23.36459</title></rect><rect x="624.60" y="68.11" width="7.00" height="141.89" fill="#087f78"><title>64: 23.36459</title></rect><rect x="633.80" y="68.11" width="7.00" height="141.89" fill="#087f78"><title>65: 23.36459</title></rect><rect x="643.00" y="68.11" width="7.00" height="141.89" fill="#087f78"><title>66: 23.36459</title></rect><rect x="652.20" y="68.21" width="7.00" height="141.79" fill="#087f78"><title>67: 23.34851</title></rect><rect x="661.40" y="68.21" width="7.00" height="141.79" fill="#087f78"><title>68: 23.34851</title></rect><rect x="670.60" y="51.17" width="7.00" height="158.83" fill="#087f78"><title>69: 26.15344</title></rect><rect x="679.80" y="51.17" width="7.00" height="158.83" fill="#087f78"><title>70: 26.15344</title></rect><rect x="689.00" y="50.00" width="7.00" height="160.00" fill="#087f78"><title>71: 26.34664</title></rect><rect x="698.20" y="50.00" width="7.00" height="160.00" fill="#087f78"><title>72: 26.34664</title></rect><rect x="707.40" y="113.14" width="7.00" height="96.86" fill="#087f78"><title>73: 15.95032</title></rect><rect x="716.60" y="113.14" width="7.00" height="96.86" fill="#087f78"><title>74: 15.95032</title></rect><rect x="725.80" y="110.38" width="7.00" height="99.62" fill="#087f78"><title>75: 16.40446</title></rect><rect x="735.00" y="110.38" width="7.00" height="99.62" fill="#087f78"><title>76: 16.40446</title></rect><rect x="744.20" y="110.57" width="7.00" height="99.43" fill="#087f78"><title>77: 16.37314</title></rect><rect x="753.40" y="110.57" width="7.00" height="99.43" fill="#087f78"><title>78: 16.37314</title></rect><rect x="762.60" y="110.07" width="7.00" height="99.93" fill="#087f78"><title>79: 16.45477</title></rect><rect x="771.80" y="110.07" width="7.00" height="99.93" fill="#087f78"><title>80: 16.45477</title></rect><rect x="781.00" y="113.47" width="7.00" height="96.53" fill="#087f78"><title>81: 15.89488</title></rect><rect x="790.20" y="113.47" width="7.00" height="96.53" fill="#087f78"><title>82: 15.89488</title></rect><rect x="799.40" y="113.69" width="7.00" height="96.31" fill="#087f78"><title>83: 15.85829</title></rect><rect x="808.60" y="113.69" width="7.00" height="96.31" fill="#087f78"><title>84: 15.85829</title></rect><rect x="817.80" y="126.54" width="7.00" height="83.46" fill="#087f78"><title>85: 13.74388</title></rect><rect x="827.00" y="126.54" width="7.00" height="83.46" fill="#087f78"><title>86: 13.74388</title></rect><rect x="836.20" y="126.54" width="7.00" height="83.46" fill="#087f78"><title>87: 13.74388</title></rect><rect x="845.40" y="126.54" width="7.00" height="83.46" fill="#087f78"><title>88: 13.74388</title></rect><rect x="854.60" y="126.54" width="7.00" height="83.46" fill="#087f78"><title>89: 13.74388</title></rect><rect x="863.80" y="126.54" width="7.00" height="83.46" fill="#087f78"><title>90: 13.74388</title></rect><rect x="873.00" y="126.54" width="7.00" height="83.46" fill="#087f78"><title>91: 13.74388</title></rect><rect x="882.20" y="126.54" width="7.00" height="83.46" fill="#087f78"><title>92: 13.74388</title></rect><rect x="891.40" y="126.54" width="7.00" height="83.46" fill="#087f78"><title>93: 13.74388</title></rect><rect x="900.60" y="126.54" width="7.00" height="83.46" fill="#087f78"><title>94: 13.74388</title></rect><rect x="909.80" y="126.54" width="7.00" height="83.46" fill="#087f78"><title>95: 13.74388</title></rect><rect x="919.00" y="126.54" width="7.00" height="83.46" fill="#087f78"><title>96: 13.74388</title></rect><line x1="45" y1="210" x2="960" y2="210" stroke="#789"/><text x="45" y="240">00:00</text><text x="490" y="240">12:00</text><text x="925" y="240">24:00</text></svg>
+<h2>点位数据</h2><table><thead><tr><th>点位</th><th>日前申报</th><th>合同曲线</th></tr></thead><tbody><tr><td>1</td><td>9.125467163123549</td><td>8.246323680000001</td></tr><tr><td>2</td><td>9.083135074842382</td><td>8.246323680000001</td></tr><tr><td>3</td><td>9.107273422132359</td><td>8.246323680000001</td></tr><tr><td>4</td><td>8.826064944630106</td><td>8.246323680000001</td></tr><tr><td>5</td><td>9.022187195805325</td><td>8.246323680000001</td></tr><tr><td>6</td><td>9.088467363987647</td><td>8.246323680000001</td></tr><tr><td>7</td><td>8.834527111361567</td><td>8.246323680000001</td></tr><tr><td>8</td><td>8.962360826915088</td><td>8.246323680000001</td></tr><tr><td>9</td><td>9.172600098125711</td><td>8.246323680000001</td></tr><tr><td>10</td><td>9.01711885791581</td><td>8.246323680000001</td></tr><tr><td>11</td><td>9.048631239159713</td><td>8.246323680000001</td></tr><tr><td>12</td><td>9.171268471031198</td><td>8.246323680000001</td></tr><tr><td>13</td><td>9.18821114649061</td><td>8.246323680000001</td></tr><tr><td>14</td><td>9.157065503047315</td><td>8.246323680000001</td></tr><tr><td>15</td><td>9.281183725644404</td><td>8.246323680000001</td></tr><tr><td>16</td><td>9.104821976240348</td><td>8.246323680000001</td></tr><tr><td>17</td><td>9.096562728755142</td><td>8.246323680000001</td></tr><tr><td>18</td><td>9.026445852150552</td><td>8.246323680000001</td></tr><tr><td>19</td><td>8.839957156079008</td><td>8.246323680000001</td></tr><tr><td>20</td><td>9.040750093913601</td><td>8.246323680000001</td></tr><tr><td>21</td><td>9.182964585258597</td><td>8.246323680000001</td></tr><tr><td>22</td><td>9.162662154265883</td><td>8.246323680000001</td></tr><tr><td>23</td><td>9.112481421693353</td><td>8.246323680000001</td></tr><tr><td>24</td><td>8.652567239786135</td><td>8.246323680000001</td></tr><tr><td>25</td><td>8.705224525469937</td><td>8.246323680000001</td></tr><tr><td>26</td><td>8.901317484005496</td><td>8.246323680000001</td></tr><tr><td>27</td><td>8.981502485870008</td><td>8.246323680000001</td></tr><tr><td>28</td><td>8.853041686586558</td><td>8.246323680000001</td></tr><tr><td>29</td><td>15.060136290999974</td><td>13.743875739999998</td></tr><tr><td>30</td><td>15.053321468520465</td><td>13.743875739999998</td></tr><tr><td>31</td><td>15.087797990632657</td><td>13.743875739999998</td></tr><tr><td>32</td><td>15.265217054825499</td><td>13.743875739999998</td></tr><tr><td>33</td><td>25.946026506860083</td><td>23.364589640003775</td></tr><tr><td>34</td><td>25.986777181429456</td><td>23.364589640003775</td></tr><tr><td>35</td><td>26.002759923729055</td><td>23.364589639999924</td></tr><tr><td>36</td><td>26.0252842641855</td><td>23.364589639999924</td></tr><tr><td>37</td><td>25.954445897596287</td><td>23.32907114</td></tr><tr><td>38</td><td>26.04755311874598</td><td>23.32907114</td></tr><tr><td>39</td><td>25.67958902776487</td><td>23.34700914</td></tr><tr><td>40</td><td>25.605108121012172</td><td>23.34700914</td></tr><tr><td>41</td><td>21.6573876652271</td><td>23.364589640000002</td></tr><tr><td>42</td><td>22.35075611148877</td><td>23.364589640000002</td></tr><tr><td>43</td><td>22.17325147554586</td><td>23.364589640000002</td></tr><tr><td>44</td><td>21.595198016236882</td><td>23.364589640000002</td></tr><tr><td>45</td><td>21.969126468720354</td><td>23.364589640000002</td></tr><tr><td>46</td><td>22.177020100217547</td><td>23.364589640000002</td></tr><tr><td>47</td><td>21.730005125021005</td><td>23.364589640000002</td></tr><tr><td>48</td><td>22.071224027652544</td><td>23.364589640000002</td></tr><tr><td>49</td><td>22.258013092798553</td><td>23.364589640000002</td></tr><tr><td>50</td><td>21.70004498311795</td><td>23.364589640000002</td></tr><tr><td>51</td><td>21.622880344656426</td><td>23.379643140000002</td></tr><tr><td>52</td><td>21.9475918561343</td><td>23.379643140000002</td></tr><tr><td>53</td><td>21.936927356433138</td><td>23.33472164</td></tr><tr><td>54</td><td>22.022894343293252</td><td>23.33472164</td></tr><tr><td>55</td><td>21.68942794160265</td><td>23.349016140000003</td></tr><tr><td>56</td><td>22.230623848189</td><td>23.349016140000003</td></tr><tr><td>57</td><td>21.633912539571963</td><td>23.364589640000002</td></tr><tr><td>58</td><td>21.86017575167063</td><td>23.364589640000002</td></tr><tr><td>59</td><td>22.44099205666979</td><td>23.364589640000002</td></tr><tr><td>60</td><td>21.908727249573303</td><td>23.364589640000002</td></tr><tr><td>61</td><td>25.93572317125424</td><td>23.364589640000002</td></tr><tr><td>62</td><td>26.01649768468958</td><td>23.364589640000002</td></tr><tr><td>63</td><td>25.888343849500675</td><td>23.364589640000002</td></tr><tr><td>64</td><td>25.97776909658461</td><td>23.364589640000002</td></tr><tr><td>65</td><td>25.97047319195691</td><td>23.364589640000002</td></tr><tr><td>66</td><td>25.96602523952692</td><td>23.364589640000002</td></tr><tr><td>67</td><td>26.08327759978278</td><td>23.34851214</td></tr><tr><td>68</td><td>25.903727780373092</td><td>23.34851214</td></tr><tr><td>69</td><td>26.061339882275345</td><td>26.1534388866</td></tr><tr><td>70</td><td>25.88712818929959</td><td>26.1534388866</td></tr><tr><td>71</td><td>25.916939999634693</td><td>26.34663543300002</td></tr><tr><td>72</td><td>26.233095334806794</td><td>26.34663543300002</td></tr><tr><td>73</td><td>15.42652902307016</td><td>15.950323929599998</td></tr><tr><td>74</td><td>15.491439702106906</td><td>15.950323929599998</td></tr><tr><td>75</td><td>15.701086069522171</td><td>16.404455631349997</td></tr><tr><td>76</td><td>15.544319222116156</td><td>16.404455631349997</td></tr><tr><td>77</td><td>15.552840668104333</td><td>16.3731389252</td></tr><tr><td>78</td><td>15.59039494412373</td><td>16.3731389252</td></tr><tr><td>79</td><td>15.409022580450168</td><td>16.454772700699998</td></tr><tr><td>80</td><td>15.405811605682278</td><td>16.454772700699998</td></tr><tr><td>81</td><td>15.3795531156779</td><td>15.894877555699997</td></tr><tr><td>82</td><td>15.495287759183876</td><td>15.894877555699997</td></tr><tr><td>83</td><td>15.389683554666533</td><td>15.858294105699997</td></tr><tr><td>84</td><td>15.249733857102685</td><td>15.858294105699997</td></tr><tr><td>85</td><td>15.113583998801898</td><td>13.743875739999998</td></tr><tr><td>86</td><td>15.270331577810515</td><td>13.743875739999998</td></tr><tr><td>87</td><td>14.846764631600845</td><td>13.743875739999998</td></tr><tr><td>88</td><td>14.761581229850277</td><td>13.743875739999998</td></tr><tr><td>89</td><td>15.048699131420436</td><td>13.743875739999998</td></tr><tr><td>90</td><td>15.0326622332744</td><td>13.743875739999998</td></tr><tr><td>91</td><td>14.864200055652395</td><td>13.743875739999998</td></tr><tr><td>92</td><td>15.163115976398055</td><td>13.743875739999998</td></tr><tr><td>93</td><td>15.12184601674824</td><td>13.743875739999998</td></tr><tr><td>94</td><td>14.975108521064575</td><td>13.743875739999998</td></tr><tr><td>95</td><td>15.114002421254225</td><td>13.743875739999998</td></tr><tr><td>96</td><td>14.557353230308436</td><td>13.743875739999998</td></tr></tbody></table>
+<h2>求解器详情</h2><pre>{
+  &quot;backend&quot;: &quot;scipy.optimize.milp / HiGHS&quot;,
+  &quot;status&quot;: &quot;OPTIMAL&quot;,
+  &quot;mip_gap&quot;: 0.009186877567101816,
+  &quot;solve_seconds&quot;: 54.093788292,
+  &quot;time_limit_seconds&quot;: 60.0,
+  &quot;variable_count&quot;: 81625,
+  &quot;binary_count&quot;: 1920,
+  &quot;constraint_count&quot;: 145906,
+  &quot;node_count&quot;: 1,
+  &quot;dual_bound&quot;: -106698.88544021081,
+  &quot;solver_backend&quot;: &quot;scipy.optimize.milp / HiGHS&quot;,
+  &quot;milp_executed&quot;: true,
+  &quot;objective_yuan&quot;: -105727.5791154119,
+  &quot;max_binary_integrality_residual&quot;: 0.0,
+  &quot;objective_reconciliation_yuan&quot;: 4.511093720793724e-10,
+  &quot;end_to_end_seconds&quot;: 55.14488983300001,
+  &quot;rt_mutual_exclusion&quot;: &quot;单一有符号净交易；买=max(net,0)，卖=max(-net,0)，不允许往返交易&quot;,
+  &quot;long_term_assessment&quot;: {
+    &quot;basis&quot;: &quot;grid_net_load&quot;,
+    &quot;annual_coverage&quot;: 0.6,
+    &quot;overall_band&quot;: [
+      0.9,
+      1.1
+    ],
+    &quot;controllable&quot;: true,
+    &quot;note&quot;: &quot;储能只优化计量口径下的考核偏差成本，不改变已锁定合同成交量&quot;
+  },
+  &quot;optimization_scenario_count&quot;: 300,
+  &quot;time_count&quot;: 96,
+  &quot;optimization_scenarios&quot;: [
+    {
+      &quot;scenario_id&quot;: &quot;MC001_L75_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC002_L50_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC003_L50_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC004_L95_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC005_L05_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC006_L25_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC007_L05_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC008_L25_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC009_L75_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC010_L25_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC011_L25_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC012_L25_DA50_SP05&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC013_L50_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC014_L75_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC015_L75_DA50_SP95&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC016_L25_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC017_L25_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC018_L75_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC019_L50_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC020_L50_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC021_L95_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC022_L25_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC023_L75_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC024_L50_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC025_L95_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC026_L75_DA50_SP95&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC027_L75_DA50_SP95&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC028_L75_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC029_L05_DA50_SP05&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC030_L25_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC031_L75_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC032_L25_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC033_L50_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC034_L50_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC035_L75_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC036_L25_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC037_L05_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC038_L95_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC039_L75_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC040_L75_DA50_SP95&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC041_L25_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC042_L25_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC043_L25_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC044_L75_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC045_L50_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC046_L75_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC047_L75_DA50_SP95&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC048_L05_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC049_L50_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC050_L25_DA50_SP05&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC051_L25_DA50_SP05&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC052_L25_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC053_L50_DA50_SP05&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC054_L25_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC055_L25_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC056_L95_DA50_SP95&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC057_L25_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC058_L25_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC059_L05_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC060_L50_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC061_L05_DA50_SP95&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC062_L50_DA50_SP95&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC063_L50_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC064_L50_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC065_L25_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC066_L50_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC067_L50_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC068_L25_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC069_L95_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC070_L95_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC071_L25_DA50_SP05&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC072_L50_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC073_L75_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC074_L25_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC075_L05_DA50_SP05&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;L50_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC077_L75_DA50_SP95&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC078_L95_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC079_L75_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC080_L25_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC081_L50_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC082_L75_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC083_L05_DA50_SP05&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC084_L95_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC085_L95_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC086_L95_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC087_L25_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC088_L50_DA50_SP05&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC089_L75_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC090_L50_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC091_L25_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC092_L25_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC093_L75_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC094_L25_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC095_L25_DA50_SP05&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC096_L50_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC097_L05_DA50_SP05&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC098_L50_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC099_L50_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC100_L25_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC101_L75_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC102_L75_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC103_L25_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC104_L50_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC105_L05_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC106_L50_DA50_SP95&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC107_L95_DA50_SP95&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC108_L25_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC109_L50_DA50_SP05&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC110_L75_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC111_L50_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC112_L95_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC113_L75_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC114_L50_DA50_SP95&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC115_L50_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC116_L75_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC117_L25_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC118_L75_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC119_L50_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC120_L50_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC121_L50_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC122_L75_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC123_L50_DA50_SP05&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC124_L95_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC125_L95_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC126_L05_DA50_SP05&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC127_L75_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC128_L50_DA50_SP95&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC129_L25_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC130_L75_DA50_SP95&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC131_L75_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC132_L05_DA50_SP05&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC133_L50_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC134_L25_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC135_L75_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC136_L75_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC137_L75_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC138_L05_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC139_L50_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC140_L05_DA50_SP95&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC141_L05_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC142_L75_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC143_L25_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC144_L75_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC145_L75_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC146_L75_DA50_SP95&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC147_L50_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC148_L05_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC149_L05_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC150_L50_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC151_L75_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC152_L50_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC153_L25_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC154_L50_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC155_L50_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC156_L75_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC157_L25_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC158_L25_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC159_L75_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC160_L75_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC161_L05_DA50_SP05&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC162_L75_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC163_L75_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC164_L95_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC165_L05_DA50_SP05&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC166_L05_DA50_SP05&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC167_L50_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC168_L75_DA50_SP95&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC169_L25_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC170_L50_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC171_L75_DA50_SP95&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC172_L95_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC173_L75_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC174_L25_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC175_L95_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC176_L25_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC177_L25_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC178_L75_DA50_SP95&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC179_L25_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC180_L50_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC181_L25_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC182_L05_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC183_L25_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC184_L50_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC185_L25_DA50_SP05&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC186_L75_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC187_L95_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC188_L50_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC189_L25_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC190_L25_DA50_SP05&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC191_L50_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC192_L25_DA50_SP95&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC193_L50_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC194_L95_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC195_L95_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC196_L25_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC197_L50_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC198_L75_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC199_L50_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC200_L75_DA50_SP95&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC201_L50_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC202_L25_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC203_L75_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC204_L50_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC205_L50_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC206_L25_DA50_SP95&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC207_L50_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC208_L25_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC209_L75_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC210_L25_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC211_L25_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC212_L75_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC213_L95_DA50_SP05&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC214_L50_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC215_L75_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC216_L50_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC217_L25_DA50_SP05&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC218_L05_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC219_L25_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC220_L25_DA50_SP05&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC221_L75_DA50_SP95&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC222_L50_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC223_L75_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC224_L05_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC225_L25_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC226_L75_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC227_L50_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC228_L75_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC229_L75_DA50_SP95&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC230_L75_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC231_L50_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC232_L75_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC233_L25_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC234_L25_DA50_SP05&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC235_L05_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC236_L95_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC237_L25_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC238_L75_DA50_SP95&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC239_L25_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC240_L25_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC241_L75_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC242_L05_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC243_L50_DA50_SP95&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC244_L25_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC245_L75_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC246_L95_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC247_L25_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC248_L75_DA50_SP05&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC249_L75_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC250_L25_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC251_L50_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC252_L25_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC253_L75_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC254_L25_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC255_L75_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC256_L25_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC257_L75_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC258_L50_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC259_L95_DA50_SP95&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC260_L50_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC261_L50_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC262_L75_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC263_L75_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC264_L95_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC265_L25_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC266_L75_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC267_L05_DA50_SP05&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC268_L75_DA50_SP05&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC269_L75_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC270_L95_DA50_SP95&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC271_L25_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC272_L25_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC273_L25_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC274_L25_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC275_L25_DA50_SP05&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC276_L25_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC277_L75_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC278_L05_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC279_L75_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC280_L50_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC281_L75_DA50_SP95&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC282_L25_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC283_L95_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC284_L50_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC285_L05_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC286_L50_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC287_L50_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC288_L75_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC289_L95_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC290_L75_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC291_L50_DA50_SP05&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC292_L25_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC293_L50_DA50_SP95&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC294_L75_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC295_L25_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC296_L95_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC297_L50_DA50_SP50&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC298_L50_DA50_SP25&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC299_L05_DA50_SP05&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    },
+    {
+      &quot;scenario_id&quot;: &quot;MC300_L50_DA50_SP75&quot;,
+      &quot;probability&quot;: 0.0033333333333333335
+    }
+  ],
+  &quot;scenario_reduction&quot;: &quot;全场景求解&quot;,
+  &quot;evaluation_scenario_count&quot;: 300,
+  &quot;storage_switching&quot;: {
+    &quot;startup_count&quot;: 83,
+    &quot;shutdown_count&quot;: 77,
+    &quot;startup_cost_yuan&quot;: 1.0,
+    &quot;shutdown_cost_yuan&quot;: 1.0,
+    &quot;total_cost_yuan&quot;: 800.0,
+    &quot;per_customer&quot;: true
+  },
+  &quot;evaluation_objective_yuan&quot;: -105727.5791154119,
+  &quot;per_customer_storage&quot;: true,
+  &quot;fixed_until&quot;: 0,
+  &quot;model_structure&quot;: &quot;L3_JOINT_DECLARATION_STORAGE_MILP&quot;,
+  &quot;declaration_optimized&quot;: false,
+  &quot;day_ahead_price_known&quot;: true,
+  &quot;mip_gap_scope&quot;: &quot;当前优化情景的固定申报储能问题&quot;,
+  &quot;within_service_budget&quot;: true
+}</pre></body></html>

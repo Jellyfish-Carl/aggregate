@@ -1,0 +1,33 @@
+{
+  "node": "MONTHLY",
+  "solver_test": {
+    "request_file": "/Users/hanwu/PyCharmMiscProject/aggregate/pifa_lingshou/resource/input/solver_test/request_08/request_08_20261023135618767006_monthly.json",
+    "node": "MONTHLY",
+    "upstream_response_file": "/Users/hanwu/PyCharmMiscProject/aggregate/pifa_lingshou/resource/output/solver_test/response_08/response_08_20261023135618202314_annual/run_20261023135618207218/response.json",
+    "customer_count": 10,
+    "scenario_count": 5,
+    "solved_scenario_count": 5,
+    "time_limit_seconds": 60.0,
+    "target_mip_gap": 0.03,
+    "elapsed_seconds": 0.507903166,
+    "solver_seconds": 0.210997667,
+    "other_processing_seconds": 0.29690549899999996,
+    "request_preparation_seconds": 0.0005543749999998848,
+    "model_execution_seconds": 0.5052727079999999,
+    "milp_seconds": 0.210997667,
+    "pricing_lp_seconds": 0.0,
+    "variable_count": 1320,
+    "constraint_count": 1130,
+    "mip_gap": null,
+    "status": "ERROR",
+    "gap_status": "INFINITE_NO_INCUMBENT",
+    "node_count": 0,
+    "binary_count": 1,
+    "objective_yuan": null,
+    "dual_bound": null,
+    "response_write_seconds": 0.00020383300000004212,
+    "time_count": 48
+  },
+  "status": "ERROR",
+  "error": "MilpSolveError: INFEASIBLE: The problem is infeasible. (HiGHS Status 8: model_status is Infeasible; primal_status is At lower/fixed bound)"
+}

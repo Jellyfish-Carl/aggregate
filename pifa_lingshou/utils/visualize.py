@@ -11,7 +11,7 @@ ROOT=Path(__file__).resolve().parents[1]
 def render_settlement(result):
     """Offline realized settlement, separate from forecast strategy reports."""
     from ..accounting.full_accounting import COST_KEYS
-    labels=('年度电能量','月度电能量','旬内电能量','D-3滚撮','D-2滚撮','日前现货','实时现货','考核与罚款','储能退化')
+    labels=('年度电能量','月度电能量','旬内电能量','D-3滚撮','D-2滚撮','日前现货','实时现货','考核与罚款','储能吞吐退化','储能启停退化')
     esc=lambda value:html.escape(str(value))
     number=lambda value:'—' if value is None else f'{value:,.2f}'
     def table(heads,rows):
@@ -67,7 +67,7 @@ def render_layer(result):
 
 
 def render_report_file(payload, output=None):
-    path=Path(output or ROOT/'resource'/'output'/'visualize.html').resolve()
+    path=Path(output or ROOT/'resource'/'reports'/'visualize.html').resolve()
     path.parent.mkdir(parents=True,exist_ok=True)
     path.write_text(render_report(payload),encoding='utf-8')
     return path

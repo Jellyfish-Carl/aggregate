@@ -4,7 +4,7 @@ from dataclasses import asdict, dataclass, field, replace
 from typing import Callable, Dict, List, Mapping, Optional, Sequence, Tuple
 
 from pifa_lingshou.data_objects.domain import ContractFill
-from pifa_lingshou.inputs.load_forecast import (
+from pifa_lingshou.service.load_forecast import (
     IndustrialParkConfig,
     month_equivalent_days,
     monthly_curve,

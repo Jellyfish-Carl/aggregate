@@ -1,13 +1,16 @@
 """Persistent case state machine; signing precedes dated procurement decisions."""
 from copy import deepcopy
+from pathlib import Path
+from ..utils.resource_store import write_json
 from datetime import datetime,timedelta,date
 from random import Random
 from threading import RLock
 from uuid import uuid4
-from ..inputs.case_data import mock_case,validate_case,layer_input,NODES,curve
+from .case_data import mock_case,validate_case,layer_input,NODES,curve
 from ..utils.resource_store import CaseStore
-from .recommendation import recommend
+from .recommendation import recommend,validate_selection
 from .layer_runner import run_layer
+from .node_requests import RequestStore, FOLDERS
 
 LOCK=RLock()
 
@@ -15,14 +18,29 @@ LOCK=RLock()
 class CaseService:
     def __init__(self,root=None):self.store=CaseStore(root)
 
+    def _request(self, state, request, requests):
+        folder=FOLDERS[request['node']]
+        current=state.setdefault('requests',{}).get(folder)
+        if current:
+            saved=requests.read(folder,current)
+            if saved['request']==request:return saved
+        saved=requests.create(request,dict(source='WEB_CASE',case_id=state['case_id'],revision=state['revision']))
+        state['requests'][folder]=saved['id']
+        self.store.save_state(state)
+        return saved
+
     def view(self,case_id):
         s=self.store.state(case_id)
         return dict(state=s,input=self.store.data(s))
 
     def create(self,settings=None):
-        data=mock_case(settings);cid=datetime.now().strftime('%Y%m%d-%H%M%S-')+uuid4().hex[:8]
+        return self.create_from_data(mock_case(settings))
+
+    def create_from_data(self,data,source_request=None):
+        data=deepcopy(validate_case(data));cid=datetime.now().strftime('%Y%m%d-%H%M%S-')+uuid4().hex[:8]
         state=dict(case_id=cid,name=data['name'],target_date=data['target_date'],created_at=datetime.now().astimezone().isoformat(),
             revision=1,status='DRAFT',stages=[],packages={},clock=data['signing_forecast']['issued_at'])
+        if source_request:state['source_request']=source_request
         self.store.write('input',cid,'revision_0001.json',data);self.store.save_state(state)
         return self.view(cid)
 
@@ -36,12 +54,16 @@ class CaseService:
             self.store.write('input',cid,f'revision_{s["revision"]:04d}.json',data);self.store.save_state(s)
         return self.view(cid)
 
-    def recommend(self,cid,revision):
+    def recommend(self,cid,revision,progress=None):
         with LOCK:
             s=self.store.state(cid)
             if revision!=s['revision'] or s['packages']:raise ValueError('签约状态或输入版本已改变')
-            result=recommend(self.store.data(s));s.update(status='RECOMMENDED',recommendation=result)
-            self.store.write('output',cid,f'recommendation_{revision:04d}.json',result);self.store.save_state(s)
+            requests=RequestStore(self.store.root)
+            request=dict(node='PACKAGE_RECOMMEND',inputs=self.store.data(s))
+            saved=self._request(s,request,requests)
+            run=requests.execute('retail',saved['id'],progress=progress)
+            result=run['result'];s.update(status='RECOMMENDED',recommendation=result)
+            self.store.save_state(s)
         return self.view(cid)
 
     def confirm(self,cid,packages,revision):
@@ -50,8 +72,15 @@ class CaseService:
             if s['status']!='RECOMMENDED' or revision!=s['revision']:raise ValueError('请先确认当前数据并计算推荐')
             ids={c['terms']['customer_id'] for c in data['customers']}
             if set(packages)!=ids or any(p not in ('F','L','S') for p in packages.values()):raise ValueError('须逐客户确认F/L/S套餐')
+            recommendation=s['recommendation']
+            if not recommendation.get('quality_certified') or not recommendation.get('recommended_portfolio'):
+                raise ValueError('套餐联合模型尚未得到全局 gap≤3% 的可行组合，请调整输入或延长时限后重算')
+            if packages!=recommendation['recommended_portfolio']['packages']:
+                validation=validate_selection(data,recommendation,packages)
+            else:
+                validation=dict(packages=packages,portfolio=recommendation['recommended_portfolio'],solver=recommendation['solver'],basis='采用已认证推荐组合')
             s.update(status='SIGNED',packages=packages)
-            self.store.write('input',cid,'signed_packages.json',dict(revision=revision,packages=packages,terms=[c['terms'] for c in data['customers']]))
+            self.store.write('input',cid,'signed_packages.json',dict(revision=revision,packages=packages,validation=validation,terms=[c['terms'] for c in data['customers']]))
             self.store.save_state(s)
         return self.view(cid)
 
@@ -81,17 +110,27 @@ class CaseService:
                 if set(execution)-allowed:raise ValueError('日内实绩字段不合法')
                 inputs.update(execution)
             if progress:progress(2,'案例 '+cid+'：读取已签条款与本节点预测')
-            result=run_layer(node,inputs,upstream,progress)
+            requests=RequestStore(self.store.root)
+            request=dict(node=node,inputs=inputs,input_revision=revision)
+            prior=upstream if upstream is not None else s['recommendation']
+            reference=prior.get('request_run')
+            if reference:
+                request['depends_on']={k:reference[k] for k in ('node','id','run_id')}
+            saved=self._request(s,request,requests)
+            run=requests.execute(FOLDERS[node],saved['id'],
+                upstream=None if reference else upstream,progress=progress)
+            result=run['result']
             result['forecast_context']={k:data['forecasts'][node][k] for k in ('as_of','scope_start','scope_end')}
             result['forecast_context']['representation']='范围内日均96点代表曲线；合同按交割日历天数缩放，考核统一折算至本节点范围'
             result['case_id']=cid;result['input_revision']=revision
-            number=len(s['stages'])+1;prefix=f'{number:02d}_{node}'
-            self.store.write('input',cid,prefix+'_request.json',dict(node=node,inputs=inputs,input_revision=revision))
-            self.store.write('output',cid,prefix+'.json',result)
+            directory=Path(run['record']['path'])
+            write_json(directory/'response.json',result)
             from ..utils.visualize import render_layer
-            page=render_layer(result)
-            self.store.path('output',cid,prefix+'.html').write_text(page,encoding='utf-8')
-            stage=dict(node=node,result_file=prefix+'.json',report_file=prefix+'.html',status=result['status'],
+            (directory/'visualize.html').write_text(render_layer(result),encoding='utf-8')
+            base='@'+directory.relative_to(self.store.root).as_posix()+'/'
+            stage=dict(node=node,result_file=base+'response.json',report_file=base+'visualize.html',
+                request_file='@'+Path(saved['path']).relative_to(self.store.root).as_posix(),
+                request_snapshot=base+'request.json',status=result['status'],
                 elapsed_seconds=result['elapsed_seconds'],forecast=result['forecast_context'],input_revision=revision)
             s['stages'].append(stage);s.update(status='TRADING',clock=inputs['as_of'])
             if node=='STORAGE-RT':s['fixed_until']=inputs['fixed_until']
@@ -111,9 +150,11 @@ class CaseService:
             for i,risk in enumerate(lambdas):
                 upstream=None
                 for index,row in enumerate(records):
-                    saved=self.store.read('input',cid,row['result_file'].replace('.json','_request.json'))
+                    saved=self.store.read('input',cid,row['request_snapshot'])
                     inputs=deepcopy(saved['inputs']);inputs['risk_lambda']=risk
-                    upstream=run_layer(row['node'],inputs,upstream)
+                    requests=RequestStore(self.store.root)
+                    saved=requests.create(dict(node=row['node'],inputs=inputs),dict(source='RISK_REPLAY',case_id=cid))
+                    upstream=requests.execute(FOLDERS[row['node']],saved['id'],upstream=upstream)['result']
                     if progress:progress(100*(i+(index+1)/7)/len(lambdas),f'比较 λ={risk:g} · {row["node"]}')
                 self.store.write('output',cid,f'risk_{risk:g}_solution.json',upstream)
                 results.append(account_layer(upstream))
@@ -142,7 +183,7 @@ class CaseService:
                 rt[j]=last['inputs']['actual_rt_price'][j]
         return dict(source='MOCK_REPLAY',target_date=data['target_date'],
             settled_at=(date.fromisoformat(data['target_date'])+timedelta(days=1)).isoformat(),
-            customer_load_mwh=loads,day_ahead_price=data['forecasts']['L3-A']['day_ahead_price'],real_time_price=rt,
+            customer_load_mwh=loads,day_ahead_price=raw['scenarios'][0]['day_ahead_price'],real_time_price=rt,
             charge_mwh=raw['charge_mwh'],discharge_mwh=raw['discharge_mwh'],soc_mwh=raw['soc_mwh'],
             note='模拟回放：未来动作按最新计划执行生成待确认实绩，确认前可修改；不用于事前优化')
 
@@ -159,7 +200,10 @@ class CaseService:
             self.store.write('input',cid,'settlement_actuals.json',actual)
             self.store.write('output',cid,'settlement.json',result)
             from ..utils.visualize import render_settlement
-            self.store.path('output',cid,'settlement.html').write_text(render_settlement(result),encoding='utf-8')
+            page=render_settlement(result)
+            strategy=next(row for row in s['stages'] if row['node']=='STORAGE-DA')
+            page=page.replace('07_STORAGE-DA.html','/resource/'+strategy['report_file'][1:])
+            self.store.path('output',cid,'settlement.html').write_text(page,encoding='utf-8')
             s.update(status='SETTLED',clock=actual['settled_at'],settlement=result)
             self.store.save_state(s)
             if progress:progress(100,'结算完成：客户分时电价节省、公司成本收益与价差')

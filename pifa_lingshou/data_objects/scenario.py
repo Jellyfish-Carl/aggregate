@@ -2,7 +2,8 @@ from __future__ import annotations
 
 import math
 import random
-from dataclasses import dataclass
+from zlib import crc32
+from dataclasses import dataclass, field
 from statistics import NormalDist
 from typing import Iterable, List, Mapping, Sequence, Tuple
 
@@ -26,6 +27,7 @@ class JointTrajectoryScenario:
     load_mwh: Tuple[float, ...]
     day_ahead_price: Tuple[float, ...]
     real_time_price: Tuple[float, ...]
+    customer_load_mwh: Mapping[str, Tuple[float, ...]] = field(default_factory=dict)
 
 
 QUANTILE_STATES: Tuple[Tuple[str, float, float], ...] = (
@@ -115,6 +117,14 @@ def _standardize_columns(matrix: Sequence[Sequence[float]]) -> List[List[float]]
     return result
 
 
+def _marginal_value(row, prefix, factor):
+    """Map a standardized factor to the request's own marginal forecast."""
+    center = float(row[prefix + '_p50'])
+    width = (float(row[prefix + '_p90']) - center if factor >= 0
+             else center - float(row[prefix + '_p10']))
+    return center + factor * width / _NORMAL.inv_cdf(.9)
+
+
 def _empirical_labels(scores: Sequence[float]) -> List[str]:
     order = sorted(range(len(scores)), key=lambda index: float(scores[index]))
     labels = ["P50"] * len(scores)
@@ -201,9 +211,21 @@ def candidate_joint_trajectories(
     if candidate_count < 8:
         raise ValueError("candidate_count 至少为8，以覆盖中心和联合尾部")
     periods = len(load_snapshot["rows"])
+    seed = price_snapshot.get('scenario_seed',seed)
     load_factors, day_ahead_factors, spread_factors = _joint_factor_paths(
         candidate_count, periods, seed
     )
+    customer_values = {}
+    customer_rows = load_snapshot.get('customer_rows', {})
+    for cid, rows in sorted(customer_rows.items()):
+        rng = random.Random(int(seed) + crc32(cid.encode('utf-8')))
+        paths = []
+        for scenario in range(candidate_count):
+            noise = _persistent_path(rng, rng.gauss(0, 1), periods, .84)
+            paths.append([.8 * load_factors[scenario][j] + .6 * noise[j] for j in range(periods)])
+        factors = _standardize_columns(paths)
+        customer_values[cid] = [tuple(max(0., _marginal_value(rows[j], 'load', factors[s][j]))
+            for j in range(periods)) for s in range(candidate_count)]
     official_day_ahead = (
         price_snapshot.get("information_state") == "OFFICIAL_DAY_AHEAD_REVEALED"
     )
@@ -231,45 +253,24 @@ def candidate_joint_trajectories(
         for index, load_row in enumerate(load_snapshot["rows"]):
             price_row = price_snapshot["rows"][index]
             load_p50 = float(load_row["p50_mwh"])
-            load_sigma = max(
-                (float(load_row["p90_mwh"]) - float(load_row["p10_mwh"]))
-                / 2.563,
-                0.015 * max(load_p50, 0.01),
-            )
             load = (
                 load_p50
                 if load_row.get("status") == "ACTUAL"
-                else max(0.0, load_p50 + load_factors[scenario][index] * load_sigma)
-            )
-            day_ahead_p50 = float(price_row["day_ahead_p50"])
-            day_ahead_sigma = max(
-                (
-                    float(price_row["day_ahead_p90"])
-                    - float(price_row["day_ahead_p10"])
-                )
-                / 2.563,
-                5.0,
+                else max(0.0, _marginal_value({'load_p10':load_row['p10_mwh'],
+                    'load_p50':load_p50,'load_p90':load_row['p90_mwh']},'load',load_factors[scenario][index]))
             )
             day_ahead = (
-                day_ahead_p50
+                float(price_row["day_ahead_p50"])
                 if official_day_ahead
-                else day_ahead_p50
-                + day_ahead_factors[scenario][index] * day_ahead_sigma
+                else _marginal_value(price_row, "day_ahead", day_ahead_factors[scenario][index])
+            )
+            real_time = (
+                float(price_row["real_time_p50"])
+                if price_row.get("real_time_observed")
+                else _marginal_value(price_row, "real_time", spread_factors[scenario][index])
             )
             day_ahead = max(-2000.0, min(5000.0, day_ahead))
-            spread_p50 = float(price_row["spread_p50"])
-            spread_sigma = max(
-                (float(price_row["spread_p90"]) - float(price_row["spread_p10"]))
-                / 2.563,
-                7.0,
-            )
-            spread = (
-                spread_p50
-                if price_row.get("real_time_observed")
-                else spread_p50
-                + spread_factors[scenario][index] * spread_sigma
-            )
-            real_time = max(-2000.0, min(5000.0, day_ahead + spread))
+            real_time = max(-2000.0, min(5000.0, real_time))
             load_values.append(load)
             day_ahead_values.append(day_ahead)
             real_time_values.append(real_time)
@@ -294,9 +295,11 @@ def candidate_joint_trajectories(
                 load_quantile=load_label,
                 day_ahead_quantile=day_ahead_label,
                 spread_quantile=spread_label,
-                load_mwh=tuple(load_values),
+                load_mwh=(tuple(sum(values[scenario][j] for values in customer_values.values())
+                                for j in range(periods)) if customer_values else tuple(load_values)),
                 day_ahead_price=tuple(day_ahead_values),
                 real_time_price=tuple(real_time_values),
+                customer_load_mwh={cid:values[scenario] for cid, values in customer_values.items()},
             )
         )
     return scenarios
@@ -390,10 +393,13 @@ def reduced_joint_trajectories(
     load_snapshot: Mapping[str, object],
     price_snapshot: Mapping[str, object],
     scenario_count: int = L2_OPTIMIZATION_SCENARIO_COUNT,
+    candidate_count: int = JOINT_CANDIDATE_COUNT,
 ) -> Tuple[JointTrajectoryScenario, ...]:
     """Reduce joint trajectories while retaining weighted tail diversity."""
 
-    candidates = candidate_joint_trajectories(load_snapshot, price_snapshot)
+    candidates = candidate_joint_trajectories(
+        load_snapshot, price_snapshot, candidate_count=candidate_count
+    )
     if not 1 <= scenario_count <= len(candidates):
         raise ValueError("scenario_count 必须位于候选场景数范围内")
     if scenario_count == len(candidates):
@@ -443,6 +449,7 @@ def reduced_joint_trajectories(
             load_mwh=item.load_mwh,
             day_ahead_price=item.day_ahead_price,
             real_time_price=item.real_time_price,
+            customer_load_mwh=item.customer_load_mwh,
         )
         for item in selected
     )

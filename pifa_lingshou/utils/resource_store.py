@@ -21,8 +21,12 @@ class CaseStore:
     def path(self,kind,case_id,*parts):
         if kind not in ('input','output') or not isinstance(case_id,str) or not re.fullmatch(r'[A-Za-z0-9_-]{1,80}',case_id):
             raise ValueError('非法案例ID')
-        path=(self.root/kind/case_id).joinpath(*parts).resolve()
-        if not path.is_relative_to(self.root/kind/case_id):raise ValueError('非法资源路径')
+        base=self.root/'workflows'/case_id/kind
+        if parts and parts[0].startswith('@'):
+            base=self.root
+            parts=(parts[0][1:],)+parts[1:]
+        path=base.joinpath(*parts).resolve()
+        if not path.is_relative_to(base):raise ValueError('非法资源路径')
         return path
 
     def read(self,kind,case_id,*parts):
@@ -38,7 +42,7 @@ class CaseStore:
 
     def listing(self):
         result=[]
-        for path in self.root.glob('output/*/state.json'):
+        for path in self.root.glob('workflows/*/output/state.json'):
             s=json.loads(path.read_text(encoding='utf-8'))
             result.append({k:s[k] for k in ('case_id','name','status','target_date','revision','created_at')})
         return sorted(result,key=lambda s:s['created_at'],reverse=True)

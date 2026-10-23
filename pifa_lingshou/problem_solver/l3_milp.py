@@ -73,7 +73,7 @@ def solve_l3_milp(
         raise ValueError("联合场景概率必须非负有限且和为1")
     if any(not isfinite(v) for s in scenarios for curve in (s.load_mwh, s.day_ahead_price, s.real_time_price) for v in curve) or any(v < 0 for s in scenarios for v in s.load_mwh):
         raise ValueError("场景负荷必须非负；负荷与价格必须有限")
-    candidate_scenario_count = JOINT_CANDIDATE_COUNT
+    candidate_scenario_count = max(JOINT_CANDIDATE_COUNT, len(scenarios))
     scenario_diagnostics = joint_scenario_diagnostics(
         snapshot, price_snapshot, scenarios
     )
@@ -313,9 +313,17 @@ def solve_l3_milp(
     # Direction binaries add one discrete choice per scenario and quarter-hour.
     # Allow the complete wholesale and retail paths enough time to find a
     # feasible integer solution reliably after the mutual-exclusion upgrade.
-    solve_limit_seconds = 30.0
-    solved = model.solve(time_limit_seconds=solve_limit_seconds, mip_relative_gap=1e-3)
-    pricing = model.solve_fixed_integer_lp(solved.values, time_limit_seconds=solve_limit_seconds)
+    service_budget_seconds = 60.0
+    # MILP gets the full requested 60 seconds. Pricing is a separate LP;
+    # reserving time for it must not silently shorten the MILP limit.
+    pricing_reserve_seconds = 60.0
+    solve_limit_seconds = service_budget_seconds
+    solved = model.solve(time_limit_seconds=solve_limit_seconds, mip_relative_gap=0.03)
+    pricing_limit_seconds = min(
+        pricing_reserve_seconds,
+        service_budget_seconds,
+    )
+    pricing = model.solve_fixed_integer_lp(solved.values, time_limit_seconds=pricing_limit_seconds)
     marginal_value_96 = [
         -float(pricing.row_marginals[row_index])
         for row_index in contract_balance_rows
@@ -424,6 +432,8 @@ def solve_l3_milp(
             pricing,
             marginal_value_96,
             half_hour_marginal_values,
+            service_budget_seconds,
+            pricing_limit_seconds,
         ),
     }
     if retail_revenue_builder:
@@ -623,6 +633,8 @@ def _optimization_payload(
     pricing: object,
     marginal_value_96: Sequence[float],
     half_hour_marginal_values: Sequence[float],
+    service_budget_seconds: float,
+    pricing_limit_seconds: float,
 ) -> Mapping[str, object]:
     probabilities = tuple(item.probability for item in scenarios)
     return {
@@ -630,6 +642,7 @@ def _optimization_payload(
         "model_structure": "96_POINT_JOINT_SCENARIO_L3_MILP",
         "candidate_scenario_count": candidate_scenario_count,
         "optimization_scenario_count": len(scenarios),
+        "time_count": SPOT_PERIODS,
         "scenario_generation": dict(scenario_diagnostics),
         "scenario_catalog": [
             {
@@ -647,10 +660,15 @@ def _optimization_payload(
         "mip_gap": solved.mip_gap,
         "node_count": solved.node_count,
         "solve_seconds": round(solved.solve_seconds, 4),
+        "solver_seconds": round(solved.solve_seconds + pricing.solve_seconds, 4),
         "end_to_end_seconds": round(total_seconds, 4),
-        "time_limit_seconds": solved.time_limit_seconds,
-        "service_budget_seconds": 30.0,
-        "within_service_budget": total_seconds <= 30.0,
+        "time_limit_seconds": service_budget_seconds,
+        "milp_time_limit_seconds": solved.time_limit_seconds,
+        "pricing_time_limit_seconds": pricing_limit_seconds,
+        "service_budget_seconds": service_budget_seconds,
+        "pricing_solve_seconds": round(pricing.solve_seconds, 4),
+        "within_solver_budget": solved.solve_seconds + pricing.solve_seconds <= service_budget_seconds,
+        "within_service_budget": total_seconds <= service_budget_seconds,
         "objective_yuan": round(
             solved.objective + contract_fixed_cost, 2
         ),

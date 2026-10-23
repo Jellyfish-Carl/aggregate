@@ -231,6 +231,8 @@ def solve_candidate_milp(inputs: AggregateInput, package: str, risk_lambda: floa
     soc_names = []
     charge_mode_names = []
     discharge_mode_names = []
+    startup_names = []
+    shutdown_names = []
     state = inputs.locked_state
     for period in range(PERIODS):
         declaration = model.add_var(_name("declaration", period), upper=physical_upper)
@@ -263,6 +265,8 @@ def solve_candidate_milp(inputs: AggregateInput, package: str, risk_lambda: floa
         discharge_mode = model.add_var(_name("discharge_mode", period), upper=1.0, integer=True)
         model.add_constraint({charge: 1.0, charge_mode: -storage.maximum_charge_mwh}, upper=0.0)
         model.add_constraint({discharge: 1.0, discharge_mode: -storage.maximum_discharge_mwh}, upper=0.0)
+        model.add_constraint({charge: 1.0, charge_mode: -storage.maximum_charge_mwh*storage.minimum_active_power_ratio}, lower=0.0)
+        model.add_constraint({discharge: 1.0, discharge_mode: -storage.maximum_discharge_mwh*storage.minimum_active_power_ratio}, lower=0.0)
         model.add_constraint({charge_mode: 1.0, discharge_mode: 1.0}, upper=1.0)
         soc = model.add_var(_name("soc", period), lower=storage.minimum_soc_mwh, upper=storage.maximum_soc_mwh)
         soc_equation = {soc: 1.0, charge: -storage.efficiency, discharge: 1.0 / storage.efficiency}
@@ -277,6 +281,26 @@ def solve_candidate_milp(inputs: AggregateInput, package: str, risk_lambda: floa
         charge_mode_names.append(charge_mode)
         discharge_mode_names.append(discharge_mode)
         soc_names.append(soc)
+
+        starts=[]; stops=[]
+        for direction, mode, initial in (('charge',charge_mode,storage.initial_mode==1),
+                                         ('discharge',discharge_mode,storage.initial_mode==-1)):
+            start=model.add_var(_name(direction+'_start',period),upper=1.0)
+            stop=model.add_var(_name(direction+'_stop',period),upper=1.0)
+            previous=(charge_mode_names[-2] if period and direction=='charge' else
+                      discharge_mode_names[-2] if period else None)
+            if previous is None:
+                model.add_constraint({mode:1,start:-1,stop:1},lower=float(initial),upper=float(initial))
+                model.add_constraint({start:1},upper=0 if initial else 1)
+                model.add_constraint({stop:1},upper=1 if initial else 0)
+            else:
+                model.add_constraint({mode:1,previous:-1,start:-1,stop:1},lower=0,upper=0)
+                model.add_constraint({start:1,previous:1},upper=1)
+                model.add_constraint({stop:1,previous:-1},upper=0)
+            model.add_constraint({start:1,mode:-1},upper=0)
+            model.add_constraint({stop:1,mode:1},upper=1)
+            starts.append(start); stops.append(stop)
+        startup_names.append(starts); shutdown_names.append(stops)
 
         if period < state.fixed_until:
             for name, mapping in ((charge, state.charge_mwh), (discharge, state.discharge_mwh), (soc, state.soc_mwh)):
@@ -360,6 +384,9 @@ def solve_candidate_milp(inputs: AggregateInput, package: str, risk_lambda: floa
             cost_equation[x_sell] = -inputs.deviation_sell_penalty
             cost_equation[charge_names[period]] = -storage.degradation_yuan_per_mwh
             cost_equation[discharge_names[period]] = -storage.degradation_yuan_per_mwh
+            for index, var in enumerate(startup_names[period]):
+                cost_equation[var] = -storage.startup_cost_yuan
+                cost_equation[shutdown_names[period][index]] = -storage.shutdown_cost_yuan
 
         model.add_constraint(cost_equation, lower=0.0, upper=0.0)
         revenue = float(settlements[scenario_index].retail_revenue_yuan)
@@ -395,7 +422,7 @@ def solve_candidate_milp(inputs: AggregateInput, package: str, risk_lambda: floa
         )
     except MilpBackendUnavailable as exc:
         raise MilpBackendUnavailable(
-            "pifa_lingshou 需要 SciPy/HiGHS；请在仓库根目录执行 "
+            "pifa_lingshou 需要 SciPy/HiGHS；请在项目虚拟环境安装依赖 "
             "python3 -m pip install -e pifa"
         ) from exc
     except MilpSolveError as exc:
@@ -426,6 +453,7 @@ def solve_candidate_milp(inputs: AggregateInput, package: str, risk_lambda: floa
         real_time_cost = 0.0
         deviation_cost = 0.0
         storage_degradation_cost = 0.0
+        storage_switching_cost = 0.0
         friction = float(inputs.transaction_friction_yuan_per_mwh)
         for period in range(PERIODS):
             da_price = float(scenario.day_ahead_price[period])
@@ -443,8 +471,10 @@ def solve_candidate_milp(inputs: AggregateInput, package: str, risk_lambda: floa
                 + float(inputs.deviation_sell_penalty) * values[deviation_sell_names[scenario_index, period]]
             )
             storage_degradation_cost += float(storage.degradation_yuan_per_mwh) * (
-                values[charge_names[period]] + values[discharge_names[period]]
-            )
+                values[charge_names[period]] + values[discharge_names[period]])
+            storage_switching_cost += sum(float(storage.startup_cost_yuan)*values[name]
+                +float(storage.shutdown_cost_yuan)*values[shutdown_names[period][index]]
+                for index,name in enumerate(startup_names[period]))
         wholesale_breakdowns.append({
             "scenario_id": scenario.scenario_id,
             "probability": float(scenario.probability),
@@ -453,6 +483,7 @@ def solve_candidate_milp(inputs: AggregateInput, package: str, risk_lambda: floa
             "real_time_cost_yuan": real_time_cost,
             "deviation_penalty_yuan": deviation_cost,
             "storage_degradation_yuan": storage_degradation_cost,
+            "storage_switching_degradation_yuan": storage_switching_cost,
             "total_wholesale_cost_yuan": scenario_costs[scenario_index],
         })
     expected_wholesale_breakdown = {
@@ -465,6 +496,7 @@ def solve_candidate_milp(inputs: AggregateInput, package: str, risk_lambda: floa
             "real_time_cost_yuan",
             "deviation_penalty_yuan",
             "storage_degradation_yuan",
+            "storage_switching_degradation_yuan",
             "total_wholesale_cost_yuan",
         )
     }
@@ -691,6 +723,13 @@ def solve_candidate_milp(inputs: AggregateInput, package: str, risk_lambda: floa
             "terminal_soc_mwh": values[soc_names[-1]],
             "maximum_soc_mwh": max(values[name] for name in soc_names),
             "degradation_cost_yuan": expected_wholesale_breakdown["storage_degradation_yuan"],
+            "startup_count": sum(round(values[name]) for row in startup_names for name in row),
+            "shutdown_count": sum(round(values[name]) for row in shutdown_names for name in row),
+            "switching_degradation_cost_yuan": weighted_mean([
+                sum(float(storage.startup_cost_yuan)*values[name]
+                    +float(storage.shutdown_cost_yuan)*values[shutdown_names[j][i]]
+                    for j,row in enumerate(startup_names) for i,name in enumerate(row))
+                for _ in inputs.scenarios], probabilities_tuple),
         },
         "schedule": rows,
         "constraints": feasibility,

@@ -6,11 +6,12 @@ This module owns the Layer 1 contract MILP. Portfolio orchestration remains in
 
 from __future__ import annotations
 
+from math import inf
 from typing import List, Mapping, Sequence
 
 from pifa_lingshou.problem_solver.milp import LinearMilp
-from pifa_lingshou.inputs.load_forecast import product_equivalent_days, quantile_curve
-from pifa_lingshou.data_objects.scenario import discrete_load_scenarios
+from pifa_lingshou.service.load_forecast import product_equivalent_days, quantile_curve
+from pifa_lingshou.data_objects.scenario import discrete_load_scenarios,cvar
 from pifa_lingshou.service.trading import (
     ContractFill,
     IndustrialParkConfig,
@@ -42,18 +43,25 @@ def solve_l1_contract_milp(
     risk_lambda: float,
     prior_fills: Sequence[ContractFill],
     scenario_revenue_yuan: Sequence[float] = (),
+    joint_scenarios: Sequence[JointTrajectoryScenario] = (),
+    retail_options=None,
+    portfolio_policy=None,
+    fixed_buy_curve=None,
+    scenario_operating_cost_yuan=(),
+    time_limit_seconds=60.0,
+    mip_relative_gap=0.03,
 ) -> TradeAction:
     """Layer 1 MILP for annual/monthly/ten-day purchases on the 48-point grid."""
 
-    scenarios = tuple(discrete_load_scenarios())
+    scenarios = tuple(joint_scenarios or discrete_load_scenarios())
     if scenario_revenue_yuan and len(scenario_revenue_yuan) != len(scenarios):
-        raise ValueError("L1零售收入必须与五档负荷场景对应")
+        raise ValueError("L1零售收入必须与负荷价格联合场景对应")
     scope_days = product_equivalent_days(event, park_config)
     target, forecast_energy = _target_position(
         event, snapshot, previous_position, config, park_config
     )
     period_demands = _scenario_period_demands(
-        snapshot, scenarios, scope_days, ()
+        snapshot, scenarios, scope_days, joint_scenarios
     )
     total_demands = [sum(values) for values in period_demands]
     calendar_scope = scope_days if park_config.delivery_days_override else None
@@ -109,8 +117,12 @@ def solve_l1_contract_milp(
     buy_maximum = max(0.0, total_upper - previous_total)
     proxy_curve = _period_spot_curve(snapshot, expected_spot_price)
     period_prices = _scenario_period_prices(
-        scenarios, expected_spot_price, proxy_curve, ()
+        scenarios, expected_spot_price, proxy_curve, joint_scenarios
     )
+    money_scale=max(1.,max(total_demands)*max(abs(p) for row in period_prices for p in row)/1e6)
+    if retail_options:
+        money_scale=max(money_scale,max(sum(max(abs(o['bills'][i]) for o in options.values())
+            for options in retail_options.values()) for i in range(len(scenarios)))/1e6)
     if (
         required_buy_total <= 1e-9
         and max(proxy_curve)
@@ -129,7 +141,7 @@ def solve_l1_contract_milp(
     )
     buy_total = model.add_var("buy_total", upper=buy_maximum)
     use_buy = model.add_var("use_buy", upper=1.0, integer=True)
-    model.add_var("cvar_eta", lower=-1e8, upper=1e8)
+    model.add_var("cvar_eta", lower=-inf)
     buy_names: List[str] = []
     position_names: List[str] = []
     position_balance = {position_total: 1.0}
@@ -167,8 +179,8 @@ def solve_l1_contract_milp(
         for index, position_name in enumerate(position_names):
             model.add_constraint(
                 {
-                    position_name: position_reference_total,
-                    position_total: -position_reference_curve[index],
+                    position_name: 1.0,
+                    position_total: -position_reference_curve[index]/max(position_reference_total,1e-9),
                 },
                 lower=0.0,
                 upper=0.0,
@@ -181,13 +193,28 @@ def solve_l1_contract_milp(
     else:
         model.add_constraint({use_buy: 1.0}, upper=0.0)
 
+    # Retail prices are fixed contract terms. Their scenario bills multiply
+    # only binary package choices, so the joint problem remains a MILP.
+    choices = {}
+    for ci, (cid, options) in enumerate((retail_options or {}).items()):
+        for package, option in options.items():
+            choices[cid, package] = model.add_var('package_%s_%s' % (ci, package),
+                upper=1.0 if option['eligible'] else 0.0, integer=len(options)>1)
+        model.add_constraint({choices[cid, p]: 1.0 for p in options}, lower=1., upper=1.)
+    if fixed_buy_curve is not None:
+        if len(fixed_buy_curve) != 48:
+            raise ValueError('固定L1采购曲线须为48点')
+        for name, quantity in zip(buy_names, fixed_buy_curve):
+            model.add_constraint({name: 1.0}, lower=quantity, upper=quantity)
+    loss_names = []
     for scenario_index, (scenario, demands, assessment_demands, spot_prices) in enumerate(
         zip(scenarios, period_demands, assessment_period_demands, period_prices)
     ):
         probability = scenario.probability
         suffix = str(scenario_index)
-        loss = model.add_var("loss_" + suffix, lower=-1e8, upper=1e8)
-        excess = model.add_var("cvar_excess_" + suffix, upper=1e8)
+        loss = model.add_var("loss_" + suffix, lower=-inf)
+        loss_names.append(loss)
+        excess = model.add_var("cvar_excess_" + suffix)
         loss_terms = {loss: 1.0}
         for index in range(48):
             cap = max(demands[index], total_upper) + 1.0
@@ -252,7 +279,13 @@ def solve_l1_contract_milp(
             loss_terms[overall_under] = -ratio_penalty
             loss_terms[overall_over] = -ratio_penalty
         revenue = float(scenario_revenue_yuan[scenario_index]) if scenario_revenue_yuan else 0.0
-        model.add_constraint(loss_terms, lower=-revenue, upper=-revenue)
+        for (cid, package), name in choices.items():
+            loss_terms[name] = retail_options[cid][package]['bills'][scenario_index]
+        # Legacy callers add old notional outside the objective. New portfolio
+        # callers use no prior fills, and include operating costs in net loss.
+        operating = 0.0  # Deprecated operating-cost input is intentionally ignored.
+        loss_terms={name:(value if name==loss else value/money_scale) for name,value in loss_terms.items()}
+        model.add_constraint(loss_terms, lower=(operating-revenue)/money_scale, upper=(operating-revenue)/money_scale)
         model.add_constraint(
             {loss: 1.0, "cvar_eta": -1.0, excess: -1.0}, upper=0.0
         )
@@ -262,7 +295,43 @@ def solve_l1_contract_milp(
     if risk_lambda:
         model.add_to_objective("cvar_eta", risk_lambda)
 
-    solved = model.solve()
+    policy = portfolio_policy or {}
+    if choices and policy.get('minimum_total_customer_saving_yuan') is not None:
+        model.add_constraint({name:sum(s.probability*retail_options[cid][package]['savings'][si]
+            for si,s in enumerate(scenarios))/money_scale for (cid,package),name in choices.items()},
+            lower=policy['minimum_total_customer_saving_yuan']/money_scale)
+    if policy.get('minimum_total_profit_yuan') is not None:
+        model.add_constraint({name: s.probability for name, s in zip(loss_names, scenarios)},
+                             upper=(-policy['minimum_total_profit_yuan']-previous_notional)/money_scale)
+    if policy.get('maximum_profit_loss_cvar_yuan') is not None:
+        # CVaR of cash losses max(cost-revenue, 0), at 95%. Constraining eta
+        # nonnegative gives the positive-part CVaR epigraph directly.
+        eta = model.add_var('loss_cap_eta')
+        cap = {eta: 1.0}
+        for si, (loss, scenario) in enumerate(zip(loss_names, scenarios)):
+            excess = model.add_var('loss_cap_excess_%s' % si)
+            model.add_constraint({excess: 1., eta: 1., loss: -1.}, lower=previous_notional/money_scale)
+            cap[excess] = scenario.probability / .05
+        model.add_constraint(cap, upper=policy['maximum_profit_loss_cvar_yuan']/money_scale)
+
+    solved = model.solve(time_limit_seconds=time_limit_seconds, mip_relative_gap=mip_relative_gap)
+    selected_packages={cid:max(options,key=lambda p:solved.values[choices[cid,p]]) for cid,options in (retail_options or {}).items()}
+    buy_curve=[solved.values[name] for name in buy_names]
+    # Reprice the chosen physical strategy, rather than reporting epigraph
+    # slack (not unique in non-tail scenarios when lambda=1).
+    evaluated_costs=[]; evaluated_losses=[]
+    for si,(demands,assessment_demands,spot_prices) in enumerate(zip(period_demands,assessment_period_demands,period_prices)):
+        cost=previous_notional+sum(buy_curve)*(quote.buy_price+quote.variable_fee)
+        for j,(demand,assessed,spot) in enumerate(zip(demands,assessment_demands,spot_prices)):
+            net=demand-previous_curve[j]-buy_curve[j]
+            cost+=max(net,0.)*spot-min(net,0.)*(18.-spot)
+            cost+=1.05*12.*max(.60*assessed-locked_annual_curve[j]-(buy_curve[j] if event=='ANNUAL' else 0.),0.)
+            if event!='ANNUAL':
+                cost+=1.05*abs(expected_spot_price-quote.buy_price)*(max(.90*assessed-locked_overall_curve[j]-buy_curve[j],0.)+max(locked_overall_curve[j]+buy_curve[j]-1.10*assessed,0.))
+        revenue=sum(retail_options[cid][p]['bills'][si] for cid,p in selected_packages.items()) if retail_options is not None else (scenario_revenue_yuan[si] if scenario_revenue_yuan else 0.)
+        evaluated_costs.append(cost);evaluated_losses.append(cost-revenue)
+    probabilities=[s.probability for s in scenarios]
+    evaluated_objective=(1.-risk_lambda)*sum(p*v for p,v in zip(probabilities,evaluated_losses))+risk_lambda*cvar(evaluated_losses,probabilities,.95)
     quantity = round(max(0.0, solved.values[buy_total]), 3)
     resulting = previous_total + quantity
     delivery_curve = {
@@ -291,7 +360,7 @@ def solve_l1_contract_milp(
         resulting_position_mwh=round(resulting, 3),
         execution_price_yuan_per_mwh=quote.buy_price if side == "BUY" else 0.0,
         fee_yuan=round(quantity * quote.variable_fee, 2),
-        score_yuan=round(solved.objective + previous_notional, 2),
+        score_yuan=round(solved.objective*money_scale + previous_notional, 2),
         reason=reason,
         market_scope="MONTH",
         forecast_basis_mwh=round(forecast_energy, 3),
@@ -311,7 +380,19 @@ def solve_l1_contract_milp(
         target_daily_position_mwh=round(target / scope_days, 3),
         resulting_daily_position_mwh=round(resulting / scope_days, 3),
         delivery_curve=delivery_curve,
-        solver_details={key: getattr(solved, key) for key in (
-            "backend", "status", "mip_gap", "solve_seconds", "variable_count", "binary_count", "constraint_count"
-        )},
+        solver_details={**{key: getattr(solved, key) for key in (
+            "backend", "status", "mip_gap", "solve_seconds", "variable_count", "binary_count", "constraint_count",
+            "dual_bound", "node_count", "time_limit_seconds", "message"
+        )}, 'dual_bound':None if solved.dual_bound is None else solved.dual_bound*money_scale+previous_notional,
+        'monetary_scale_yuan':money_scale, 'scenario_count':len(scenarios), 'time_count':48,
+        'objective_reconciliation_yuan':abs(evaluated_objective-solved.objective*money_scale-previous_notional), **({'portfolio': {
+            'packages': selected_packages,
+            'net_losses_yuan': evaluated_losses,
+            'buy_curve_mwh': buy_curve,
+            'objective_yuan': evaluated_objective,
+        }} if retail_options is not None else {}),
+        **({'scenario_costs_yuan': evaluated_costs,
+            'net_losses_yuan': evaluated_losses,
+            'objective_yuan': evaluated_objective,
+            'buy_curve_mwh': buy_curve} if retail_options is None else {})},
     )

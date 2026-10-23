@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from typing import List, Mapping, Optional, Sequence
 
-from pifa_lingshou.inputs.load_forecast import month_equivalent_days, product_equivalent_days
+from pifa_lingshou.service.load_forecast import month_equivalent_days, product_equivalent_days
 from pifa_lingshou.data_objects.scenario import JointTrajectoryScenario
 from pifa_lingshou.service.trading import (
     ContractFill,

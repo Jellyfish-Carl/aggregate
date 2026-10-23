@@ -1,4 +1,4 @@
-"""Fixed-declaration storage MILP, shared by day-ahead planning and intraday MPC.
+"""Unified L3 declaration/storage MILP, shared before/after DA price publication.
 
 RT settlement uses a single signed net quantity. Its convex absolute-value and
 positive-part costs have exact linear epigraphs; buy/sell are its positive and
@@ -17,12 +17,15 @@ from ..service.wholesale import engine
 engine()
 from pifa_lingshou.problem_solver.milp import LinearMilp
 from pifa_lingshou.data_objects.scenario import cvar
+from .storage_switching import SWITCHING_DEFAULTS, add_switching, switching_ledger, validate_switching
 
 DEFAULTS = dict(minimum_soc_mwh=2., maximum_soc_mwh=20., initial_soc_mwh=10.,
     terminal_soc_mwh=10., maximum_charge_mwh=1.25, maximum_discharge_mwh=1.25,
-    efficiency=.92, degradation_yuan_per_mwh=2., friction_yuan_per_mwh=.01,
-    deviation_ratio=.10, hard_deviation=False, time_limit_seconds=5., mip_relative_gap=1e-4,
+    efficiency=.92, degradation_yuan_per_mwh=2.,
+    **SWITCHING_DEFAULTS, friction_yuan_per_mwh=.01,
+    deviation_ratio=.10, hard_deviation=False, time_limit_seconds=60., mip_relative_gap=.03,
     optimization_scenario_count=8,
+    full_scenario_optimization=False,
     grid_import_limit_mwh=None, grid_export_limit_mwh=None,
     assessment_basis='grid_net_load', annual_price_yuan_per_mwh=405.,
     monthly_price_yuan_per_mwh=416., annual_coverage=.60, overall_lower_ratio=.90,
@@ -35,9 +38,15 @@ def vector(values, name, length=96, nonnegative=False):
     return [float(x) for x in values]
 
 
-def dispatch(raw_input, risk_lambda=0., settings=None, fixed_until=0, prior=None, progress=None):
+def dispatch(raw_input, risk_lambda=0., settings=None, fixed_until=0, prior=None, progress=None,
+             *, optimize_declaration=False, physical_peak_mw=None, day_ahead_price_known=False):
     started = perf_counter()
     cfg = {**DEFAULTS, **(settings or {})}
+    cfg['time_limit_seconds']=min(cfg['time_limit_seconds'],60.)
+    # The default model keeps its small representative set. Explicit benchmark
+    # requests opt into using every requested scenario and must not be clamped.
+    if not cfg['full_scenario_optimization']:
+        cfg['optimization_scenario_count'] = min(cfg['optimization_scenario_count'], 8)
     if set(cfg)-set(DEFAULTS):
         raise ValueError('未知储能参数: '+str(set(cfg)-set(DEFAULTS)))
     for k,v in cfg.items():
@@ -58,8 +67,13 @@ def dispatch(raw_input, risk_lambda=0., settings=None, fixed_until=0, prior=None
         raise ValueError('fixed_until必须为0到96的整数（已执行点数）')
     if fixed_until and prior is None:
         raise ValueError('日内滚动必须提供已执行储能轨迹')
+    validate_switching(cfg)
     raw=deepcopy(raw_input)
     a=vector(raw['declaration_mwh'],'锁定日前申报',nonnegative=True)
+    if optimize_declaration and fixed_until:
+        raise ValueError('已进入日内，不能重新优化日前申报')
+    if physical_peak_mw is not None and (not isfinite(physical_peak_mw) or physical_peak_mw<=0):
+        raise ValueError('申报功率上限须为正有限数')
     for k in ('contract_curve_mwh','day_ahead_buy_mwh','day_ahead_sell_mwh'):
         vector(raw[k],k,nonnegative=k!='contract_curve_mwh')
     if any(min(b,s)>1e-8 for b,s in zip(raw['day_ahead_buy_mwh'],raw['day_ahead_sell_mwh'])):
@@ -98,7 +112,12 @@ def dispatch(raw_input, risk_lambda=0., settings=None, fixed_until=0, prior=None
         +s['real_time_price'][j]*(s['load_mwh'][j]-a[j]) for j in range(96)
         )-float(s.get('retail_revenue_yuan',0.))
     ordered=sorted(scenarios,key=score)
-    count=min(len(ordered),cfg['optimization_scenario_count'])
+    # Keep the optimization model bounded by a small representative set.  A
+    # portfolio policy is a business-side feasibility check; it must not
+    # silently expand the MILP to every scenario (which multiplies the same
+    # storage variables and can prevent HiGHS from finding an incumbent).
+    count = (len(ordered) if cfg['full_scenario_optimization']
+             else min(len(ordered), cfg['optimization_scenario_count']))
     sampled=[]
     for i in range(count):
         q=(i+.5)/count; cumulative=0.; chosen=ordered[-1]
@@ -124,37 +143,112 @@ def dispatch(raw_input, risk_lambda=0., settings=None, fixed_until=0, prior=None
         for s in scenarios:
             nearest=min(scenarios_opt,key=lambda x:abs(score(x)-score(s)))
             nearest['probability']+=s['probability']
-    m=LinearMilp('L3-B-FIXED-DECLARATION-STORAGE')
-    cs,ds,es=[],[],[]
-    eta=cfg['efficiency']; capc=cfg['maximum_charge_mwh']; capd=cfg['maximum_discharge_mwh']
+    if optimize_declaration and cfg['maximum_charge_mwh'] == 0 and cfg['maximum_discharge_mwh'] == 0:
+        model_name = 'L3-DECLARATION-ONLY'
+    elif not optimize_declaration:
+        model_name = 'L3-STORAGE-DA'
+    else:
+        model_name = 'L3-JOINT-DECLARATION-STORAGE'
+    m=LinearMilp(model_name)
+    declarations=[]
     for j in range(96):
-        c=m.add_var(f'charge_{j}',upper=capc); d=m.add_var(f'discharge_{j}',upper=capd)
-        z=m.add_var(f'charge_mode_{j}',upper=1,integer=True)
-        e=m.add_var(f'soc_{j}',lower=lo,upper=hi)
-        m.add_constraint({c:1,z:-capc},upper=0)
-        m.add_constraint({d:1,z:capd},upper=capd)
-        terms={e:1,c:-eta,d:1/eta}
-        rhs=cfg['initial_soc_mwh'] if not j else 0
-        if j: terms[es[-1]]=-1
-        m.add_constraint(terms,lower=rhs,upper=rhs)
-        if j<fixed_until:
-            for key,var in (('charge_mwh',c),('discharge_mwh',d),('soc_mwh',e)):
-                value=float(prior[key][j]); m.add_constraint({var:1},lower=value,upper=value)
-        cs.append(c); ds.append(d); es.append(e)
-    m.add_constraint({es[-1]:1},lower=cfg['terminal_soc_mwh'],upper=cfg['terminal_soc_mwh'])
+        # Same variable in both phases. Gate closure fixes its bounds only.
+        lower=0. if optimize_declaration else a[j]
+        upper=physical_peak_mw/4 if optimize_declaration and physical_peak_mw is not None else (max(s['load_mwh'][j] for s in scenarios)+cfg['maximum_charge_mwh'] if optimize_declaration else a[j])
+        declarations.append(m.add_var(f'declaration_{j}',lower=lower,upper=upper))
+    customer_cfg={}
+    for cid,values in raw.get('customer_storage_config',{}).items():
+        from ..data_objects.customer_storage import battery_settings
+        customer_cfg[cid]=battery_settings(values)
+    per_customer=bool(customer_cfg)
+    if per_customer and any(set(s.get('customer_load_mwh',{}))!=set(customer_cfg) for s in scenarios):
+        raise ValueError('逐客户储能与场景客户集合不一致，禁止退回聚合储能')
+    for s in scenarios:
+        if per_customer and any(abs(sum(v[j] for v in s['customer_load_mwh'].values())-s['load_mwh'][j])>1e-6 for j in range(96)):
+            raise ValueError('逐客户场景负荷合计不一致')
+    charge_vars={}; discharge_vars={}; soc_vars={}; switch_costs={}
+    if per_customer:
+        if optimize_declaration:
+            for j in range(96):
+                upper=physical_peak_mw/4 if physical_peak_mw is not None else max(s['load_mwh'][j] for s in scenarios)
+                m.add_constraint({declarations[j]:1},upper=upper)
+        for cid,p in customer_cfg.items():
+            cs=[];ds=[];es=[]
+            for j in range(96):
+                capc=p['maximum_charge_mwh'];capd=p['maximum_discharge_mwh']
+                c=m.add_var(f'{cid}_charge_{j}',upper=capc);d=m.add_var(f'{cid}_discharge_{j}',upper=capd)
+                e=m.add_var(f'{cid}_soc_{j}',lower=p['minimum_soc_mwh'],upper=p['maximum_soc_mwh'])
+                terms={e:1,c:-p['charge_efficiency'],d:1/p['discharge_efficiency']}
+                if j:terms[es[-1]]=-1
+                rhs=p['initial_soc_mwh'] if not j else 0
+                m.add_constraint(terms,lower=rhs,upper=rhs)
+                if j<fixed_until:
+                    history=(prior or {}).get('customer_storage',{}).get(cid,{})
+                    if not history: raise ValueError('逐客户储能执行历史缺失: '+cid)
+                    for key,var in (('charge_mwh',c),('discharge_mwh',d),('soc_mwh',e)):
+                        m.add_constraint({var:1},lower=history[key][j],upper=history[key][j])
+                cs.append(c);ds.append(d);es.append(e)
+            m.add_constraint({es[-1]:1},lower=p['terminal_soc_mwh'],upper=p['terminal_soc_mwh'])
+            charge_vars[cid]=cs;discharge_vars[cid]=ds;soc_vars[cid]=es
+            rows=add_switching(m,cs,ds,p,fixed_until,(prior or {}).get('customer_storage',{}).get(cid),prefix=cid+'_')
+            switch_costs[cid]=rows
+        cs=[m.add_var(f'aggregate_charge_{j}',lower=0,upper=sum(customer_cfg[cid]['maximum_charge_mwh'] for cid in customer_cfg)) for j in range(96)]
+        ds=[m.add_var(f'aggregate_discharge_{j}',lower=0,upper=sum(customer_cfg[cid]['maximum_discharge_mwh'] for cid in customer_cfg)) for j in range(96)]
+        for j in range(96):
+            m.add_constraint({**{charge_vars[cid][j]:1 for cid in customer_cfg},cs[j]:-1},lower=0,upper=0)
+            m.add_constraint({**{discharge_vars[cid][j]:1 for cid in customer_cfg},ds[j]:-1},lower=0,upper=0)
+        switching_costs=[{v:cost for cid in customer_cfg for v,cost in switch_costs[cid][j].items()} for j in range(96)]
+    else:
+        cs,ds,es=[],[],[]
+        eta=cfg['efficiency']; capc=cfg['maximum_charge_mwh']; capd=cfg['maximum_discharge_mwh']
+        for j in range(96):
+            c=m.add_var(f'charge_{j}',upper=capc); d=m.add_var(f'discharge_{j}',upper=capd)
+            z=m.add_var(f'charge_mode_{j}',upper=1,integer=True)
+            e=m.add_var(f'soc_{j}',lower=lo,upper=hi)
+            m.add_constraint({c:1,z:-capc},upper=0);m.add_constraint({d:1,z:capd},upper=capd)
+            terms={e:1,c:-eta,d:1/eta};rhs=cfg['initial_soc_mwh'] if not j else 0
+            if j:terms[es[-1]]=-1
+            m.add_constraint(terms,lower=rhs,upper=rhs)
+            if j<fixed_until:
+                for key,var in (('charge_mwh',c),('discharge_mwh',d),('soc_mwh',e)):
+                    value=float(prior[key][j]);m.add_constraint({var:1},lower=value,upper=value)
+            cs.append(c);ds.append(d);es.append(e)
+        switching_costs=add_switching(m,cs,ds,cfg,fixed_until,prior)
+        m.add_constraint({es[-1]:1},lower=cfg['terminal_soc_mwh'],upper=cfg['terminal_soc_mwh'])
+    # DA net trade is shared across scenarios. Its friction cost therefore
+    # needs only one epigraph per period, not one per scenario and period:
+    # DA_s = price_s * (declaration - contract) + friction * abs(net).
+    # Both expected loss and CVaR are monotone in each scenario loss, so the
+    # common epigraph is tight at an optimum, just as the old separate ones.
+    da_friction=[]
+    for j in range(96):
+        friction_cost=m.add_var(f'da_friction_{j}')
+        for slope in (-cfg['friction_yuan_per_mwh'],cfg['friction_yuan_per_mwh']):
+            m.add_constraint({friction_cost:1.,declarations[j]:-slope},lower=-slope*overall_curve[j])
+        da_friction.append(friction_cost)
     var=m.add_var('cvar_eta',lower=-1e10,upper=1e10)
     m.add_to_objective(var,risk_lambda)
     representative=next((i for i,s in enumerate(scenarios_opt) if s['scenario_id']=='L50_DA50_SP50'),0)
+    loss_names=[]
     for si,s in enumerate(scenarios_opt):
         loss=m.add_var(f'loss_{si}',lower=-1e10,upper=1e10)
+        loss_names.append(loss)
         excess=m.add_var(f'tail_{si}',upper=1e10)
         terms={loss:1}; constant=raw['contract_cost_yuan']-s.get('retail_revenue_yuan',0.)
         for j in range(96):
             load=s['load_mwh'][j]; rt=s['real_time_price'][j]; da=s['day_ahead_price'][j]
-            base=load-a[j]; band=cfg['deviation_ratio']*load
-            constant+=(da+cfg['friction_yuan_per_mwh'])*raw['day_ahead_buy_mwh'][j]-(da-cfg['friction_yuan_per_mwh'])*raw['day_ahead_sell_mwh'][j]
-            terms[cs[j]]=-cfg['degradation_yuan_per_mwh']
-            terms[ds[j]]=-cfg['degradation_yuan_per_mwh']
+            band=cfg['deviation_ratio']*load
+            terms[declarations[j]]=-da
+            terms[da_friction[j]]=-1.
+            constant-=da*overall_curve[j]
+            if per_customer:
+                for cid,p in customer_cfg.items():
+                    terms[charge_vars[cid][j]]=-p['degradation_yuan_per_mwh']
+                    terms[discharge_vars[cid][j]]=-p['degradation_yuan_per_mwh']
+            else:
+                terms[cs[j]]=-cfg['degradation_yuan_per_mwh'];terms[ds[j]]=-cfg['degradation_yuan_per_mwh']
+            for variable, cost in switching_costs[j].items():
+                terms[variable] = -cost
             # The RT cash, friction and deviation charges form one convex
             # four-segment function of net deviation; four supporting cuts
             # need only one epigraph variable instead of four hinge variables.
@@ -163,11 +257,12 @@ def dispatch(raw_input, risk_lambda=0., settings=None, fixed_until=0, prior=None
             buy_penalty=1.05*max(da-rt,0)
             sell_penalty=1.05*max(rt-da,0)
             friction=cfg['friction_yuan_per_mwh']
-            for slope,intercept in ((rt-friction-sell_penalty,-sell_penalty*band),
-                (rt-friction,0.),(rt+friction,0.),(rt+friction+buy_penalty,-buy_penalty*band)):
-                m.add_constraint({rt_cost:1.,cs[j]:-slope,ds[j]:slope},lower=slope*base+intercept)
+            segments=((rt-friction-sell_penalty,-sell_penalty*band),
+                (rt-friction,0.),(rt+friction,0.),(rt+friction+buy_penalty,-buy_penalty*band))
+            for slope,intercept in dict.fromkeys(segments):
+                m.add_constraint({rt_cost:1.,cs[j]:-slope,ds[j]:slope,declarations[j]:slope},lower=slope*load+intercept)
             if cfg['hard_deviation'] and si==representative and j>=fixed_until:
-                m.add_constraint({cs[j]:1,ds[j]:-1},lower=-band-base,upper=band-base)
+                m.add_constraint({cs[j]:1,ds[j]:-1,declarations[j]:-1},lower=-band-load,upper=band-load)
         assessment_constant = 0.0
         annual_rate = cfg['assessment_penalty_multiplier'] * max(cfg['annual_price_yuan_per_mwh'] - cfg['monthly_price_yuan_per_mwh'], 0.0)
         for h in range(48):
@@ -197,14 +292,33 @@ def dispatch(raw_input, risk_lambda=0., settings=None, fixed_until=0, prior=None
         m.add_constraint({loss:1,var:-1,excess:-1},upper=0)
         m.add_to_objective(loss,(1-risk_lambda)*s['probability'])
         m.add_to_objective(excess,risk_lambda*s['probability']/.05)
-    if progress: progress(45,'储能MILP：锁定申报/历史，优化套利、偏差回收与退化')
+    policy=raw.get('portfolio_policy')
+    if policy:
+        m.add_constraint({v:s['probability'] for v,s in zip(loss_names,scenarios_opt)},upper=-policy['minimum_total_profit_yuan'])
+        audit=raw['economic_audit']
+        for entry in audit['customers'].values():
+            m.add_constraint({},lower=policy['minimum_customer_saving_yuan']-entry['p10']-1e-6)
+        m.add_constraint({},lower=policy['minimum_total_customer_saving_yuan']-audit['total_savings']['mean']-1e-6)
+        if policy.get('maximum_profit_loss_cvar_yuan') is not None:
+            eta=m.add_var('profit_loss_cap_eta');cap={eta:1.}
+            for si,(loss,s) in enumerate(zip(loss_names,scenarios_opt)):
+                tail=m.add_var(f'profit_loss_cap_tail_{si}')
+                m.add_constraint({tail:1,eta:1,loss:-1},lower=0)
+                cap[tail]=s['probability']/.05
+            m.add_constraint(cap,upper=policy['maximum_profit_loss_cvar_yuan'])
+    if progress:
+        stage = ('只优化日前申报（储能功率固定为零）'
+                 if optimize_declaration and cfg['maximum_charge_mwh'] == 0 and cfg['maximum_discharge_mwh'] == 0
+                 else '联合优化申报与储能' if optimize_declaration
+                 else '锁定已申报电量，更新价格与储能计划')
+        progress(45,'L3统一MILP：'+stage+'；套利、偏差、覆盖考核与退化共同计价')
     # Hard compliance must cover all original trajectories even when the
     # cost objective is reduced to representative scenarios.
     if cfg['hard_deviation']:
         for s in scenarios:
             for j in range(fixed_until,96):
-                base=s['load_mwh'][j]-a[j]; band=cfg['deviation_ratio']*s['load_mwh'][j]
-                m.add_constraint({cs[j]:1,ds[j]:-1},lower=-band-base,upper=band-base)
+                load=s['load_mwh'][j]; band=cfg['deviation_ratio']*load
+                m.add_constraint({cs[j]:1,ds[j]:-1,declarations[j]:-1},lower=-band-load,upper=band-load)
     # The inherited physical_peak_mw limits declarations, not metered flow.
     # Apply a separately supplied connection agreement to all future scenarios.
     for s in scenarios:
@@ -214,8 +328,28 @@ def dispatch(raw_input, risk_lambda=0., settings=None, fixed_until=0, prior=None
             if cfg['grid_export_limit_mwh'] is not None:
                 m.add_constraint({cs[j]:1,ds[j]:-1},lower=-cfg['grid_export_limit_mwh']-s['load_mwh'][j])
     solved=m.solve(time_limit_seconds=cfg['time_limit_seconds'],mip_relative_gap=cfg['mip_relative_gap'])
-    raw.update(charge_mwh=[solved.values[n] for n in cs],discharge_mwh=[solved.values[n] for n in ds],
-        soc_mwh=[solved.values[n] for n in es],initial_soc_mwh=cfg['initial_soc_mwh'],storage_settings=cfg)
+    a=[solved.values[n] for n in declarations] if optimize_declaration else a
+    raw.update(declaration_mwh=a,day_ahead_buy_mwh=[max(x-y,0.) for x,y in zip(a,overall_curve)],
+        day_ahead_sell_mwh=[max(y-x,0.) for x,y in zip(a,overall_curve)])
+    raw.update(charge_mwh=[0. if solved.values[n] <= 1e-6 else solved.values[n] for n in cs],
+        discharge_mwh=[0. if solved.values[n] <= 1e-6 else solved.values[n] for n in ds],
+        soc_mwh=([sum(solved.values[soc_vars[cid][j]] for cid in customer_cfg) for j in range(96)]
+                  if per_customer else [min(hi,max(lo,solved.values[n])) for n in es]),
+        initial_soc_mwh=cfg['initial_soc_mwh'],storage_settings=cfg)
+    if per_customer:
+        raw['customer_storage']={cid:dict(charge_mwh=[solved.values[v] for v in charge_vars[cid]],
+            discharge_mwh=[solved.values[v] for v in discharge_vars[cid]],
+            soc_mwh=[solved.values[v] for v in soc_vars[cid]],settings=customer_cfg[cid]) for cid in customer_cfg}
+    if per_customer:
+        raw['initial_soc_mwh']=sum(p['initial_soc_mwh'] for p in raw['customer_storage_config'].values())
+        for cid,r in raw['customer_storage'].items():
+            r['switching_ledger']=switching_ledger(r['charge_mwh'],r['discharge_mwh'],customer_cfg[cid])
+        ledgers=[r['switching_ledger'] for r in raw['customer_storage'].values()]
+        switching={key:sum(v[key] for v in ledgers) for key in ('startup_count','shutdown_count','switching_cost_yuan')}
+        switching['periods']=[{key:sum(v['periods'][j][key] for v in ledgers) for key in ('startup_count','shutdown_count','switching_cost_yuan')} for j in range(96)]
+    else:
+        switching = switching_ledger(raw['charge_mwh'], raw['discharge_mwh'], cfg)
+    raw['switching_ledger'] = switching
     for s in scenarios:
         s['rt_buy_mwh']=[]; s['rt_sell_mwh']=[]; s['period_costs']=[]
         for j in range(96):
@@ -226,7 +360,8 @@ def dispatch(raw_input, risk_lambda=0., settings=None, fixed_until=0, prior=None
             parts=dict(day_ahead_cost_yuan=(da+cfg['friction_yuan_per_mwh'])*raw['day_ahead_buy_mwh'][j]-(da-cfg['friction_yuan_per_mwh'])*raw['day_ahead_sell_mwh'][j],
                 real_time_cost_yuan=rt*net+cfg['friction_yuan_per_mwh']*abs(net),
                 deviation_penalty_yuan=1.05*max(da-rt,0)*max(net-band,0)+1.05*max(rt-da,0)*max(-net-band,0),
-                storage_degradation_yuan=cfg['degradation_yuan_per_mwh']*(c+d))
+                storage_degradation_yuan=(sum(customer_cfg[cid]['degradation_yuan_per_mwh']*(r['charge_mwh'][j]+r['discharge_mwh'][j]) for cid,r in raw['customer_storage'].items()) if per_customer else cfg['degradation_yuan_per_mwh']*(c+d)),
+                storage_switching_degradation_yuan=switching['periods'][j]['switching_cost_yuan'])
             s['rt_buy_mwh'].append(rb); s['rt_sell_mwh'].append(rs); s['period_costs'].append(parts)
         assessment_penalty = 0.0
         annual_rate = cfg['assessment_penalty_multiplier'] * max(cfg['annual_price_yuan_per_mwh'] - cfg['monthly_price_yuan_per_mwh'], 0.0)
@@ -254,8 +389,20 @@ def dispatch(raw_input, risk_lambda=0., settings=None, fixed_until=0, prior=None
     opt_losses=[next(x for x in scenarios if x['scenario_id']==s['scenario_id'])['wholesale_cost_yuan']-next(x for x in scenarios if x['scenario_id']==s['scenario_id']).get('retail_revenue_yuan',0.) for s in scenarios_opt]
     solved_objective=(1-risk_lambda)*sum(p*l for p,l in zip(opt_probs,opt_losses))+risk_lambda*cvar(opt_losses,opt_probs,.95)+raw.get('declaration_penalty_yuan',0.)
     error=abs(solved_objective-raw.get('declaration_penalty_yuan',0.)-solved.objective)
-    opt={k:getattr(solved,k) for k in ('backend','status','mip_gap','solve_seconds','variable_count','binary_count','constraint_count')}
+    if error>max(1e-3,abs(solved.objective)*1e-7):
+        raise ValueError('MILP目标与独立重算现金流不一致: '+str(error))
+    if policy:
+        audit=raw['economic_audit']
+        audit['expected_profit_yuan']=-sum(p*l for p,l in zip(probs,losses))
+        audit['profit_satisfied']=audit['expected_profit_yuan']+1e-4>=policy['minimum_total_profit_yuan']
+        if not audit['savings_satisfied'] or not audit['profit_satisfied']:
+            raise ValueError('求解结果未通过三项业务下限独立复核')
+    opt={k:getattr(solved,k) for k in (
+        'backend','status','mip_gap','solve_seconds','time_limit_seconds',
+        'variable_count','binary_count','constraint_count','node_count','dual_bound'
+    )}
     opt.update(solver_backend=solved.backend,milp_executed=True,objective_yuan=solved_objective,
+        max_binary_integrality_residual=max((abs(v-round(v)) for name,v in solved.values.items() if '_on_' in name),default=0.),
         objective_reconciliation_yuan=error,end_to_end_seconds=perf_counter()-started,
         rt_mutual_exclusion='单一有符号净交易；买=max(net,0)，卖=max(-net,0)，不允许往返交易',
         long_term_assessment=dict(basis=cfg['assessment_basis'], annual_coverage=cfg['annual_coverage'],
@@ -263,11 +410,23 @@ def dispatch(raw_input, risk_lambda=0., settings=None, fixed_until=0, prior=None
             controllable=cfg['assessment_basis']=='grid_net_load',
             note='储能只优化计量口径下的考核偏差成本，不改变已锁定合同成交量'),
         optimization_scenario_count=len(scenarios_opt),
+        time_count=96,
         optimization_scenarios=[dict(scenario_id=s['scenario_id'],probability=s['probability']) for s in scenarios_opt],
         scenario_reduction='全场景求解' if len(scenarios_opt)==len(scenarios) else '按无储能净损失分层，保留两端，最近代表分配概率；近似优化，原场景全量评估',
         evaluation_scenario_count=len(scenarios),
-        evaluation_objective_yuan=raw['objective_yuan'],
-        fixed_until=fixed_until,model_structure='FIXED_DECLARATION_STORAGE_MILP',
+        storage_switching=dict(startup_count=switching['startup_count'],
+            shutdown_count=switching['shutdown_count'],
+            startup_cost_yuan=cfg['startup_cost_yuan'],shutdown_cost_yuan=cfg['shutdown_cost_yuan'],
+            total_cost_yuan=switching['switching_cost_yuan'], per_customer=per_customer),
+        evaluation_objective_yuan=raw['objective_yuan'],per_customer_storage=per_customer,
+        fixed_until=fixed_until,model_structure=(
+            'L3_DECLARATION_MILP' if optimize_declaration and cfg['maximum_charge_mwh'] == 0 and cfg['maximum_discharge_mwh'] == 0
+            else 'L3_JOINT_DECLARATION_STORAGE_MILP'),
+        declaration_optimized=optimize_declaration,day_ahead_price_known=day_ahead_price_known,
+        mip_gap_scope=(
+            '日前申报问题（储能固定为零）' if optimize_declaration and cfg['maximum_charge_mwh'] == 0 and cfg['maximum_discharge_mwh'] == 0
+            else '当前优化情景的申报与储能联合问题' if optimize_declaration
+            else '当前优化情景的固定申报储能问题'),
         within_service_budget=perf_counter()-started<=cfg['time_limit_seconds'])
     return dict(raw_solution=raw,optimization=opt,settings=cfg)
 

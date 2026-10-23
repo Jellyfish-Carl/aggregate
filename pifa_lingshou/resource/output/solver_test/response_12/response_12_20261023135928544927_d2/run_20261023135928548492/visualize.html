@@ -1,0 +1,632 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>solver-test · D-2</title>
+<style>body{font:14px system-ui,sans-serif;max-width:1100px;margin:32px auto;padding:0 20px;color:#1e2a2b}h1{margin-bottom:4px}.meta{color:#607274}.flow{padding:14px 0;border-bottom:1px solid #d8e1e1;overflow-wrap:anywhere}.flow strong{color:#087f78}.upstream{font-size:12px;color:#607274;overflow-wrap:anywhere}.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:20px 0}.kpi{border:1px solid #d8e1e1;padding:12px}.kpi small{display:block;color:#607274}.kpi strong{display:block;margin-top:6px;font-size:18px}svg{width:100%;height:260px;border:1px solid #d8e1e1;background:#fbfdfd}table{border-collapse:collapse;width:100%}th,td{border-bottom:1px solid #e4eaea;padding:7px;text-align:left}pre{overflow:auto;background:#f4f7f7;padding:14px}@media(max-width:700px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}</style></head><body>
+<h1>solver-test · D-2</h1><div class="meta">状态：EXECUTED；该页面只展示本次 request 的 response，不运行其他节点。</div>
+<div class="flow"><b>完整决策链</b><br>年度 → 月度 → 旬度 → D-3 → <strong aria-current="step">D-2</strong> → 日前申报 → 日前储能<div class="upstream">上游 response：/Users/hanwu/PyCharmMiscProject/aggregate/pifa_lingshou/resource/output/solver_test/response_12/response_12_20261023135923183133_d3/run_20261023135923186591/response.json</div></div>
+<div class="kpis"><div class="kpi"><small>场景数</small><strong>50</strong></div><div class="kpi"><small>模型耗时 / 秒</small><strong>5.8886</strong></div><div class="kpi"><small>变量数</small><strong>0</strong></div><div class="kpi"><small>约束数</small><strong>0</strong></div></div>
+<h2>合同/申报曲线</h2><svg viewBox="0 0 1010 255" role="img" aria-label="合同或申报曲线"><text x="45" y="25">MWh / 15分钟</text><rect x="45.00" y="161.70" width="7.00" height="48.30" fill="#087f78"><title>1: 8.24632</title></rect><rect x="54.20" y="161.70" width="7.00" height="48.30" fill="#087f78"><title>2: 8.24632</title></rect><rect x="63.40" y="161.70" width="7.00" height="48.30" fill="#087f78"><title>3: 8.24632</title></rect><rect x="72.60" y="161.70" width="7.00" height="48.30" fill="#087f78"><title>4: 8.24632</title></rect><rect x="81.80" y="161.70" width="7.00" height="48.30" fill="#087f78"><title>5: 8.24632</title></rect><rect x="91.00" y="161.70" width="7.00" height="48.30" fill="#087f78"><title>6: 8.24632</title></rect><rect x="100.20" y="161.70" width="7.00" height="48.30" fill="#087f78"><title>7: 8.24632</title></rect><rect x="109.40" y="161.70" width="7.00" height="48.30" fill="#087f78"><title>8: 8.24632</title></rect><rect x="118.60" y="161.70" width="7.00" height="48.30" fill="#087f78"><title>9: 8.24632</title></rect><rect x="127.80" y="161.70" width="7.00" height="48.30" fill="#087f78"><title>10: 8.24632</title></rect><rect x="137.00" y="161.70" width="7.00" height="48.30" fill="#087f78"><title>11: 8.24632</title></rect><rect x="146.20" y="161.70" width="7.00" height="48.30" fill="#087f78"><title>12: 8.24632</title></rect><rect x="155.40" y="161.70" width="7.00" height="48.30" fill="#087f78"><title>13: 8.24632</title></rect><rect x="164.60" y="161.70" width="7.00" height="48.30" fill="#087f78"><title>14: 8.24632</title></rect><rect x="173.80" y="161.70" width="7.00" height="48.30" fill="#087f78"><title>15: 8.24632</title></rect><rect x="183.00" y="161.70" width="7.00" height="48.30" fill="#087f78"><title>16: 8.24632</title></rect><rect x="192.20" y="161.70" width="7.00" height="48.30" fill="#087f78"><title>17: 8.24632</title></rect><rect x="201.40" y="161.70" width="7.00" height="48.30" fill="#087f78"><title>18: 8.24632</title></rect><rect x="210.60" y="161.70" width="7.00" height="48.30" fill="#087f78"><title>19: 8.24632</title></rect><rect x="219.80" y="161.70" width="7.00" height="48.30" fill="#087f78"><title>20: 8.24632</title></rect><rect x="229.00" y="161.70" width="7.00" height="48.30" fill="#087f78"><title>21: 8.24632</title></rect><rect x="238.20" y="161.70" width="7.00" height="48.30" fill="#087f78"><title>22: 8.24632</title></rect><rect x="247.40" y="161.70" width="7.00" height="48.30" fill="#087f78"><title>23: 8.24632</title></rect><rect x="256.60" y="161.70" width="7.00" height="48.30" fill="#087f78"><title>24: 8.24632</title></rect><rect x="265.80" y="161.70" width="7.00" height="48.30" fill="#087f78"><title>25: 8.24632</title></rect><rect x="275.00" y="161.70" width="7.00" height="48.30" fill="#087f78"><title>26: 8.24632</title></rect><rect x="284.20" y="161.70" width="7.00" height="48.30" fill="#087f78"><title>27: 8.24632</title></rect><rect x="293.40" y="161.70" width="7.00" height="48.30" fill="#087f78"><title>28: 8.24632</title></rect><rect x="302.60" y="129.50" width="7.00" height="80.50" fill="#087f78"><title>29: 13.74388</title></rect><rect x="311.80" y="129.50" width="7.00" height="80.50" fill="#087f78"><title>30: 13.74388</title></rect><rect x="321.00" y="129.50" width="7.00" height="80.50" fill="#087f78"><title>31: 13.74388</title></rect><rect x="330.20" y="129.50" width="7.00" height="80.50" fill="#087f78"><title>32: 13.74388</title></rect><rect x="339.40" y="73.15" width="7.00" height="136.85" fill="#087f78"><title>33: 23.36459</title></rect><rect x="348.60" y="73.15" width="7.00" height="136.85" fill="#087f78"><title>34: 23.36459</title></rect><rect x="357.80" y="73.15" width="7.00" height="136.85" fill="#087f78"><title>35: 23.36459</title></rect><rect x="367.00" y="73.15" width="7.00" height="136.85" fill="#087f78"><title>36: 23.36459</title></rect><rect x="376.20" y="73.36" width="7.00" height="136.64" fill="#087f78"><title>37: 23.32907</title></rect><rect x="385.40" y="73.36" width="7.00" height="136.64" fill="#087f78"><title>38: 23.32907</title></rect><rect x="394.60" y="73.25" width="7.00" height="136.75" fill="#087f78"><title>39: 23.34701</title></rect><rect x="403.80" y="73.25" width="7.00" height="136.75" fill="#087f78"><title>40: 23.34701</title></rect><rect x="413.00" y="73.15" width="7.00" height="136.85" fill="#087f78"><title>41: 23.36459</title></rect><rect x="422.20" y="73.15" width="7.00" height="136.85" fill="#087f78"><title>42: 23.36459</title></rect><rect x="431.40" y="73.15" width="7.00" height="136.85" fill="#087f78"><title>43: 23.36459</title></rect><rect x="440.60" y="73.15" width="7.00" height="136.85" fill="#087f78"><title>44: 23.36459</title></rect><rect x="449.80" y="73.15" width="7.00" height="136.85" fill="#087f78"><title>45: 23.36459</title></rect><rect x="459.00" y="73.15" width="7.00" height="136.85" fill="#087f78"><title>46: 23.36459</title></rect><rect x="468.20" y="73.15" width="7.00" height="136.85" fill="#087f78"><title>47: 23.36459</title></rect><rect x="477.40" y="73.15" width="7.00" height="136.85" fill="#087f78"><title>48: 23.36459</title></rect><rect x="486.60" y="73.15" width="7.00" height="136.85" fill="#087f78"><title>49: 23.36459</title></rect><rect x="495.80" y="73.15" width="7.00" height="136.85" fill="#087f78"><title>50: 23.36459</title></rect><rect x="505.00" y="73.06" width="7.00" height="136.94" fill="#087f78"><title>51: 23.37964</title></rect><rect x="514.20" y="73.06" width="7.00" height="136.94" fill="#087f78"><title>52: 23.37964</title></rect><rect x="523.40" y="73.32" width="7.00" height="136.68" fill="#087f78"><title>53: 23.33472</title></rect><rect x="532.60" y="73.32" width="7.00" height="136.68" fill="#087f78"><title>54: 23.33472</title></rect><rect x="541.80" y="73.24" width="7.00" height="136.76" fill="#087f78"><title>55: 23.34902</title></rect><rect x="551.00" y="73.24" width="7.00" height="136.76" fill="#087f78"><title>56: 23.34902</title></rect><rect x="560.20" y="73.15" width="7.00" height="136.85" fill="#087f78"><title>57: 23.36459</title></rect><rect x="569.40" y="73.15" width="7.00" height="136.85" fill="#087f78"><title>58: 23.36459</title></rect><rect x="578.60" y="73.15" width="7.00" height="136.85" fill="#087f78"><title>59: 23.36459</title></rect><rect x="587.80" y="73.15" width="7.00" height="136.85" fill="#087f78"><title>60: 23.36459</title></rect><rect x="597.00" y="73.15" width="7.00" height="136.85" fill="#087f78"><title>61: 23.36459</title></rect><rect x="606.20" y="73.15" width="7.00" height="136.85" fill="#087f78"><title>62: 23.36459</title></rect><rect x="615.40" y="73.15" width="7.00" height="136.85" fill="#087f78"><title>63: 23.36459</title></rect><rect x="624.60" y="73.15" width="7.00" height="136.85" fill="#087f78"><title>64: 23.36459</title></rect><rect x="633.80" y="73.15" width="7.00" height="136.85" fill="#087f78"><title>65: 23.36459</title></rect><rect x="643.00" y="73.15" width="7.00" height="136.85" fill="#087f78"><title>66: 23.36459</title></rect><rect x="652.20" y="73.24" width="7.00" height="136.76" fill="#087f78"><title>67: 23.34851</title></rect><rect x="661.40" y="73.24" width="7.00" height="136.76" fill="#087f78"><title>68: 23.34851</title></rect><rect x="670.60" y="55.77" width="7.00" height="154.23" fill="#087f78"><title>69: 26.33207</title></rect><rect x="679.80" y="55.77" width="7.00" height="154.23" fill="#087f78"><title>70: 26.33207</title></rect><rect x="689.00" y="50.00" width="7.00" height="160.00" fill="#087f78"><title>71: 27.31667</title></rect><rect x="698.20" y="50.00" width="7.00" height="160.00" fill="#087f78"><title>72: 27.31667</title></rect><rect x="707.40" y="119.95" width="7.00" height="90.05" fill="#087f78"><title>73: 15.37423</title></rect><rect x="716.60" y="119.95" width="7.00" height="90.05" fill="#087f78"><title>74: 15.37423</title></rect><rect x="725.80" y="113.05" width="7.00" height="96.95" fill="#087f78"><title>75: 16.55146</title></rect><rect x="735.00" y="113.05" width="7.00" height="96.95" fill="#087f78"><title>76: 16.55146</title></rect><rect x="744.20" y="107.03" width="7.00" height="102.97" fill="#087f78"><title>77: 17.57975</title></rect><rect x="753.40" y="107.03" width="7.00" height="102.97" fill="#087f78"><title>78: 17.57975</title></rect><rect x="762.60" y="120.53" width="7.00" height="89.47" fill="#087f78"><title>79: 15.27497</title></rect><rect x="771.80" y="120.53" width="7.00" height="89.47" fill="#087f78"><title>80: 15.27497</title></rect><rect x="781.00" y="119.83" width="7.00" height="90.17" fill="#087f78"><title>81: 15.39485</title></rect><rect x="790.20" y="119.83" width="7.00" height="90.17" fill="#087f78"><title>82: 15.39485</title></rect><rect x="799.40" y="118.17" width="7.00" height="91.83" fill="#087f78"><title>83: 15.67773</title></rect><rect x="808.60" y="118.17" width="7.00" height="91.83" fill="#087f78"><title>84: 15.67773</title></rect><rect x="817.80" y="129.50" width="7.00" height="80.50" fill="#087f78"><title>85: 13.74388</title></rect><rect x="827.00" y="129.50" width="7.00" height="80.50" fill="#087f78"><title>86: 13.74388</title></rect><rect x="836.20" y="129.50" width="7.00" height="80.50" fill="#087f78"><title>87: 13.74388</title></rect><rect x="845.40" y="129.50" width="7.00" height="80.50" fill="#087f78"><title>88: 13.74388</title></rect><rect x="854.60" y="129.50" width="7.00" height="80.50" fill="#087f78"><title>89: 13.74388</title></rect><rect x="863.80" y="129.50" width="7.00" height="80.50" fill="#087f78"><title>90: 13.74388</title></rect><rect x="873.00" y="129.50" width="7.00" height="80.50" fill="#087f78"><title>91: 13.74388</title></rect><rect x="882.20" y="129.50" width="7.00" height="80.50" fill="#087f78"><title>92: 13.74388</title></rect><rect x="891.40" y="129.50" width="7.00" height="80.50" fill="#087f78"><title>93: 13.74388</title></rect><rect x="900.60" y="129.50" width="7.00" height="80.50" fill="#087f78"><title>94: 13.74388</title></rect><rect x="909.80" y="129.50" width="7.00" height="80.50" fill="#087f78"><title>95: 13.74388</title></rect><rect x="919.00" y="129.50" width="7.00" height="80.50" fill="#087f78"><title>96: 13.74388</title></rect><line x1="45" y1="210" x2="960" y2="210" stroke="#789"/><text x="45" y="240">00:00</text><text x="490" y="240">12:00</text><text x="925" y="240">24:00</text></svg>
+<h2>点位数据</h2><table><thead><tr><th>点位</th><th>日前申报</th><th>合同曲线</th></tr></thead><tbody></tbody></table>
+<h2>求解器详情</h2><pre>{
+  &quot;backend&quot;: &quot;RULE_ENGINE_WITH_MILP_VALUATION&quot;,
+  &quot;status&quot;: &quot;EXECUTED&quot;,
+  &quot;mip_gap&quot;: null,
+  &quot;solve_seconds&quot;: 5.6226,
+  &quot;variable_count&quot;: 0,
+  &quot;binary_count&quot;: 0,
+  &quot;constraint_count&quot;: 0,
+  &quot;milp_executed&quot;: false,
+  &quot;valuation_solver&quot;: {
+    &quot;layer&quot;: &quot;L3&quot;,
+    &quot;model_structure&quot;: &quot;96_POINT_JOINT_SCENARIO_L3_MILP&quot;,
+    &quot;candidate_scenario_count&quot;: 100,
+    &quot;optimization_scenario_count&quot;: 50,
+    &quot;time_count&quot;: 96,
+    &quot;scenario_generation&quot;: {
+      &quot;method&quot;: &quot;SEEDED_CORRELATED_96_POINT_MONTE_CARLO&quot;,
+      &quot;seed&quot;: 2026091503,
+      &quot;trajectory_count&quot;: 50,
+      &quot;period_count&quot;: 96,
+      &quot;probability_sum&quot;: 1.0,
+      &quot;load_day_ahead_error_correlation&quot;: 0.519211,
+      &quot;load_real_time_error_correlation&quot;: 0.37426,
+      &quot;day_ahead_real_time_error_correlation&quot;: 0.546057
+    },
+    &quot;scenario_catalog&quot;: [
+      {
+        &quot;scenario_id&quot;: &quot;L50_DA50_SP50&quot;,
+        &quot;probability&quot;: 0.08,
+        &quot;load_state&quot;: &quot;P50&quot;,
+        &quot;day_ahead_state&quot;: &quot;P50&quot;,
+        &quot;spread_state&quot;: &quot;P75&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC077_L05_DA25_SP50&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P05&quot;,
+        &quot;day_ahead_state&quot;: &quot;P25&quot;,
+        &quot;spread_state&quot;: &quot;P50&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC064_L95_DA50_SP75&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P95&quot;,
+        &quot;day_ahead_state&quot;: &quot;P50&quot;,
+        &quot;spread_state&quot;: &quot;P75&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC036_L25_DA05_SP05&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P25&quot;,
+        &quot;day_ahead_state&quot;: &quot;P05&quot;,
+        &quot;spread_state&quot;: &quot;P05&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC090_L50_DA95_SP75&quot;,
+        &quot;probability&quot;: 0.02,
+        &quot;load_state&quot;: &quot;P50&quot;,
+        &quot;day_ahead_state&quot;: &quot;P95&quot;,
+        &quot;spread_state&quot;: &quot;P75&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC006_L75_DA95_SP25&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P75&quot;,
+        &quot;day_ahead_state&quot;: &quot;P95&quot;,
+        &quot;spread_state&quot;: &quot;P25&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC014_L05_DA25_SP75&quot;,
+        &quot;probability&quot;: 0.02,
+        &quot;load_state&quot;: &quot;P05&quot;,
+        &quot;day_ahead_state&quot;: &quot;P25&quot;,
+        &quot;spread_state&quot;: &quot;P75&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC094_L05_DA50_SP25&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P05&quot;,
+        &quot;day_ahead_state&quot;: &quot;P50&quot;,
+        &quot;spread_state&quot;: &quot;P25&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC035_L75_DA75_SP25&quot;,
+        &quot;probability&quot;: 0.02,
+        &quot;load_state&quot;: &quot;P75&quot;,
+        &quot;day_ahead_state&quot;: &quot;P75&quot;,
+        &quot;spread_state&quot;: &quot;P25&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC066_L75_DA75_SP95&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P75&quot;,
+        &quot;day_ahead_state&quot;: &quot;P75&quot;,
+        &quot;spread_state&quot;: &quot;P95&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC024_L50_DA25_SP75&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P50&quot;,
+        &quot;day_ahead_state&quot;: &quot;P25&quot;,
+        &quot;spread_state&quot;: &quot;P75&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC004_L05_DA05_SP05&quot;,
+        &quot;probability&quot;: 0.02,
+        &quot;load_state&quot;: &quot;P05&quot;,
+        &quot;day_ahead_state&quot;: &quot;P05&quot;,
+        &quot;spread_state&quot;: &quot;P05&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC040_L75_DA95_SP75&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P75&quot;,
+        &quot;day_ahead_state&quot;: &quot;P95&quot;,
+        &quot;spread_state&quot;: &quot;P75&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC088_L95_DA95_SP75&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P95&quot;,
+        &quot;day_ahead_state&quot;: &quot;P95&quot;,
+        &quot;spread_state&quot;: &quot;P75&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC041_L50_DA75_SP25&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P50&quot;,
+        &quot;day_ahead_state&quot;: &quot;P75&quot;,
+        &quot;spread_state&quot;: &quot;P25&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC093_L25_DA75_SP95&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P25&quot;,
+        &quot;day_ahead_state&quot;: &quot;P75&quot;,
+        &quot;spread_state&quot;: &quot;P95&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC002_L75_DA50_SP05&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P75&quot;,
+        &quot;day_ahead_state&quot;: &quot;P50&quot;,
+        &quot;spread_state&quot;: &quot;P05&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC065_L05_DA05_SP25&quot;,
+        &quot;probability&quot;: 0.02,
+        &quot;load_state&quot;: &quot;P05&quot;,
+        &quot;day_ahead_state&quot;: &quot;P05&quot;,
+        &quot;spread_state&quot;: &quot;P25&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC048_L75_DA95_SP75&quot;,
+        &quot;probability&quot;: 0.02,
+        &quot;load_state&quot;: &quot;P75&quot;,
+        &quot;day_ahead_state&quot;: &quot;P95&quot;,
+        &quot;spread_state&quot;: &quot;P75&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC058_L95_DA25_SP50&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P95&quot;,
+        &quot;day_ahead_state&quot;: &quot;P25&quot;,
+        &quot;spread_state&quot;: &quot;P50&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC008_L50_DA75_SP25&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P50&quot;,
+        &quot;day_ahead_state&quot;: &quot;P75&quot;,
+        &quot;spread_state&quot;: &quot;P25&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC056_L75_DA75_SP25&quot;,
+        &quot;probability&quot;: 0.02,
+        &quot;load_state&quot;: &quot;P75&quot;,
+        &quot;day_ahead_state&quot;: &quot;P75&quot;,
+        &quot;spread_state&quot;: &quot;P25&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC033_L25_DA25_SP25&quot;,
+        &quot;probability&quot;: 0.05,
+        &quot;load_state&quot;: &quot;P25&quot;,
+        &quot;day_ahead_state&quot;: &quot;P25&quot;,
+        &quot;spread_state&quot;: &quot;P25&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC092_L95_DA95_SP75&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P95&quot;,
+        &quot;day_ahead_state&quot;: &quot;P95&quot;,
+        &quot;spread_state&quot;: &quot;P75&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC060_L50_DA50_SP75&quot;,
+        &quot;probability&quot;: 0.02,
+        &quot;load_state&quot;: &quot;P50&quot;,
+        &quot;day_ahead_state&quot;: &quot;P50&quot;,
+        &quot;spread_state&quot;: &quot;P75&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC015_L75_DA75_SP75&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P75&quot;,
+        &quot;day_ahead_state&quot;: &quot;P75&quot;,
+        &quot;spread_state&quot;: &quot;P75&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC091_L05_DA25_SP50&quot;,
+        &quot;probability&quot;: 0.03,
+        &quot;load_state&quot;: &quot;P05&quot;,
+        &quot;day_ahead_state&quot;: &quot;P25&quot;,
+        &quot;spread_state&quot;: &quot;P50&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC038_L25_DA25_SP75&quot;,
+        &quot;probability&quot;: 0.03,
+        &quot;load_state&quot;: &quot;P25&quot;,
+        &quot;day_ahead_state&quot;: &quot;P25&quot;,
+        &quot;spread_state&quot;: &quot;P75&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC045_L75_DA75_SP50&quot;,
+        &quot;probability&quot;: 0.02,
+        &quot;load_state&quot;: &quot;P75&quot;,
+        &quot;day_ahead_state&quot;: &quot;P75&quot;,
+        &quot;spread_state&quot;: &quot;P50&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC003_L95_DA50_SP25&quot;,
+        &quot;probability&quot;: 0.03,
+        &quot;load_state&quot;: &quot;P95&quot;,
+        &quot;day_ahead_state&quot;: &quot;P50&quot;,
+        &quot;spread_state&quot;: &quot;P25&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC074_L05_DA25_SP50&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P05&quot;,
+        &quot;day_ahead_state&quot;: &quot;P25&quot;,
+        &quot;spread_state&quot;: &quot;P50&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC075_L50_DA05_SP25&quot;,
+        &quot;probability&quot;: 0.05,
+        &quot;load_state&quot;: &quot;P50&quot;,
+        &quot;day_ahead_state&quot;: &quot;P05&quot;,
+        &quot;spread_state&quot;: &quot;P25&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC053_L05_DA75_SP50&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P05&quot;,
+        &quot;day_ahead_state&quot;: &quot;P75&quot;,
+        &quot;spread_state&quot;: &quot;P50&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC012_L75_DA25_SP25&quot;,
+        &quot;probability&quot;: 0.02,
+        &quot;load_state&quot;: &quot;P75&quot;,
+        &quot;day_ahead_state&quot;: &quot;P25&quot;,
+        &quot;spread_state&quot;: &quot;P25&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC043_L50_DA75_SP95&quot;,
+        &quot;probability&quot;: 0.03,
+        &quot;load_state&quot;: &quot;P50&quot;,
+        &quot;day_ahead_state&quot;: &quot;P75&quot;,
+        &quot;spread_state&quot;: &quot;P95&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC078_L75_DA75_SP75&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P75&quot;,
+        &quot;day_ahead_state&quot;: &quot;P75&quot;,
+        &quot;spread_state&quot;: &quot;P75&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC039_L75_DA50_SP75&quot;,
+        &quot;probability&quot;: 0.02,
+        &quot;load_state&quot;: &quot;P75&quot;,
+        &quot;day_ahead_state&quot;: &quot;P50&quot;,
+        &quot;spread_state&quot;: &quot;P75&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC020_L75_DA75_SP75&quot;,
+        &quot;probability&quot;: 0.09,
+        &quot;load_state&quot;: &quot;P75&quot;,
+        &quot;day_ahead_state&quot;: &quot;P75&quot;,
+        &quot;spread_state&quot;: &quot;P75&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC062_L25_DA05_SP05&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P25&quot;,
+        &quot;day_ahead_state&quot;: &quot;P05&quot;,
+        &quot;spread_state&quot;: &quot;P05&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC051_L25_DA25_SP50&quot;,
+        &quot;probability&quot;: 0.02,
+        &quot;load_state&quot;: &quot;P25&quot;,
+        &quot;day_ahead_state&quot;: &quot;P25&quot;,
+        &quot;spread_state&quot;: &quot;P50&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC049_L25_DA05_SP25&quot;,
+        &quot;probability&quot;: 0.02,
+        &quot;load_state&quot;: &quot;P25&quot;,
+        &quot;day_ahead_state&quot;: &quot;P05&quot;,
+        &quot;spread_state&quot;: &quot;P25&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC029_L75_DA75_SP50&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P75&quot;,
+        &quot;day_ahead_state&quot;: &quot;P75&quot;,
+        &quot;spread_state&quot;: &quot;P50&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC100_L75_DA50_SP50&quot;,
+        &quot;probability&quot;: 0.02,
+        &quot;load_state&quot;: &quot;P75&quot;,
+        &quot;day_ahead_state&quot;: &quot;P50&quot;,
+        &quot;spread_state&quot;: &quot;P50&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC097_L25_DA50_SP50&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P25&quot;,
+        &quot;day_ahead_state&quot;: &quot;P50&quot;,
+        &quot;spread_state&quot;: &quot;P50&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC068_L05_DA05_SP05&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P05&quot;,
+        &quot;day_ahead_state&quot;: &quot;P05&quot;,
+        &quot;spread_state&quot;: &quot;P05&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC046_L25_DA25_SP50&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P25&quot;,
+        &quot;day_ahead_state&quot;: &quot;P25&quot;,
+        &quot;spread_state&quot;: &quot;P50&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC034_L25_DA75_SP95&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P25&quot;,
+        &quot;day_ahead_state&quot;: &quot;P75&quot;,
+        &quot;spread_state&quot;: &quot;P95&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC055_L25_DA50_SP50&quot;,
+        &quot;probability&quot;: 0.04,
+        &quot;load_state&quot;: &quot;P25&quot;,
+        &quot;day_ahead_state&quot;: &quot;P50&quot;,
+        &quot;spread_state&quot;: &quot;P50&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC061_L25_DA75_SP50&quot;,
+        &quot;probability&quot;: 0.03,
+        &quot;load_state&quot;: &quot;P25&quot;,
+        &quot;day_ahead_state&quot;: &quot;P75&quot;,
+        &quot;spread_state&quot;: &quot;P50&quot;
+      },
+      {
+        &quot;scenario_id&quot;: &quot;MC001_L50_DA75_SP05&quot;,
+        &quot;probability&quot;: 0.01,
+        &quot;load_state&quot;: &quot;P50&quot;,
+        &quot;day_ahead_state&quot;: &quot;P75&quot;,
+        &quot;spread_state&quot;: &quot;P05&quot;
+      }
+    ],
+    &quot;milp_executed&quot;: true,
+    &quot;backend&quot;: &quot;scipy.optimize.milp / HiGHS&quot;,
+    &quot;status&quot;: &quot;OPTIMAL&quot;,
+    &quot;mip_gap&quot;: 0.0,
+    &quot;node_count&quot;: 1,
+    &quot;solve_seconds&quot;: 5.6226,
+    &quot;solver_seconds&quot;: 5.8886,
+    &quot;end_to_end_seconds&quot;: 6.0222,
+    &quot;time_limit_seconds&quot;: 60.0,
+    &quot;milp_time_limit_seconds&quot;: 60.0,
+    &quot;pricing_time_limit_seconds&quot;: 60.0,
+    &quot;service_budget_seconds&quot;: 60.0,
+    &quot;pricing_solve_seconds&quot;: 0.266,
+    &quot;within_solver_budget&quot;: true,
+    &quot;within_service_budget&quot;: true,
+    &quot;objective_yuan&quot;: -105214.99,
+    &quot;expected_cost_yuan&quot;: 636116.82,
+    &quot;cvar95_yuan&quot;: 660957.81,
+    &quot;scenario_costs_yuan&quot;: [
+      638907.65,
+      608112.81,
+      666011.69,
+      628359.92,
+      636699.71,
+      631092.59,
+      618229.26,
+      611671.45,
+      635093.43,
+      645076.05,
+      639509.81,
+      627930.41,
+      637911.48,
+      663502.67,
+      634137.14,
+      627032.61,
+      637981.09,
+      624334.67,
+      643364.77,
+      654468.05,
+      630140.9,
+      644042.32,
+      627123.48,
+      659322.33,
+      619952.78,
+      636704.29,
+      624867.82,
+      628837.78,
+      657976.18,
+      654963.37,
+      618100.18,
+      640242.14,
+      624155.09,
+      642778.79,
+      627756.35,
+      640012.75,
+      643446.13,
+      649020.26,
+      627928.18,
+      634304.09,
+      632163.57,
+      642765.76,
+      651626.68,
+      624955.47,
+      615115.88,
+      626793.95,
+      625473.97,
+      634583.25,
+      621557.9,
+      629905.56
+    ],
+    &quot;locked_contract_cost_yuan&quot;: 648555.14,
+    &quot;declaration_slack_penalty_yuan&quot;: 0.0,
+    &quot;objective_definition&quot;: &quot;L3批零净损失 = 批发成本 - 零售收入；目标为期望净损失/CVaR + 申报带松弛惩罚&quot;,
+    &quot;constraint_definition&quot;: {
+      &quot;declaration_band&quot;: &quot;日前申报位于负荷P10-P90物理带内，越界使用高额松弛变量&quot;,
+      &quot;contract_balance&quot;: &quot;日前申报 - 日前买入 + 日前卖出 = 已锁定中长期合同曲线&quot;,
+      &quot;spot_energy_balance&quot;: &quot;日前申报 + 实时买入 - 实时卖出 - 充电 + 放电 = 场景负荷&quot;,
+      &quot;realtime_trade_mode&quot;: &quot;每场景每时段：实时买入 &lt;= M*z，实时卖出 &lt;= M*(1-z)，z为二进制变量&quot;,
+      &quot;execution_deviation_band&quot;: &quot;代表性执行路径的实时净买卖绝对值 &lt;= 实际负荷的10%&quot;,
+      &quot;scenario_deviation_recourse&quot;: &quot;非代表性场景允许超出10%的补救量，并计入偏差回收成本&quot;,
+      &quot;storage_soc&quot;: &quot;SOC按充电效率和放电效率递推，范围为2-20MWh&quot;,
+      &quot;storage_mode&quot;: &quot;充放电二进制互斥，单点功率上限为5MW*15分钟&quot;,
+      &quot;terminal_soc&quot;: &quot;日末SOC回到初始SOC&quot;,
+      &quot;realtime_lock&quot;: &quot;实时阶段锁定已执行前缀，仅重算未实现区间&quot;
+    },
+    &quot;variable_count&quot;: 25061,
+    &quot;binary_count&quot;: 4992,
+    &quot;constraint_count&quot;: 29477,
+    &quot;message&quot;: &quot;Optimization terminated successfully. (HiGHS Status 7: Optimal)&quot;,
+    &quot;pricing_lp&quot;: {
+      &quot;backend&quot;: &quot;scipy.optimize.linprog / HiGHS&quot;,
+      &quot;status&quot;: &quot;OPTIMAL&quot;,
+      &quot;solve_seconds&quot;: 0.266,
+      &quot;interpretation&quot;: &quot;固定MILP储能及实时交易方向整数模式后的局部LP边际价值&quot;
+    },
+    &quot;contract_marginal_value_yuan_per_mwh&quot;: [
+      410.861252,
+      410.062001,
+      409.324792,
+      410.665277,
+      409.140292,
+      409.602426,
+      409.55209,
+      408.782371,
+      408.781907,
+      408.660192,
+      409.770998,
+      407.774494,
+      408.218802,
+      409.842516,
+      411.327011,
+      409.012818,
+      410.17424,
+      410.205472,
+      412.575452,
+      411.096226,
+      410.307719,
+      407.534016,
+      407.858904,
+      407.725587,
+      407.799294,
+      406.358071,
+      406.348252,
+      405.109404,
+      404.404071,
+      407.844264,
+      405.885368,
+      404.903931,
+      406.764303,
+      408.701688,
+      407.635321,
+      406.360268,
+      404.012596,
+      406.4031,
+      406.308061,
+      408.311725,
+      267.329772,
+      268.296111,
+      268.337539,
+      268.338231,
+      269.255379,
+      269.679888,
+      269.38895,
+      267.334486,
+      265.582242,
+      265.398306,
+      266.558153,
+      266.551725,
+      264.343813,
+      264.73434,
+      265.236708,
+      265.311351,
+      267.7281,
+      267.464677,
+      266.305308,
+      265.971242,
+      404.313522,
+      404.454739,
+      402.637463,
+      405.287316,
+      406.064745,
+      404.546694,
+      402.651093,
+      403.008065,
+      600.241653,
+      604.151371,
+      604.800118,
+      607.982437,
+      606.553417,
+      607.39283,
+      608.143364,
+      608.437487,
+      609.721633,
+      607.946903,
+      607.19531,
+      605.010202,
+      602.10998,
+      607.919365,
+      604.789234,
+      604.085922,
+      405.870293,
+      404.736865,
+      403.779328,
+      404.747963,
+      406.994899,
+      406.026357,
+      405.441221,
+      405.699062,
+      407.139772,
+      408.489149,
+      410.29742,
+      409.015761
+    ],
+    &quot;rolling_half_hour_marginal_value_yuan_per_mwh&quot;: [
+      410.461627,
+      409.995034,
+      409.371359,
+      409.16723,
+      408.721049,
+      408.772746,
+      409.030659,
+      410.169915,
+      410.189856,
+      411.835839,
+      408.920867,
+      407.792245,
+      407.078683,
+      405.728828,
+      406.124168,
+      405.39465,
+      407.732996,
+      406.997794,
+      405.207848,
+      407.309893,
+      267.812941,
+      268.337885,
+      269.467633,
+      268.361718,
+      265.490274,
+      266.554939,
+      264.539077,
+      265.274029,
+      267.596389,
+      266.138275,
+      404.384131,
+      403.96239,
+      405.30572,
+      402.829579,
+      602.196512,
+      606.391277,
+      606.973124,
+      608.290425,
+      608.834268,
+      606.102756,
+      605.014673,
+      604.437578,
+      405.303579,
+      404.263645,
+      406.510628,
+      405.570142,
+      407.814461,
+      409.65659
+    ],
+    &quot;expected_net_loss_yuan&quot;: -106861.71329303518,
+    &quot;net_loss_cvar_yuan&quot;: -100274.80765552053
+  },
+  &quot;solver_backend&quot;: &quot;RULE_ENGINE_WITH_MILP_VALUATION&quot;
+}</pre></body></html>

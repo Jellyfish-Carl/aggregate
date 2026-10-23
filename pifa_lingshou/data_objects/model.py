@@ -88,6 +88,10 @@ class StorageConfig:
     maximum_discharge_mwh: float = 0.0
     efficiency: float = 1.0
     degradation_yuan_per_mwh: float = 0.0
+    startup_cost_yuan: float = 1.0
+    shutdown_cost_yuan: float = 1.0
+    minimum_active_power_ratio: float = 0.01
+    initial_mode: int = 0
 
     def validate(self) -> None:
         scalars = (
@@ -98,6 +102,9 @@ class StorageConfig:
             self.maximum_discharge_mwh,
             self.efficiency,
             self.degradation_yuan_per_mwh,
+            self.startup_cost_yuan,
+            self.shutdown_cost_yuan,
+            self.minimum_active_power_ratio,
         )
         if any(not math.isfinite(float(value)) for value in scalars):
             raise ValueError("储能参数必须全部为有限数值")
@@ -111,6 +118,12 @@ class StorageConfig:
             raise ValueError("储能效率必须位于 (0, 1]")
         if self.degradation_yuan_per_mwh < 0:
             raise ValueError("储能退化成本不能为负")
+        if self.startup_cost_yuan < 0 or self.shutdown_cost_yuan < 0:
+            raise ValueError("储能启停退化成本不能为负")
+        if not 0.0 < self.minimum_active_power_ratio <= 1.0:
+            raise ValueError("储能最小有效功率比例必须位于 (0, 1]")
+        if self.initial_mode not in (-1, 0, 1):
+            raise ValueError("储能初始模式必须为-1、0或1")
 
 
 @dataclass(frozen=True)
@@ -161,8 +174,8 @@ class AggregateInput:
     minimum_expected_profit_yuan: Optional[float] = None
     maximum_profit_loss_cvar_yuan: Optional[float] = None
     locked_state: LockedState = field(default_factory=LockedState)
-    time_limit_seconds: float = 15.0
-    mip_relative_gap: float = 1e-3
+    time_limit_seconds: float = 60.0
+    mip_relative_gap: float = 0.03
 
     def validate(self) -> None:
         if not self.customers or not self.scenarios or not self.contract_products:

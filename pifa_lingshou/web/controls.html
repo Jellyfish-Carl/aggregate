@@ -15,8 +15,8 @@
  <div class="runner-steps">
   <div><b>L1 · 中长期合同</b><p>年 → 月 → 旬，锁定已成交仓位</p><button data-node="ANNUAL">年度</button><button data-node="MONTHLY">月度</button><button data-node="TEN_DAY">旬内</button><button data-node="L1">整层计算</button></div>
   <div><b>L2 · 滚动撮合</b><p>价格阈值与现货边际价值筛选订单</p><button data-node="D-3">D-3</button><button data-node="D-2">D-2</button><button data-node="L2">整层计算</button></div>
-  <div><b>L3-A · 日前现货</b><p>96点申报；完成后固定申报曲线</p><button data-node="L3-A">计算日前申报</button></div>
-  <div><b>L3-B · 储能调度</b><p>套利、偏差考核与退化费用一起优化</p><button data-node="STORAGE-DA">日前储能计划</button><button data-node="STORAGE-RT">日内滚动</button></div>
+  <div><b>L3 · 日前申报与储能</b><p>未知日前价格时联合优化96点申报、充放电与 SOC</p><button data-node="L3-A">申报与储能联合优化</button></div>
+  <div><b>L3 · 价格更新与滚动</b><p>复用同一模型；17:00后固定申报，日前价格确定</p><button data-node="STORAGE-DA">17:00后重算</button><button data-node="STORAGE-RT">日内滚动与储能</button></div>
  </div>
  <div class="runner-bottom"><button class="runner-primary" data-node="CHAIN">运行完整事前链路</button><span>储能按8条代表场景快速求解，所有原场景回算风险；可在高级输入中调至64。</span></div>
  <details class="runner-advanced"><summary>手动参数、96点预测与日内实绩</summary>

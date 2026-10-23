@@ -1,0 +1,58 @@
+[
+  {
+    "id": "layers/F_0/ANNUAL.json",
+    "path": "layers/F_0/ANNUAL.json",
+    "node": "ANNUAL",
+    "package": "F",
+    "risk_lambda": 0.0,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/F_0/MONTHLY.json",
+    "path": "layers/F_0/MONTHLY.json",
+    "node": "MONTHLY",
+    "package": "F",
+    "risk_lambda": 0.0,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/F_0/TEN_DAY.json",
+    "path": "layers/F_0/TEN_DAY.json",
+    "node": "TEN_DAY",
+    "package": "F",
+    "risk_lambda": 0.0,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/F_0/D-3.json",
+    "path": "layers/F_0/D-3.json",
+    "node": "D-3",
+    "package": "F",
+    "risk_lambda": 0.0,
+    "status": "EXECUTED"
+  },
+  {
+    "id": "layers/F_0/D-2.json",
+    "path": "layers/F_0/D-2.json",
+    "node": "D-2",
+    "package": "F",
+    "risk_lambda": 0.0,
+    "status": "EXECUTED"
+  },
+  {
+    "id": "layers/F_0/L3-A.json",
+    "path": "layers/F_0/L3-A.json",
+    "node": "L3-A",
+    "package": "F",
+    "risk_lambda": 0.0,
+    "status": "OPTIMAL"
+  },
+  {
+    "id": "layers/F_0/STORAGE-DA.json",
+    "path": "layers/F_0/STORAGE-DA.json",
+    "node": "STORAGE-DA",
+    "package": "F",
+    "risk_lambda": 0.0,
+    "status": "OPTIMAL"
+  }
+]
